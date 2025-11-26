@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function roomsRoutes(app: FastifyInstance) {
   //listar salas por usuário
-  app.get("/rooms/:id", async (request) => {
+  app.get("/userRooms/:id", async (request) => {
     const paramsSchema = z.object({
       id: z.string(),
     });
@@ -28,6 +28,30 @@ export async function roomsRoutes(app: FastifyInstance) {
     });
 
     return rooms;
+  });
+
+  //listar sala por id
+  app.get("/rooms/:id", async (request, reply) => {
+    const paramsSchema = z.object({
+      id: z.string(),
+    });
+    const { id } = paramsSchema.parse(request.params);
+    const room = await prisma.room.findUnique({
+      where: { id },
+      include: {
+        players: {
+          select: {
+            id: true,
+            name: true,
+            points: true,
+          },
+        },
+      },
+    });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+    return room;
   });
 
   //criar sala
@@ -152,12 +176,12 @@ export async function roomsRoutes(app: FastifyInstance) {
   // atualizar pontos do jogador
   app.put("/rooms/:roomId/players/:playerId/points", async (request, reply) => {
     const updatePointsParams = z.object({
-        roomId: z.string().uuid(),
-        playerId: z.string().uuid(),
+      roomId: z.string().uuid(),
+      playerId: z.string().uuid(),
     });
     const { playerId } = updatePointsParams.parse(request.params);
     const updatePointsBody = z.object({
-        points: z.number(),
+      points: z.number(),
     });
     const { points } = updatePointsBody.parse(request.body);
 
@@ -165,13 +189,14 @@ export async function roomsRoutes(app: FastifyInstance) {
       return reply.status(200).send();
     }
 
-    const data = points > 0
-      ? { points: { increment: points } }
-      : { points: { decrement: Math.abs(points) } };
+    const data =
+      points > 0
+        ? { points: { increment: points } }
+        : { points: { decrement: Math.abs(points) } };
 
     await prisma.player.update({
-        where: { id: playerId },
-        data,
+      where: { id: playerId },
+      data,
     });
     return reply.status(200).send();
   });
@@ -179,11 +204,11 @@ export async function roomsRoutes(app: FastifyInstance) {
   // atualizar pontos a todos os jogadores da sala
   app.put("/rooms/:roomId/players/points", async (request, reply) => {
     const updateAllPointsParams = z.object({
-        roomId: z.string().uuid(),
+      roomId: z.string().uuid(),
     });
     const { roomId } = updateAllPointsParams.parse(request.params);
     const updateAllPointsBody = z.object({
-        points: z.number(),
+      points: z.number(),
     });
     const { points } = updateAllPointsBody.parse(request.body);
 
@@ -191,50 +216,53 @@ export async function roomsRoutes(app: FastifyInstance) {
       return reply.status(200).send();
     }
 
-    const data = points > 0
-      ? { points: { increment: points } }
-      : { points: { decrement: Math.abs(points) } };
+    const data =
+      points > 0
+        ? { points: { increment: points } }
+        : { points: { decrement: Math.abs(points) } };
 
     await prisma.player.updateMany({
-        where: { roomId },
-        data,
+      where: { roomId },
+      data,
     });
     return reply.status(200).send();
   });
 
-    // atualizar total de pontos do jogador
-    app.put("/rooms/:roomId/players/:playerId/totalPoints", async (request, reply) => {
-    const updatePointsParams = z.object({
+  // atualizar total de pontos do jogador
+  app.put(
+    "/rooms/:roomId/players/:playerId/totalPoints",
+    async (request, reply) => {
+      const updatePointsParams = z.object({
         roomId: z.string().uuid(),
         playerId: z.string().uuid(),
-    });
-    const { playerId } = updatePointsParams.parse(request.params);
-    const updatePointsBody = z.object({
+      });
+      const { playerId } = updatePointsParams.parse(request.params);
+      const updatePointsBody = z.object({
         points: z.number(),
-    });
-    const { points } = updatePointsBody.parse(request.body);
-    await prisma.player.update({
+      });
+      const { points } = updatePointsBody.parse(request.body);
+      await prisma.player.update({
         where: { id: playerId },
         data: { points },
-    });
-    return reply.status(200).send();
-  });
+      });
+      return reply.status(200).send();
+    }
+  );
 
-    // atualizar total de pontos de todos jogadores da sala
-    app.put("/rooms/:roomId/players/totalPoints", async (request, reply) => {
+  // atualizar total de pontos de todos jogadores da sala
+  app.put("/rooms/:roomId/players/totalPoints", async (request, reply) => {
     const updateAllPointsParams = z.object({
-        roomId: z.string().uuid(),
+      roomId: z.string().uuid(),
     });
     const { roomId } = updateAllPointsParams.parse(request.params);
     const updatePointsBody = z.object({
-        points: z.number(),
+      points: z.number(),
     });
     const { points } = updatePointsBody.parse(request.body);
     await prisma.player.updateMany({
-        where: { roomId },
-        data: { points },
+      where: { roomId },
+      data: { points },
     });
     return reply.status(200).send();
   });
-
 }
