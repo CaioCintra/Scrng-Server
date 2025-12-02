@@ -5,7 +5,7 @@ import { registerRoutes } from "./routes/routes.js";
 const app = fastify();
 
 app.register(cors, {
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000", "https://scrng.vercel.app"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 });
