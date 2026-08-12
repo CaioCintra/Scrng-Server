@@ -160,6 +160,35 @@ export async function roomsRoutes(app: FastifyInstance) {
     return reply.status(201).send();
   });
 
+  // buscar jogador por id
+  app.get("/players/:id", async (request, reply) => {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+    const { id } = paramsSchema.parse(request.params);
+
+    const player = await prisma.player.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        points: true,
+        roomId: true,
+        room: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!player) {
+      return reply.status(404).send({ message: "Player not found" });
+    }
+
+    return player;
+  });
+
   // remover jogador da sala
   app.delete("/rooms/:roomId/players/:playerId", async (request, reply) => {
     const removePlayerParams = z.object({
@@ -246,7 +275,7 @@ export async function roomsRoutes(app: FastifyInstance) {
         data: { points },
       });
       return reply.status(200).send();
-    }
+    },
   );
 
   // atualizar total de pontos de todos jogadores da sala
