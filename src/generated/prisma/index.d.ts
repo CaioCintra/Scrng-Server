@@ -3233,6 +3233,7 @@ export namespace Prisma {
   export type PlayerMinAggregateOutputType = {
     id: string | null
     name: string | null
+    avatar: string | null
     roomId: string | null
     points: number | null
   }
@@ -3240,6 +3241,7 @@ export namespace Prisma {
   export type PlayerMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    avatar: string | null
     roomId: string | null
     points: number | null
   }
@@ -3247,6 +3249,7 @@ export namespace Prisma {
   export type PlayerCountAggregateOutputType = {
     id: number
     name: number
+    avatar: number
     roomId: number
     points: number
     _all: number
@@ -3264,6 +3267,7 @@ export namespace Prisma {
   export type PlayerMinAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     roomId?: true
     points?: true
   }
@@ -3271,6 +3275,7 @@ export namespace Prisma {
   export type PlayerMaxAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     roomId?: true
     points?: true
   }
@@ -3278,6 +3283,7 @@ export namespace Prisma {
   export type PlayerCountAggregateInputType = {
     id?: true
     name?: true
+    avatar?: true
     roomId?: true
     points?: true
     _all?: true
@@ -3372,6 +3378,7 @@ export namespace Prisma {
   export type PlayerGroupByOutputType = {
     id: string
     name: string
+    avatar: string | null
     roomId: string
     points: number
     _count: PlayerCountAggregateOutputType | null
@@ -3398,6 +3405,7 @@ export namespace Prisma {
   export type PlayerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     roomId?: boolean
     points?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -3406,6 +3414,7 @@ export namespace Prisma {
   export type PlayerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     roomId?: boolean
     points?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -3414,6 +3423,7 @@ export namespace Prisma {
   export type PlayerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    avatar?: boolean
     roomId?: boolean
     points?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -3422,11 +3432,12 @@ export namespace Prisma {
   export type PlayerSelectScalar = {
     id?: boolean
     name?: boolean
+    avatar?: boolean
     roomId?: boolean
     points?: boolean
   }
 
-  export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "roomId" | "points", ExtArgs["result"]["player"]>
+  export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "avatar" | "roomId" | "points", ExtArgs["result"]["player"]>
   export type PlayerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
   }
@@ -3445,6 +3456,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      avatar: string | null
       roomId: string
       points: number
     }, ExtArgs["result"]["player"]>
@@ -3873,6 +3885,7 @@ export namespace Prisma {
   interface PlayerFieldRefs {
     readonly id: FieldRef<"Player", 'String'>
     readonly name: FieldRef<"Player", 'String'>
+    readonly avatar: FieldRef<"Player", 'String'>
     readonly roomId: FieldRef<"Player", 'String'>
     readonly points: FieldRef<"Player", 'Int'>
   }
@@ -4324,6 +4337,7 @@ export namespace Prisma {
   export const PlayerScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    avatar: 'avatar',
     roomId: 'roomId',
     points: 'points'
   };
@@ -4345,6 +4359,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -4496,6 +4518,7 @@ export namespace Prisma {
     NOT?: PlayerWhereInput | PlayerWhereInput[]
     id?: StringFilter<"Player"> | string
     name?: StringFilter<"Player"> | string
+    avatar?: StringNullableFilter<"Player"> | string | null
     roomId?: StringFilter<"Player"> | string
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
@@ -4504,6 +4527,7 @@ export namespace Prisma {
   export type PlayerOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     roomId?: SortOrder
     points?: SortOrder
     room?: RoomOrderByWithRelationInput
@@ -4515,6 +4539,7 @@ export namespace Prisma {
     OR?: PlayerWhereInput[]
     NOT?: PlayerWhereInput | PlayerWhereInput[]
     name?: StringFilter<"Player"> | string
+    avatar?: StringNullableFilter<"Player"> | string | null
     roomId?: StringFilter<"Player"> | string
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
@@ -4523,6 +4548,7 @@ export namespace Prisma {
   export type PlayerOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrderInput | SortOrder
     roomId?: SortOrder
     points?: SortOrder
     _count?: PlayerCountOrderByAggregateInput
@@ -4538,6 +4564,7 @@ export namespace Prisma {
     NOT?: PlayerScalarWhereWithAggregatesInput | PlayerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Player"> | string
     name?: StringWithAggregatesFilter<"Player"> | string
+    avatar?: StringNullableWithAggregatesFilter<"Player"> | string | null
     roomId?: StringWithAggregatesFilter<"Player"> | string
     points?: IntWithAggregatesFilter<"Player"> | number
   }
@@ -4636,6 +4663,7 @@ export namespace Prisma {
   export type PlayerCreateInput = {
     id?: string
     name: string
+    avatar?: string | null
     points?: number
     room: RoomCreateNestedOneWithoutPlayersInput
   }
@@ -4643,6 +4671,7 @@ export namespace Prisma {
   export type PlayerUncheckedCreateInput = {
     id?: string
     name: string
+    avatar?: string | null
     roomId: string
     points?: number
   }
@@ -4650,6 +4679,7 @@ export namespace Prisma {
   export type PlayerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
   }
@@ -4657,6 +4687,7 @@ export namespace Prisma {
   export type PlayerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
   }
@@ -4664,6 +4695,7 @@ export namespace Prisma {
   export type PlayerCreateManyInput = {
     id?: string
     name: string
+    avatar?: string | null
     roomId: string
     points?: number
   }
@@ -4671,12 +4703,14 @@ export namespace Prisma {
   export type PlayerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlayerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
   }
@@ -4775,6 +4809,21 @@ export namespace Prisma {
     ownerId?: SortOrder
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -4791,9 +4840,15 @@ export namespace Prisma {
     isNot?: RoomWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PlayerCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrder
     roomId?: SortOrder
     points?: SortOrder
   }
@@ -4805,6 +4860,7 @@ export namespace Prisma {
   export type PlayerMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrder
     roomId?: SortOrder
     points?: SortOrder
   }
@@ -4812,12 +4868,31 @@ export namespace Prisma {
   export type PlayerMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    avatar?: SortOrder
     roomId?: SortOrder
     points?: SortOrder
   }
 
   export type PlayerSumOrderByAggregateInput = {
     points?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -4944,6 +5019,10 @@ export namespace Prisma {
     connect?: RoomWhereUniqueInput
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -5000,6 +5079,48 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -5096,12 +5217,14 @@ export namespace Prisma {
   export type PlayerCreateWithoutRoomInput = {
     id?: string
     name: string
+    avatar?: string | null
     points?: number
   }
 
   export type PlayerUncheckedCreateWithoutRoomInput = {
     id?: string
     name: string
+    avatar?: string | null
     points?: number
   }
 
@@ -5160,6 +5283,7 @@ export namespace Prisma {
     NOT?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
     id?: StringFilter<"Player"> | string
     name?: StringFilter<"Player"> | string
+    avatar?: StringNullableFilter<"Player"> | string | null
     roomId?: StringFilter<"Player"> | string
     points?: IntFilter<"Player"> | number
   }
@@ -5229,24 +5353,28 @@ export namespace Prisma {
   export type PlayerCreateManyRoomInput = {
     id?: string
     name: string
+    avatar?: string | null
     points?: number
   }
 
   export type PlayerUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlayerUncheckedUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlayerUncheckedUpdateManyWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
   }
 

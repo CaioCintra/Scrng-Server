@@ -136,6 +136,7 @@ exports.Prisma.RoomScalarFieldEnum = {
 exports.Prisma.PlayerScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  avatar: 'avatar',
   roomId: 'roomId',
   points: 'points'
 };
@@ -148,6 +149,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

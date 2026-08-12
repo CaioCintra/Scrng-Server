@@ -294,4 +294,29 @@ export async function roomsRoutes(app: FastifyInstance) {
     });
     return reply.status(200).send();
   });
+
+  // atualizar dados do jogador (nome e avatar)
+  app.put("/players/:id", async (request, reply) => {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+    const { id } = paramsSchema.parse(request.params);
+
+    const bodySchema = z.object({
+      name: z.string().optional(),
+      avatar: z.string().optional(),
+    });
+    const data = bodySchema.parse(request.body);
+
+    const updateData = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== undefined)
+    );
+
+    await prisma.player.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return reply.status(200).send();
+  });
 }
