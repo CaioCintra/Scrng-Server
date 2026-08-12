@@ -177,6 +177,7 @@ export async function roomsRoutes(app: FastifyInstance) {
         room: {
           select: {
             name: true,
+            avatar: true,
           },
         },
       },
