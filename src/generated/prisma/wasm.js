@@ -102,7 +102,10 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  ownerId: 'ownerId'
+  ownerId: 'ownerId',
+  PlayerLimit: 'PlayerLimit',
+  PlayersCanEditPoints: 'PlayersCanEditPoints',
+  PlayersCanEditName: 'PlayersCanEditName'
 };
 
 exports.Prisma.PlayerScalarFieldEnum = {
@@ -181,13 +184,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id      String   @id @default(uuid())\n  name    String\n  ownerId String\n  owner   User     @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players Player[] @relation(\"RoomPlayers\")\n}\n\nmodel Player {\n  id     String  @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room    @relation(\"RoomPlayers\", fields: [roomId], references: [id])\n  points Int     @default(0)\n}\n",
-  "inlineSchemaHash": "82db9863ac003870ea5da1f06a4f7f1298b685bf95a53977efc6e75fa84ba991",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String   @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User     @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[] @relation(\"RoomPlayers\")\n  PlayerLimit          Int      @default(10)\n  PlayersCanEditPoints Boolean  @default(false)\n  PlayersCanEditName   Boolean  @default(false)\n}\n\nmodel Player {\n  id     String  @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room    @relation(\"RoomPlayers\", fields: [roomId], references: [id])\n  points Int     @default(0)\n}\n",
+  "inlineSchemaHash": "4ddd085eb94fab4d9fb5cfe615e5583f803ff27dbcc3b7e0055fc84673dedaff",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"},{\"name\":\"PlayerLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"PlayersCanEditPoints\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"PlayersCanEditName\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

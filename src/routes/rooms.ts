@@ -132,18 +132,23 @@ export async function roomsRoutes(app: FastifyInstance) {
       playerName: z.string(),
     });
     const { playerName } = addPlayerBody.parse(request.body);
-    // verificar se a sala existe
-    const room = await prisma.room.findUnique({ where: { id: roomId } });
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      include: { _count: { select: { players: true } } },
+    });
     if (!room) {
       return reply.status(404).send({ message: "Room not found" });
     }
 
-    // impedir adicionar jogador com mesmo nome na mesma sala
+    if (room._count.players >= room.PlayerLimit) {
+      return reply
+        .status(409)
+        .send({ message: "Room has reached its player limit" });
+    }
+
     const existingPlayer = await prisma.player.findFirst({
-      where: {
-        roomId,
-        name: playerName,
-      },
+      where: { roomId, name: playerName },
     });
     if (existingPlayer) {
       return reply
@@ -152,10 +157,7 @@ export async function roomsRoutes(app: FastifyInstance) {
     }
 
     await prisma.player.create({
-      data: {
-        name: playerName,
-        roomId: roomId,
-      },
+      data: { name: playerName, roomId },
     });
 
     return reply.status(201).send();
@@ -311,7 +313,7 @@ export async function roomsRoutes(app: FastifyInstance) {
     const data = bodySchema.parse(request.body);
 
     const updateData = Object.fromEntries(
-      Object.entries(data).filter(([_, v]) => v !== undefined)
+      Object.entries(data).filter(([_, v]) => v !== undefined),
     );
 
     await prisma.player.update({
@@ -320,5 +322,74 @@ export async function roomsRoutes(app: FastifyInstance) {
     });
 
     return reply.status(200).send();
+  });
+
+  // ler as regras da sala
+  app.get("/rooms/:id/settings", async (request, reply) => {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+    const { id } = paramsSchema.parse(request.params);
+
+    const room = await prisma.room.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        PlayerLimit: true,
+        PlayersCanEditPoints: true,
+        PlayersCanEditName: true,
+      },
+    });
+
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+
+    return room;
+  });
+
+  // alterar as regras da sala
+  app.put("/rooms/:id/settings", async (request, reply) => {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+    const { id } = paramsSchema.parse(request.params);
+
+    const bodySchema = z.object({
+      PlayerLimit: z.number().int().min(1).max(999).optional(),
+      PlayersCanEditPoints: z.boolean().optional(),
+      PlayersCanEditName: z.boolean().optional(),
+    });
+    const data = bodySchema.parse(request.body);
+
+    const updateData = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== undefined),
+    );
+
+    if (Object.keys(updateData).length === 0) {
+      return reply
+        .status(400)
+        .send({ message: "No settings provided to update" });
+    }
+
+    const room = await prisma.room.findUnique({ where: { id } });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+
+    const updated = await prisma.room.update({
+      where: { id },
+      data: updateData,
+      select: {
+        id: true,
+        name: true,
+        PlayerLimit: true,
+        PlayersCanEditPoints: true,
+        PlayersCanEditName: true,
+      },
+    });
+
+    return reply.status(200).send(updated);
   });
 }

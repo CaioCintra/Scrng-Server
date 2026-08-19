@@ -16,11 +16,14 @@ model User {
 }
 
 model Room {
-  id      String   @id @default(uuid())
-  name    String
-  ownerId String
-  owner   User     @relation("UserRooms", fields: [ownerId], references: [id])
-  players Player[] @relation("RoomPlayers")
+  id                   String   @id @default(uuid())
+  name                 String
+  ownerId              String
+  owner                User     @relation("UserRooms", fields: [ownerId], references: [id])
+  players              Player[] @relation("RoomPlayers")
+  PlayerLimit          Int      @default(10)
+  PlayersCanEditPoints Boolean  @default(false)
+  PlayersCanEditName   Boolean  @default(false)
 }
 
 model Player {

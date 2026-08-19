@@ -2154,46 +2154,82 @@ export namespace Prisma {
 
   export type AggregateRoom = {
     _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
     _min: RoomMinAggregateOutputType | null
     _max: RoomMaxAggregateOutputType | null
+  }
+
+  export type RoomAvgAggregateOutputType = {
+    PlayerLimit: number | null
+  }
+
+  export type RoomSumAggregateOutputType = {
+    PlayerLimit: number | null
   }
 
   export type RoomMinAggregateOutputType = {
     id: string | null
     name: string | null
     ownerId: string | null
+    PlayerLimit: number | null
+    PlayersCanEditPoints: boolean | null
+    PlayersCanEditName: boolean | null
   }
 
   export type RoomMaxAggregateOutputType = {
     id: string | null
     name: string | null
     ownerId: string | null
+    PlayerLimit: number | null
+    PlayersCanEditPoints: boolean | null
+    PlayersCanEditName: boolean | null
   }
 
   export type RoomCountAggregateOutputType = {
     id: number
     name: number
     ownerId: number
+    PlayerLimit: number
+    PlayersCanEditPoints: number
+    PlayersCanEditName: number
     _all: number
   }
 
+
+  export type RoomAvgAggregateInputType = {
+    PlayerLimit?: true
+  }
+
+  export type RoomSumAggregateInputType = {
+    PlayerLimit?: true
+  }
 
   export type RoomMinAggregateInputType = {
     id?: true
     name?: true
     ownerId?: true
+    PlayerLimit?: true
+    PlayersCanEditPoints?: true
+    PlayersCanEditName?: true
   }
 
   export type RoomMaxAggregateInputType = {
     id?: true
     name?: true
     ownerId?: true
+    PlayerLimit?: true
+    PlayersCanEditPoints?: true
+    PlayersCanEditName?: true
   }
 
   export type RoomCountAggregateInputType = {
     id?: true
     name?: true
     ownerId?: true
+    PlayerLimit?: true
+    PlayersCanEditPoints?: true
+    PlayersCanEditName?: true
     _all?: true
   }
 
@@ -2235,6 +2271,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RoomAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoomSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RoomMinAggregateInputType
@@ -2265,6 +2313,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RoomCountAggregateInputType | true
+    _avg?: RoomAvgAggregateInputType
+    _sum?: RoomSumAggregateInputType
     _min?: RoomMinAggregateInputType
     _max?: RoomMaxAggregateInputType
   }
@@ -2273,7 +2323,12 @@ export namespace Prisma {
     id: string
     name: string
     ownerId: string
+    PlayerLimit: number
+    PlayersCanEditPoints: boolean
+    PlayersCanEditName: boolean
     _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
     _min: RoomMinAggregateOutputType | null
     _max: RoomMaxAggregateOutputType | null
   }
@@ -2296,6 +2351,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     ownerId?: boolean
+    PlayerLimit?: boolean
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
@@ -2305,6 +2363,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     ownerId?: boolean
+    PlayerLimit?: boolean
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2312,6 +2373,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     ownerId?: boolean
+    PlayerLimit?: boolean
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2319,9 +2383,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     ownerId?: boolean
+    PlayerLimit?: boolean
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ownerId", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ownerId" | "PlayerLimit" | "PlayersCanEditPoints" | "PlayersCanEditName", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
@@ -2344,6 +2411,9 @@ export namespace Prisma {
       id: string
       name: string
       ownerId: string
+      PlayerLimit: number
+      PlayersCanEditPoints: boolean
+      PlayersCanEditName: boolean
     }, ExtArgs["result"]["room"]>
     composites: {}
   }
@@ -2772,6 +2842,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Room", 'String'>
     readonly name: FieldRef<"Room", 'String'>
     readonly ownerId: FieldRef<"Room", 'String'>
+    readonly PlayerLimit: FieldRef<"Room", 'Int'>
+    readonly PlayersCanEditPoints: FieldRef<"Room", 'Boolean'>
+    readonly PlayersCanEditName: FieldRef<"Room", 'Boolean'>
   }
     
 
@@ -4328,7 +4401,10 @@ export namespace Prisma {
   export const RoomScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    ownerId: 'ownerId'
+    ownerId: 'ownerId',
+    PlayerLimit: 'PlayerLimit',
+    PlayersCanEditPoints: 'PlayersCanEditPoints',
+    PlayersCanEditName: 'PlayersCanEditName'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -4403,6 +4479,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -4471,6 +4554,9 @@ export namespace Prisma {
     id?: StringFilter<"Room"> | string
     name?: StringFilter<"Room"> | string
     ownerId?: StringFilter<"Room"> | string
+    PlayerLimit?: IntFilter<"Room"> | number
+    PlayersCanEditPoints?: BoolFilter<"Room"> | boolean
+    PlayersCanEditName?: BoolFilter<"Room"> | boolean
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
   }
@@ -4479,6 +4565,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     ownerId?: SortOrder
+    PlayerLimit?: SortOrder
+    PlayersCanEditPoints?: SortOrder
+    PlayersCanEditName?: SortOrder
     owner?: UserOrderByWithRelationInput
     players?: PlayerOrderByRelationAggregateInput
   }
@@ -4490,6 +4579,9 @@ export namespace Prisma {
     NOT?: RoomWhereInput | RoomWhereInput[]
     name?: StringFilter<"Room"> | string
     ownerId?: StringFilter<"Room"> | string
+    PlayerLimit?: IntFilter<"Room"> | number
+    PlayersCanEditPoints?: BoolFilter<"Room"> | boolean
+    PlayersCanEditName?: BoolFilter<"Room"> | boolean
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
   }, "id">
@@ -4498,9 +4590,14 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     ownerId?: SortOrder
+    PlayerLimit?: SortOrder
+    PlayersCanEditPoints?: SortOrder
+    PlayersCanEditName?: SortOrder
     _count?: RoomCountOrderByAggregateInput
+    _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
     _min?: RoomMinOrderByAggregateInput
+    _sum?: RoomSumOrderByAggregateInput
   }
 
   export type RoomScalarWhereWithAggregatesInput = {
@@ -4510,6 +4607,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Room"> | string
     name?: StringWithAggregatesFilter<"Room"> | string
     ownerId?: StringWithAggregatesFilter<"Room"> | string
+    PlayerLimit?: IntWithAggregatesFilter<"Room"> | number
+    PlayersCanEditPoints?: BoolWithAggregatesFilter<"Room"> | boolean
+    PlayersCanEditName?: BoolWithAggregatesFilter<"Room"> | boolean
   }
 
   export type PlayerWhereInput = {
@@ -4618,6 +4718,9 @@ export namespace Prisma {
   export type RoomCreateInput = {
     id?: string
     name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     owner: UserCreateNestedOneWithoutRoomsInput
     players?: PlayerCreateNestedManyWithoutRoomInput
   }
@@ -4626,12 +4729,18 @@ export namespace Prisma {
     id?: string
     name: string
     ownerId: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     players?: PlayerUpdateManyWithoutRoomNestedInput
   }
@@ -4640,6 +4749,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
   }
 
@@ -4647,17 +4759,26 @@ export namespace Prisma {
     id?: string
     name: string
     ownerId: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
   }
 
   export type RoomUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PlayerCreateInput = {
@@ -4776,6 +4897,22 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -4795,18 +4932,59 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     ownerId?: SortOrder
+    PlayerLimit?: SortOrder
+    PlayersCanEditPoints?: SortOrder
+    PlayersCanEditName?: SortOrder
+  }
+
+  export type RoomAvgOrderByAggregateInput = {
+    PlayerLimit?: SortOrder
   }
 
   export type RoomMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     ownerId?: SortOrder
+    PlayerLimit?: SortOrder
+    PlayersCanEditPoints?: SortOrder
+    PlayersCanEditName?: SortOrder
   }
 
   export type RoomMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     ownerId?: SortOrder
+    PlayerLimit?: SortOrder
+    PlayersCanEditPoints?: SortOrder
+    PlayersCanEditName?: SortOrder
+  }
+
+  export type RoomSumOrderByAggregateInput = {
+    PlayerLimit?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -4822,17 +5000,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type RoomScalarRelationFilter = {
@@ -4893,22 +5060,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type RoomCreateNestedManyWithoutOwnerInput = {
@@ -4977,6 +5128,18 @@ export namespace Prisma {
     connect?: PlayerWhereUniqueInput | PlayerWhereUniqueInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type UserUpdateOneRequiredWithoutRoomsNestedInput = {
     create?: XOR<UserCreateWithoutRoomsInput, UserUncheckedCreateWithoutRoomsInput>
     connectOrCreate?: UserCreateOrConnectWithoutRoomsInput
@@ -5021,14 +5184,6 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type RoomUpdateOneRequiredWithoutPlayersNestedInput = {
@@ -5081,6 +5236,46 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -5123,42 +5318,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type RoomCreateWithoutOwnerInput = {
     id?: string
     name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     players?: PlayerCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutOwnerInput = {
     id?: string
     name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -5195,6 +5369,9 @@ export namespace Prisma {
     id?: StringFilter<"Room"> | string
     name?: StringFilter<"Room"> | string
     ownerId?: StringFilter<"Room"> | string
+    PlayerLimit?: IntFilter<"Room"> | number
+    PlayersCanEditPoints?: BoolFilter<"Room"> | boolean
+    PlayersCanEditName?: BoolFilter<"Room"> | boolean
   }
 
   export type UserCreateWithoutRoomsInput = {
@@ -5291,6 +5468,9 @@ export namespace Prisma {
   export type RoomCreateWithoutPlayersInput = {
     id?: string
     name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
     owner: UserCreateNestedOneWithoutRoomsInput
   }
 
@@ -5298,6 +5478,9 @@ export namespace Prisma {
     id?: string
     name: string
     ownerId: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
   }
 
   export type RoomCreateOrConnectWithoutPlayersInput = {
@@ -5319,6 +5502,9 @@ export namespace Prisma {
   export type RoomUpdateWithoutPlayersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
   }
 
@@ -5326,28 +5512,43 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomCreateManyOwnerInput = {
     id?: string
     name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
   }
 
   export type RoomUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     players?: PlayerUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PlayerCreateManyRoomInput = {

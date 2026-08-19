@@ -130,7 +130,10 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  ownerId: 'ownerId'
+  ownerId: 'ownerId',
+  PlayerLimit: 'PlayerLimit',
+  PlayersCanEditPoints: 'PlayersCanEditPoints',
+  PlayersCanEditName: 'PlayersCanEditName'
 };
 
 exports.Prisma.PlayerScalarFieldEnum = {

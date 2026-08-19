@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Room" ADD COLUMN     "PlayerLimit" INTEGER NOT NULL DEFAULT 10,
+ADD COLUMN     "PlayersCanEditName" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "PlayersCanEditPoints" BOOLEAN NOT NULL DEFAULT false;
