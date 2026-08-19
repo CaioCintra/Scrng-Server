@@ -148,7 +148,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "c:\\Users\\Caio Cintra\\Documents\\Scrng\\server-scrng\\src\\generated\\prisma",
+      "value": "C:\\Users\\Caio Cintra\\Documents\\Scrng\\server-scrng\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -162,7 +162,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "c:\\Users\\Caio Cintra\\Documents\\Scrng\\server-scrng\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Caio Cintra\\Documents\\Scrng\\server-scrng\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -176,6 +176,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
