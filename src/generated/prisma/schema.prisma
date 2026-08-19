@@ -31,6 +31,6 @@ model Player {
   name   String
   avatar String?
   roomId String
-  room   Room    @relation("RoomPlayers", fields: [roomId], references: [id])
+  room   Room    @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
   points Int     @default(0)
 }

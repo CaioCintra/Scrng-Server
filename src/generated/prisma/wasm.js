@@ -176,7 +176,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -185,8 +184,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String   @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User     @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[] @relation(\"RoomPlayers\")\n  PlayerLimit          Int      @default(10)\n  PlayersCanEditPoints Boolean  @default(false)\n  PlayersCanEditName   Boolean  @default(false)\n}\n\nmodel Player {\n  id     String  @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room    @relation(\"RoomPlayers\", fields: [roomId], references: [id])\n  points Int     @default(0)\n}\n",
-  "inlineSchemaHash": "4ddd085eb94fab4d9fb5cfe615e5583f803ff27dbcc3b7e0055fc84673dedaff",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String   @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User     @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[] @relation(\"RoomPlayers\")\n  PlayerLimit          Int      @default(10)\n  PlayersCanEditPoints Boolean  @default(false)\n  PlayersCanEditName   Boolean  @default(false)\n}\n\nmodel Player {\n  id     String  @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room    @relation(\"RoomPlayers\", fields: [roomId], references: [id], onDelete: Cascade)\n  points Int     @default(0)\n}\n",
+  "inlineSchemaHash": "8ffb56d68de5c800613f812a3de57afcb9b3e23552d7d2e510add150c4d90df4",
   "copyEngine": true
 }
 config.dirname = '/'
