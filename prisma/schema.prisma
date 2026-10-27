@@ -24,6 +24,9 @@ model Room {
   PlayerLimit          Int      @default(10)
   PlayersCanEditPoints Boolean  @default(false)
   PlayersCanEditName   Boolean  @default(false)
+  EmojisEnabled        Boolean  @default(false)
+  EmojiLimit           Int      @default(10)
+  emojiSessions        EmojiSession[]
 }
 
 model Player {
@@ -33,4 +36,30 @@ model Player {
   roomId String
   room   Room    @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
   points Int     @default(0)
+  emojiSessions EmojiSession[]
+}
+
+model EmojiSession {
+  id        String        @id @default(uuid())
+  roomId    String
+  playerId  String
+  sentCount Int           @default(0)
+  createdAt DateTime      @default(now())
+  room      Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  player    Player        @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  reactions RoomEmoji[]
+
+  @@index([roomId, createdAt])
+  @@index([createdAt])
+}
+
+model RoomEmoji {
+  id        String       @id @default(uuid())
+  sessionId String
+  emoji     String
+  createdAt DateTime     @default(now())
+  session   EmojiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@index([createdAt])
 }

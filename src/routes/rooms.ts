@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { PrismaClient } from "../generated/prisma/default.js";
 
 const prisma = new PrismaClient();
+const ROOM_EMOJIS = ["😂", "❤️", "👍", "👏", "🎉", "😮", "😢", "🔥"] as const;
 
 export async function roomsRoutes(app: FastifyInstance) {
   //listar salas por usuário
@@ -339,6 +340,8 @@ export async function roomsRoutes(app: FastifyInstance) {
         PlayerLimit: true,
         PlayersCanEditPoints: true,
         PlayersCanEditName: true,
+        EmojisEnabled: true,
+        EmojiLimit: true,
       },
     });
 
@@ -360,6 +363,8 @@ export async function roomsRoutes(app: FastifyInstance) {
       PlayerLimit: z.number().int().min(1).max(999).optional(),
       PlayersCanEditPoints: z.boolean().optional(),
       PlayersCanEditName: z.boolean().optional(),
+      EmojisEnabled: z.boolean().optional(),
+      EmojiLimit: z.number().int().min(1).max(999).optional(),
     });
     const data = bodySchema.parse(request.body);
 
@@ -387,9 +392,184 @@ export async function roomsRoutes(app: FastifyInstance) {
         PlayerLimit: true,
         PlayersCanEditPoints: true,
         PlayersCanEditName: true,
+        EmojisEnabled: true,
+        EmojiLimit: true,
       },
     });
 
     return reply.status(200).send(updated);
+  });
+
+  // iniciar sessão de acesso remoto para envio de emojis
+  app.post("/rooms/:roomId/emoji-sessions", async (request, reply) => {
+    const paramsSchema = z.object({
+      roomId: z.string().uuid(),
+    });
+    const bodySchema = z.object({
+      playerId: z.string().uuid(),
+    });
+    const { roomId } = paramsSchema.parse(request.params);
+    const { playerId } = bodySchema.parse(request.body);
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      select: { EmojisEnabled: true, EmojiLimit: true },
+    });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+    if (!room.EmojisEnabled) {
+      return reply.status(403).send({ message: "Emojis are disabled in this room" });
+    }
+
+    const player = await prisma.player.findFirst({
+      where: { id: playerId, roomId },
+      select: { id: true },
+    });
+    if (!player) {
+      return reply.status(404).send({ message: "Player not found in this room" });
+    }
+
+    await prisma.emojiSession.deleteMany({
+      where: {
+        createdAt: { lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+      },
+    });
+
+    const session = await prisma.emojiSession.create({
+      data: { roomId, playerId },
+      select: { id: true, sentCount: true },
+    });
+
+    return reply.status(201).send({
+      sessionId: session.id,
+      remaining: room.EmojiLimit - session.sentCount,
+    });
+  });
+
+  // consultar saldo de emojis de uma sessão de acesso remoto
+  app.get("/rooms/:roomId/emoji-sessions/:sessionId", async (request, reply) => {
+    const paramsSchema = z.object({
+      roomId: z.string().uuid(),
+      sessionId: z.string().uuid(),
+    });
+    const { roomId, sessionId } = paramsSchema.parse(request.params);
+
+    const session = await prisma.emojiSession.findUnique({
+      where: { id: sessionId },
+      select: {
+        roomId: true,
+        sentCount: true,
+        room: { select: { EmojisEnabled: true, EmojiLimit: true } },
+      },
+    });
+    if (!session || session.roomId !== roomId) {
+      return reply.status(404).send({ message: "Emoji session not found" });
+    }
+
+    return {
+      sessionId,
+      enabled: session.room.EmojisEnabled,
+      remaining: Math.max(0, session.room.EmojiLimit - session.sentCount),
+    };
+  });
+
+  // enviar emoji para a tela da sala
+  app.post("/rooms/:roomId/emojis", async (request, reply) => {
+    const paramsSchema = z.object({
+      roomId: z.string().uuid(),
+    });
+    const bodySchema = z.object({
+      sessionId: z.string().uuid(),
+      emoji: z.enum(ROOM_EMOJIS),
+    });
+    const { roomId } = paramsSchema.parse(request.params);
+    const { sessionId, emoji } = bodySchema.parse(request.body);
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      select: { EmojisEnabled: true, EmojiLimit: true },
+    });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+    if (!room.EmojisEnabled) {
+      return reply.status(403).send({ message: "Emojis are disabled in this room" });
+    }
+
+    const session = await prisma.emojiSession.findUnique({
+      where: { id: sessionId },
+      select: { id: true, roomId: true, sentCount: true },
+    });
+    if (!session || session.roomId !== roomId) {
+      return reply.status(404).send({ message: "Emoji session not found" });
+    }
+
+    const result = await prisma.$transaction(async (transaction) => {
+      const updated = await transaction.emojiSession.updateMany({
+        where: {
+          id: sessionId,
+          sentCount: { lt: room.EmojiLimit },
+        },
+        data: { sentCount: { increment: 1 } },
+      });
+
+      if (updated.count === 0) {
+        return null;
+      }
+
+      await transaction.roomEmoji.create({
+        data: { sessionId, emoji },
+      });
+
+      const usage = await transaction.emojiSession.findUniqueOrThrow({
+        where: { id: sessionId },
+        select: { sentCount: true },
+      });
+      return usage.sentCount;
+    });
+
+    if (result === null) {
+      return reply.status(429).send({ message: "Emoji limit reached for this remote session" });
+    }
+
+    return reply.status(201).send({
+      remaining: Math.max(0, room.EmojiLimit - result),
+    });
+  });
+
+  // listar emojis recentes da sala (consumido pela tela da sala)
+  app.get("/rooms/:roomId/emojis", async (request, reply) => {
+    const paramsSchema = z.object({
+      roomId: z.string().uuid(),
+    });
+    const { roomId } = paramsSchema.parse(request.params);
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      select: { EmojisEnabled: true },
+    });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+    if (!room.EmojisEnabled) {
+      return [];
+    }
+
+    const reactions = await prisma.roomEmoji.findMany({
+      where: {
+        session: { roomId },
+        createdAt: { gte: new Date(Date.now() - 15_000) },
+      },
+      orderBy: { createdAt: "asc" },
+      take: 200,
+      select: {
+        id: true,
+        emoji: true,
+        createdAt: true,
+      },
+    });
+
+    return reactions;
   });
 }
