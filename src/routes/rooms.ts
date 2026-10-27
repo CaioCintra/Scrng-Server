@@ -342,6 +342,7 @@ export async function roomsRoutes(app: FastifyInstance) {
         PlayersCanEditName: true,
         EmojisEnabled: true,
         EmojiLimit: true,
+        EmojiCooldown: true,
       },
     });
 
@@ -365,6 +366,7 @@ export async function roomsRoutes(app: FastifyInstance) {
       PlayersCanEditName: z.boolean().optional(),
       EmojisEnabled: z.boolean().optional(),
       EmojiLimit: z.number().int().min(1).max(999).optional(),
+      EmojiCooldown: z.number().int().min(1).max(3600).optional(),
     });
     const data = bodySchema.parse(request.body);
 
@@ -394,26 +396,28 @@ export async function roomsRoutes(app: FastifyInstance) {
         PlayersCanEditName: true,
         EmojisEnabled: true,
         EmojiLimit: true,
+        EmojiCooldown: true,
       },
     });
 
     return reply.status(200).send(updated);
   });
 
-  // iniciar sessão de acesso remoto para envio de emojis
-  app.post("/rooms/:roomId/emoji-sessions", async (request, reply) => {
+  // enviar emoji para a tela da sala
+  app.post("/rooms/:roomId/emojis", async (request, reply) => {
     const paramsSchema = z.object({
       roomId: z.string().uuid(),
     });
     const bodySchema = z.object({
       playerId: z.string().uuid(),
+      emoji: z.enum(ROOM_EMOJIS),
     });
     const { roomId } = paramsSchema.parse(request.params);
-    const { playerId } = bodySchema.parse(request.body);
+    const { playerId, emoji } = bodySchema.parse(request.body);
 
     const room = await prisma.room.findUnique({
       where: { id: roomId },
-      select: { EmojisEnabled: true, EmojiLimit: true },
+      select: { EmojisEnabled: true, EmojiLimit: true, EmojiCooldown: true },
     });
     if (!room) {
       return reply.status(404).send({ message: "Room not found" });
@@ -430,112 +434,35 @@ export async function roomsRoutes(app: FastifyInstance) {
       return reply.status(404).send({ message: "Player not found in this room" });
     }
 
-    await prisma.emojiSession.deleteMany({
-      where: {
-        createdAt: { lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
-      },
+    // cada jogador pode enviar EmojiLimit emojis a cada EmojiCooldown segundos
+    const windowMs = room.EmojiCooldown * 1000;
+    const now = Date.now();
+    const recent = await prisma.roomEmoji.findMany({
+      where: { playerId, createdAt: { gte: new Date(now - windowMs) } },
+      orderBy: { createdAt: "asc" },
+      take: room.EmojiLimit,
+      select: { createdAt: true },
     });
-
-    const session = await prisma.emojiSession.create({
-      data: { roomId, playerId },
-      select: { id: true, sentCount: true },
-    });
-
-    return reply.status(201).send({
-      sessionId: session.id,
-      remaining: room.EmojiLimit - session.sentCount,
-    });
-  });
-
-  // consultar saldo de emojis de uma sessão de acesso remoto
-  app.get("/rooms/:roomId/emoji-sessions/:sessionId", async (request, reply) => {
-    const paramsSchema = z.object({
-      roomId: z.string().uuid(),
-      sessionId: z.string().uuid(),
-    });
-    const { roomId, sessionId } = paramsSchema.parse(request.params);
-
-    const session = await prisma.emojiSession.findUnique({
-      where: { id: sessionId },
-      select: {
-        roomId: true,
-        sentCount: true,
-        room: { select: { EmojisEnabled: true, EmojiLimit: true } },
-      },
-    });
-    if (!session || session.roomId !== roomId) {
-      return reply.status(404).send({ message: "Emoji session not found" });
+    if (recent.length >= room.EmojiLimit) {
+      const retryAfter = Math.max(
+        1,
+        Math.ceil((recent[0]!.createdAt.getTime() + windowMs - now) / 1000),
+      );
+      return reply
+        .status(429)
+        .send({ message: "Emoji limit reached, wait before sending more", retryAfter });
     }
 
-    return {
-      sessionId,
-      enabled: session.room.EmojisEnabled,
-      remaining: Math.max(0, session.room.EmojiLimit - session.sentCount),
-    };
-  });
-
-  // enviar emoji para a tela da sala
-  app.post("/rooms/:roomId/emojis", async (request, reply) => {
-    const paramsSchema = z.object({
-      roomId: z.string().uuid(),
-    });
-    const bodySchema = z.object({
-      sessionId: z.string().uuid(),
-      emoji: z.enum(ROOM_EMOJIS),
-    });
-    const { roomId } = paramsSchema.parse(request.params);
-    const { sessionId, emoji } = bodySchema.parse(request.body);
-
-    const room = await prisma.room.findUnique({
-      where: { id: roomId },
-      select: { EmojisEnabled: true, EmojiLimit: true },
-    });
-    if (!room) {
-      return reply.status(404).send({ message: "Room not found" });
-    }
-    if (!room.EmojisEnabled) {
-      return reply.status(403).send({ message: "Emojis are disabled in this room" });
-    }
-
-    const session = await prisma.emojiSession.findUnique({
-      where: { id: sessionId },
-      select: { id: true, roomId: true, sentCount: true },
-    });
-    if (!session || session.roomId !== roomId) {
-      return reply.status(404).send({ message: "Emoji session not found" });
-    }
-
-    const result = await prisma.$transaction(async (transaction) => {
-      const updated = await transaction.emojiSession.updateMany({
-        where: {
-          id: sessionId,
-          sentCount: { lt: room.EmojiLimit },
-        },
-        data: { sentCount: { increment: 1 } },
-      });
-
-      if (updated.count === 0) {
-        return null;
-      }
-
-      await transaction.roomEmoji.create({
-        data: { sessionId, emoji },
-      });
-
-      const usage = await transaction.emojiSession.findUniqueOrThrow({
-        where: { id: sessionId },
-        select: { sentCount: true },
-      });
-      return usage.sentCount;
+    // emojis só são exibidos por alguns segundos, então descarta os antigos
+    await prisma.roomEmoji.deleteMany({
+      where: { createdAt: { lt: new Date(now - 60 * 60 * 1000) } },
     });
 
-    if (result === null) {
-      return reply.status(429).send({ message: "Emoji limit reached for this remote session" });
-    }
-
-    return reply.status(201).send({
-      remaining: Math.max(0, room.EmojiLimit - result),
+    await prisma.roomEmoji.create({
+      data: { roomId, playerId, emoji },
     });
+
+    return reply.status(201).send();
   });
 
   // listar emojis recentes da sala (consumido pela tela da sala)
@@ -558,7 +485,7 @@ export async function roomsRoutes(app: FastifyInstance) {
 
     const reactions = await prisma.roomEmoji.findMany({
       where: {
-        session: { roomId },
+        roomId,
         createdAt: { gte: new Date(Date.now() - 15_000) },
       },
       orderBy: { createdAt: "asc" },

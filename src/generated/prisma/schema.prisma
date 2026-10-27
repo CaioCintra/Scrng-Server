@@ -16,50 +16,40 @@ model User {
 }
 
 model Room {
-  id                   String         @id @default(uuid())
+  id                   String      @id @default(uuid())
   name                 String
   ownerId              String
-  owner                User           @relation("UserRooms", fields: [ownerId], references: [id])
-  players              Player[]       @relation("RoomPlayers")
-  PlayerLimit          Int            @default(10)
-  PlayersCanEditPoints Boolean        @default(false)
-  PlayersCanEditName   Boolean        @default(false)
-  EmojisEnabled        Boolean        @default(false)
-  EmojiLimit           Int            @default(10)
-  emojiSessions        EmojiSession[]
+  owner                User        @relation("UserRooms", fields: [ownerId], references: [id])
+  players              Player[]    @relation("RoomPlayers")
+  PlayerLimit          Int         @default(10)
+  PlayersCanEditPoints Boolean     @default(false)
+  PlayersCanEditName   Boolean     @default(false)
+  EmojisEnabled        Boolean     @default(false)
+  EmojiLimit           Int         @default(10)
+  EmojiCooldown        Int         @default(5)
+  emojis               RoomEmoji[]
 }
 
 model Player {
-  id            String         @id @default(uuid())
-  name          String
-  avatar        String?
-  roomId        String
-  room          Room           @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
-  points        Int            @default(0)
-  emojiSessions EmojiSession[]
-}
-
-model EmojiSession {
-  id        String      @id @default(uuid())
-  roomId    String
-  playerId  String
-  sentCount Int         @default(0)
-  createdAt DateTime    @default(now())
-  room      Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  player    Player      @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  reactions RoomEmoji[]
-
-  @@index([roomId, createdAt])
-  @@index([createdAt])
+  id     String      @id @default(uuid())
+  name   String
+  avatar String?
+  roomId String
+  room   Room        @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
+  points Int         @default(0)
+  emojis RoomEmoji[]
 }
 
 model RoomEmoji {
-  id        String       @id @default(uuid())
-  sessionId String
+  id        String   @id @default(uuid())
+  roomId    String
+  playerId  String
   emoji     String
-  createdAt DateTime     @default(now())
-  session   EmojiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
-  @@index([sessionId, createdAt])
+  @@index([roomId, createdAt])
+  @@index([playerId, createdAt])
   @@index([createdAt])
 }

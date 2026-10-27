@@ -29,11 +29,6 @@ export type Room = $Result.DefaultSelection<Prisma.$RoomPayload>
  */
 export type Player = $Result.DefaultSelection<Prisma.$PlayerPayload>
 /**
- * Model EmojiSession
- * 
- */
-export type EmojiSession = $Result.DefaultSelection<Prisma.$EmojiSessionPayload>
-/**
  * Model RoomEmoji
  * 
  */
@@ -186,16 +181,6 @@ export class PrismaClient<
     * ```
     */
   get player(): Prisma.PlayerDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.emojiSession`: Exposes CRUD operations for the **EmojiSession** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more EmojiSessions
-    * const emojiSessions = await prisma.emojiSession.findMany()
-    * ```
-    */
-  get emojiSession(): Prisma.EmojiSessionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.roomEmoji`: Exposes CRUD operations for the **RoomEmoji** model.
@@ -650,7 +635,6 @@ export namespace Prisma {
     User: 'User',
     Room: 'Room',
     Player: 'Player',
-    EmojiSession: 'EmojiSession',
     RoomEmoji: 'RoomEmoji'
   };
 
@@ -670,7 +654,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "room" | "player" | "emojiSession" | "roomEmoji"
+      modelProps: "user" | "room" | "player" | "roomEmoji"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -896,80 +880,6 @@ export namespace Prisma {
           }
         }
       }
-      EmojiSession: {
-        payload: Prisma.$EmojiSessionPayload<ExtArgs>
-        fields: Prisma.EmojiSessionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.EmojiSessionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.EmojiSessionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          findFirst: {
-            args: Prisma.EmojiSessionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.EmojiSessionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          findMany: {
-            args: Prisma.EmojiSessionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>[]
-          }
-          create: {
-            args: Prisma.EmojiSessionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          createMany: {
-            args: Prisma.EmojiSessionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.EmojiSessionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>[]
-          }
-          delete: {
-            args: Prisma.EmojiSessionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          update: {
-            args: Prisma.EmojiSessionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          deleteMany: {
-            args: Prisma.EmojiSessionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.EmojiSessionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.EmojiSessionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>[]
-          }
-          upsert: {
-            args: Prisma.EmojiSessionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmojiSessionPayload>
-          }
-          aggregate: {
-            args: Prisma.EmojiSessionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateEmojiSession>
-          }
-          groupBy: {
-            args: Prisma.EmojiSessionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<EmojiSessionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.EmojiSessionCountArgs<ExtArgs>
-            result: $Utils.Optional<EmojiSessionCountAggregateOutputType> | number
-          }
-        }
-      }
       RoomEmoji: {
         payload: Prisma.$RoomEmojiPayload<ExtArgs>
         fields: Prisma.RoomEmojiFieldRefs
@@ -1143,7 +1053,6 @@ export namespace Prisma {
     user?: UserOmit
     room?: RoomOmit
     player?: PlayerOmit
-    emojiSession?: EmojiSessionOmit
     roomEmoji?: RoomEmojiOmit
   }
 
@@ -1257,12 +1166,12 @@ export namespace Prisma {
 
   export type RoomCountOutputType = {
     players: number
-    emojiSessions: number
+    emojis: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     players?: boolean | RoomCountOutputTypeCountPlayersArgs
-    emojiSessions?: boolean | RoomCountOutputTypeCountEmojiSessionsArgs
+    emojis?: boolean | RoomCountOutputTypeCountEmojisArgs
   }
 
   // Custom InputTypes
@@ -1286,8 +1195,8 @@ export namespace Prisma {
   /**
    * RoomCountOutputType without action
    */
-  export type RoomCountOutputTypeCountEmojiSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EmojiSessionWhereInput
+  export type RoomCountOutputTypeCountEmojisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomEmojiWhereInput
   }
 
 
@@ -1296,11 +1205,11 @@ export namespace Prisma {
    */
 
   export type PlayerCountOutputType = {
-    emojiSessions: number
+    emojis: number
   }
 
   export type PlayerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    emojiSessions?: boolean | PlayerCountOutputTypeCountEmojiSessionsArgs
+    emojis?: boolean | PlayerCountOutputTypeCountEmojisArgs
   }
 
   // Custom InputTypes
@@ -1317,38 +1226,7 @@ export namespace Prisma {
   /**
    * PlayerCountOutputType without action
    */
-  export type PlayerCountOutputTypeCountEmojiSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EmojiSessionWhereInput
-  }
-
-
-  /**
-   * Count Type EmojiSessionCountOutputType
-   */
-
-  export type EmojiSessionCountOutputType = {
-    reactions: number
-  }
-
-  export type EmojiSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reactions?: boolean | EmojiSessionCountOutputTypeCountReactionsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * EmojiSessionCountOutputType without action
-   */
-  export type EmojiSessionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSessionCountOutputType
-     */
-    select?: EmojiSessionCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * EmojiSessionCountOutputType without action
-   */
-  export type EmojiSessionCountOutputTypeCountReactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PlayerCountOutputTypeCountEmojisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoomEmojiWhereInput
   }
 
@@ -2416,11 +2294,13 @@ export namespace Prisma {
   export type RoomAvgAggregateOutputType = {
     PlayerLimit: number | null
     EmojiLimit: number | null
+    EmojiCooldown: number | null
   }
 
   export type RoomSumAggregateOutputType = {
     PlayerLimit: number | null
     EmojiLimit: number | null
+    EmojiCooldown: number | null
   }
 
   export type RoomMinAggregateOutputType = {
@@ -2432,6 +2312,7 @@ export namespace Prisma {
     PlayersCanEditName: boolean | null
     EmojisEnabled: boolean | null
     EmojiLimit: number | null
+    EmojiCooldown: number | null
   }
 
   export type RoomMaxAggregateOutputType = {
@@ -2443,6 +2324,7 @@ export namespace Prisma {
     PlayersCanEditName: boolean | null
     EmojisEnabled: boolean | null
     EmojiLimit: number | null
+    EmojiCooldown: number | null
   }
 
   export type RoomCountAggregateOutputType = {
@@ -2454,6 +2336,7 @@ export namespace Prisma {
     PlayersCanEditName: number
     EmojisEnabled: number
     EmojiLimit: number
+    EmojiCooldown: number
     _all: number
   }
 
@@ -2461,11 +2344,13 @@ export namespace Prisma {
   export type RoomAvgAggregateInputType = {
     PlayerLimit?: true
     EmojiLimit?: true
+    EmojiCooldown?: true
   }
 
   export type RoomSumAggregateInputType = {
     PlayerLimit?: true
     EmojiLimit?: true
+    EmojiCooldown?: true
   }
 
   export type RoomMinAggregateInputType = {
@@ -2477,6 +2362,7 @@ export namespace Prisma {
     PlayersCanEditName?: true
     EmojisEnabled?: true
     EmojiLimit?: true
+    EmojiCooldown?: true
   }
 
   export type RoomMaxAggregateInputType = {
@@ -2488,6 +2374,7 @@ export namespace Prisma {
     PlayersCanEditName?: true
     EmojisEnabled?: true
     EmojiLimit?: true
+    EmojiCooldown?: true
   }
 
   export type RoomCountAggregateInputType = {
@@ -2499,6 +2386,7 @@ export namespace Prisma {
     PlayersCanEditName?: true
     EmojisEnabled?: true
     EmojiLimit?: true
+    EmojiCooldown?: true
     _all?: true
   }
 
@@ -2597,6 +2485,7 @@ export namespace Prisma {
     PlayersCanEditName: boolean
     EmojisEnabled: boolean
     EmojiLimit: number
+    EmojiCooldown: number
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
     _sum: RoomSumAggregateOutputType | null
@@ -2627,9 +2516,10 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: boolean
+    EmojiCooldown?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
-    emojiSessions?: boolean | Room$emojiSessionsArgs<ExtArgs>
+    emojis?: boolean | Room$emojisArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2642,6 +2532,7 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: boolean
+    EmojiCooldown?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2654,6 +2545,7 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: boolean
+    EmojiCooldown?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2666,13 +2558,14 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: boolean
+    EmojiCooldown?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ownerId" | "PlayerLimit" | "PlayersCanEditPoints" | "PlayersCanEditName" | "EmojisEnabled" | "EmojiLimit", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ownerId" | "PlayerLimit" | "PlayersCanEditPoints" | "PlayersCanEditName" | "EmojisEnabled" | "EmojiLimit" | "EmojiCooldown", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
-    emojiSessions?: boolean | Room$emojiSessionsArgs<ExtArgs>
+    emojis?: boolean | Room$emojisArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2687,7 +2580,7 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
       players: Prisma.$PlayerPayload<ExtArgs>[]
-      emojiSessions: Prisma.$EmojiSessionPayload<ExtArgs>[]
+      emojis: Prisma.$RoomEmojiPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2698,6 +2591,7 @@ export namespace Prisma {
       PlayersCanEditName: boolean
       EmojisEnabled: boolean
       EmojiLimit: number
+      EmojiCooldown: number
     }, ExtArgs["result"]["room"]>
     composites: {}
   }
@@ -3094,7 +2988,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     players<T extends Room$playersArgs<ExtArgs> = {}>(args?: Subset<T, Room$playersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    emojiSessions<T extends Room$emojiSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Room$emojiSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    emojis<T extends Room$emojisArgs<ExtArgs> = {}>(args?: Subset<T, Room$emojisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3132,6 +3026,7 @@ export namespace Prisma {
     readonly PlayersCanEditName: FieldRef<"Room", 'Boolean'>
     readonly EmojisEnabled: FieldRef<"Room", 'Boolean'>
     readonly EmojiLimit: FieldRef<"Room", 'Int'>
+    readonly EmojiCooldown: FieldRef<"Room", 'Int'>
   }
     
 
@@ -3552,27 +3447,27 @@ export namespace Prisma {
   }
 
   /**
-   * Room.emojiSessions
+   * Room.emojis
    */
-  export type Room$emojiSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Room$emojisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EmojiSession
+     * Select specific fields to fetch from the RoomEmoji
      */
-    select?: EmojiSessionSelect<ExtArgs> | null
+    select?: RoomEmojiSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EmojiSession
+     * Omit specific fields from the RoomEmoji
      */
-    omit?: EmojiSessionOmit<ExtArgs> | null
+    omit?: RoomEmojiOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    where?: EmojiSessionWhereInput
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    cursor?: EmojiSessionWhereUniqueInput
+    include?: RoomEmojiInclude<ExtArgs> | null
+    where?: RoomEmojiWhereInput
+    orderBy?: RoomEmojiOrderByWithRelationInput | RoomEmojiOrderByWithRelationInput[]
+    cursor?: RoomEmojiWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: EmojiSessionScalarFieldEnum | EmojiSessionScalarFieldEnum[]
+    distinct?: RoomEmojiScalarFieldEnum | RoomEmojiScalarFieldEnum[]
   }
 
   /**
@@ -3793,7 +3688,7 @@ export namespace Prisma {
     roomId?: boolean
     points?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    emojiSessions?: boolean | Player$emojiSessionsArgs<ExtArgs>
+    emojis?: boolean | Player$emojisArgs<ExtArgs>
     _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["player"]>
 
@@ -3826,7 +3721,7 @@ export namespace Prisma {
   export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "avatar" | "roomId" | "points", ExtArgs["result"]["player"]>
   export type PlayerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    emojiSessions?: boolean | Player$emojiSessionsArgs<ExtArgs>
+    emojis?: boolean | Player$emojisArgs<ExtArgs>
     _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlayerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3840,7 +3735,7 @@ export namespace Prisma {
     name: "Player"
     objects: {
       room: Prisma.$RoomPayload<ExtArgs>
-      emojiSessions: Prisma.$EmojiSessionPayload<ExtArgs>[]
+      emojis: Prisma.$RoomEmojiPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4243,7 +4138,7 @@ export namespace Prisma {
   export interface Prisma__PlayerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    emojiSessions<T extends Player$emojiSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Player$emojiSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    emojis<T extends Player$emojisArgs<ExtArgs> = {}>(args?: Subset<T, Player$emojisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4674,27 +4569,27 @@ export namespace Prisma {
   }
 
   /**
-   * Player.emojiSessions
+   * Player.emojis
    */
-  export type Player$emojiSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Player$emojisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EmojiSession
+     * Select specific fields to fetch from the RoomEmoji
      */
-    select?: EmojiSessionSelect<ExtArgs> | null
+    select?: RoomEmojiSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EmojiSession
+     * Omit specific fields from the RoomEmoji
      */
-    omit?: EmojiSessionOmit<ExtArgs> | null
+    omit?: RoomEmojiOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    where?: EmojiSessionWhereInput
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    cursor?: EmojiSessionWhereUniqueInput
+    include?: RoomEmojiInclude<ExtArgs> | null
+    where?: RoomEmojiWhereInput
+    orderBy?: RoomEmojiOrderByWithRelationInput | RoomEmojiOrderByWithRelationInput[]
+    cursor?: RoomEmojiWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: EmojiSessionScalarFieldEnum | EmojiSessionScalarFieldEnum[]
+    distinct?: RoomEmojiScalarFieldEnum | RoomEmojiScalarFieldEnum[]
   }
 
   /**
@@ -4717,1136 +4612,6 @@ export namespace Prisma {
 
 
   /**
-   * Model EmojiSession
-   */
-
-  export type AggregateEmojiSession = {
-    _count: EmojiSessionCountAggregateOutputType | null
-    _avg: EmojiSessionAvgAggregateOutputType | null
-    _sum: EmojiSessionSumAggregateOutputType | null
-    _min: EmojiSessionMinAggregateOutputType | null
-    _max: EmojiSessionMaxAggregateOutputType | null
-  }
-
-  export type EmojiSessionAvgAggregateOutputType = {
-    sentCount: number | null
-  }
-
-  export type EmojiSessionSumAggregateOutputType = {
-    sentCount: number | null
-  }
-
-  export type EmojiSessionMinAggregateOutputType = {
-    id: string | null
-    roomId: string | null
-    playerId: string | null
-    sentCount: number | null
-    createdAt: Date | null
-  }
-
-  export type EmojiSessionMaxAggregateOutputType = {
-    id: string | null
-    roomId: string | null
-    playerId: string | null
-    sentCount: number | null
-    createdAt: Date | null
-  }
-
-  export type EmojiSessionCountAggregateOutputType = {
-    id: number
-    roomId: number
-    playerId: number
-    sentCount: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type EmojiSessionAvgAggregateInputType = {
-    sentCount?: true
-  }
-
-  export type EmojiSessionSumAggregateInputType = {
-    sentCount?: true
-  }
-
-  export type EmojiSessionMinAggregateInputType = {
-    id?: true
-    roomId?: true
-    playerId?: true
-    sentCount?: true
-    createdAt?: true
-  }
-
-  export type EmojiSessionMaxAggregateInputType = {
-    id?: true
-    roomId?: true
-    playerId?: true
-    sentCount?: true
-    createdAt?: true
-  }
-
-  export type EmojiSessionCountAggregateInputType = {
-    id?: true
-    roomId?: true
-    playerId?: true
-    sentCount?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type EmojiSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which EmojiSession to aggregate.
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EmojiSessions to fetch.
-     */
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: EmojiSessionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EmojiSessions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EmojiSessions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned EmojiSessions
-    **/
-    _count?: true | EmojiSessionCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: EmojiSessionAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: EmojiSessionSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: EmojiSessionMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: EmojiSessionMaxAggregateInputType
-  }
-
-  export type GetEmojiSessionAggregateType<T extends EmojiSessionAggregateArgs> = {
-        [P in keyof T & keyof AggregateEmojiSession]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateEmojiSession[P]>
-      : GetScalarType<T[P], AggregateEmojiSession[P]>
-  }
-
-
-
-
-  export type EmojiSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EmojiSessionWhereInput
-    orderBy?: EmojiSessionOrderByWithAggregationInput | EmojiSessionOrderByWithAggregationInput[]
-    by: EmojiSessionScalarFieldEnum[] | EmojiSessionScalarFieldEnum
-    having?: EmojiSessionScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: EmojiSessionCountAggregateInputType | true
-    _avg?: EmojiSessionAvgAggregateInputType
-    _sum?: EmojiSessionSumAggregateInputType
-    _min?: EmojiSessionMinAggregateInputType
-    _max?: EmojiSessionMaxAggregateInputType
-  }
-
-  export type EmojiSessionGroupByOutputType = {
-    id: string
-    roomId: string
-    playerId: string
-    sentCount: number
-    createdAt: Date
-    _count: EmojiSessionCountAggregateOutputType | null
-    _avg: EmojiSessionAvgAggregateOutputType | null
-    _sum: EmojiSessionSumAggregateOutputType | null
-    _min: EmojiSessionMinAggregateOutputType | null
-    _max: EmojiSessionMaxAggregateOutputType | null
-  }
-
-  type GetEmojiSessionGroupByPayload<T extends EmojiSessionGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<EmojiSessionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof EmojiSessionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], EmojiSessionGroupByOutputType[P]>
-            : GetScalarType<T[P], EmojiSessionGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type EmojiSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    roomId?: boolean
-    playerId?: boolean
-    sentCount?: boolean
-    createdAt?: boolean
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-    reactions?: boolean | EmojiSession$reactionsArgs<ExtArgs>
-    _count?: boolean | EmojiSessionCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["emojiSession"]>
-
-  export type EmojiSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    roomId?: boolean
-    playerId?: boolean
-    sentCount?: boolean
-    createdAt?: boolean
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["emojiSession"]>
-
-  export type EmojiSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    roomId?: boolean
-    playerId?: boolean
-    sentCount?: boolean
-    createdAt?: boolean
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["emojiSession"]>
-
-  export type EmojiSessionSelectScalar = {
-    id?: boolean
-    roomId?: boolean
-    playerId?: boolean
-    sentCount?: boolean
-    createdAt?: boolean
-  }
-
-  export type EmojiSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "playerId" | "sentCount" | "createdAt", ExtArgs["result"]["emojiSession"]>
-  export type EmojiSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-    reactions?: boolean | EmojiSession$reactionsArgs<ExtArgs>
-    _count?: boolean | EmojiSessionCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type EmojiSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-  }
-  export type EmojiSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    room?: boolean | RoomDefaultArgs<ExtArgs>
-    player?: boolean | PlayerDefaultArgs<ExtArgs>
-  }
-
-  export type $EmojiSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "EmojiSession"
-    objects: {
-      room: Prisma.$RoomPayload<ExtArgs>
-      player: Prisma.$PlayerPayload<ExtArgs>
-      reactions: Prisma.$RoomEmojiPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      roomId: string
-      playerId: string
-      sentCount: number
-      createdAt: Date
-    }, ExtArgs["result"]["emojiSession"]>
-    composites: {}
-  }
-
-  type EmojiSessionGetPayload<S extends boolean | null | undefined | EmojiSessionDefaultArgs> = $Result.GetResult<Prisma.$EmojiSessionPayload, S>
-
-  type EmojiSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<EmojiSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: EmojiSessionCountAggregateInputType | true
-    }
-
-  export interface EmojiSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmojiSession'], meta: { name: 'EmojiSession' } }
-    /**
-     * Find zero or one EmojiSession that matches the filter.
-     * @param {EmojiSessionFindUniqueArgs} args - Arguments to find a EmojiSession
-     * @example
-     * // Get one EmojiSession
-     * const emojiSession = await prisma.emojiSession.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends EmojiSessionFindUniqueArgs>(args: SelectSubset<T, EmojiSessionFindUniqueArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one EmojiSession that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {EmojiSessionFindUniqueOrThrowArgs} args - Arguments to find a EmojiSession
-     * @example
-     * // Get one EmojiSession
-     * const emojiSession = await prisma.emojiSession.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends EmojiSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, EmojiSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first EmojiSession that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionFindFirstArgs} args - Arguments to find a EmojiSession
-     * @example
-     * // Get one EmojiSession
-     * const emojiSession = await prisma.emojiSession.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends EmojiSessionFindFirstArgs>(args?: SelectSubset<T, EmojiSessionFindFirstArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first EmojiSession that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionFindFirstOrThrowArgs} args - Arguments to find a EmojiSession
-     * @example
-     * // Get one EmojiSession
-     * const emojiSession = await prisma.emojiSession.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends EmojiSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, EmojiSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more EmojiSessions that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all EmojiSessions
-     * const emojiSessions = await prisma.emojiSession.findMany()
-     * 
-     * // Get first 10 EmojiSessions
-     * const emojiSessions = await prisma.emojiSession.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const emojiSessionWithIdOnly = await prisma.emojiSession.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends EmojiSessionFindManyArgs>(args?: SelectSubset<T, EmojiSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a EmojiSession.
-     * @param {EmojiSessionCreateArgs} args - Arguments to create a EmojiSession.
-     * @example
-     * // Create one EmojiSession
-     * const EmojiSession = await prisma.emojiSession.create({
-     *   data: {
-     *     // ... data to create a EmojiSession
-     *   }
-     * })
-     * 
-     */
-    create<T extends EmojiSessionCreateArgs>(args: SelectSubset<T, EmojiSessionCreateArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many EmojiSessions.
-     * @param {EmojiSessionCreateManyArgs} args - Arguments to create many EmojiSessions.
-     * @example
-     * // Create many EmojiSessions
-     * const emojiSession = await prisma.emojiSession.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends EmojiSessionCreateManyArgs>(args?: SelectSubset<T, EmojiSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many EmojiSessions and returns the data saved in the database.
-     * @param {EmojiSessionCreateManyAndReturnArgs} args - Arguments to create many EmojiSessions.
-     * @example
-     * // Create many EmojiSessions
-     * const emojiSession = await prisma.emojiSession.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many EmojiSessions and only return the `id`
-     * const emojiSessionWithIdOnly = await prisma.emojiSession.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends EmojiSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, EmojiSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a EmojiSession.
-     * @param {EmojiSessionDeleteArgs} args - Arguments to delete one EmojiSession.
-     * @example
-     * // Delete one EmojiSession
-     * const EmojiSession = await prisma.emojiSession.delete({
-     *   where: {
-     *     // ... filter to delete one EmojiSession
-     *   }
-     * })
-     * 
-     */
-    delete<T extends EmojiSessionDeleteArgs>(args: SelectSubset<T, EmojiSessionDeleteArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one EmojiSession.
-     * @param {EmojiSessionUpdateArgs} args - Arguments to update one EmojiSession.
-     * @example
-     * // Update one EmojiSession
-     * const emojiSession = await prisma.emojiSession.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends EmojiSessionUpdateArgs>(args: SelectSubset<T, EmojiSessionUpdateArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more EmojiSessions.
-     * @param {EmojiSessionDeleteManyArgs} args - Arguments to filter EmojiSessions to delete.
-     * @example
-     * // Delete a few EmojiSessions
-     * const { count } = await prisma.emojiSession.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends EmojiSessionDeleteManyArgs>(args?: SelectSubset<T, EmojiSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more EmojiSessions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many EmojiSessions
-     * const emojiSession = await prisma.emojiSession.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends EmojiSessionUpdateManyArgs>(args: SelectSubset<T, EmojiSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more EmojiSessions and returns the data updated in the database.
-     * @param {EmojiSessionUpdateManyAndReturnArgs} args - Arguments to update many EmojiSessions.
-     * @example
-     * // Update many EmojiSessions
-     * const emojiSession = await prisma.emojiSession.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more EmojiSessions and only return the `id`
-     * const emojiSessionWithIdOnly = await prisma.emojiSession.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends EmojiSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, EmojiSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one EmojiSession.
-     * @param {EmojiSessionUpsertArgs} args - Arguments to update or create a EmojiSession.
-     * @example
-     * // Update or create a EmojiSession
-     * const emojiSession = await prisma.emojiSession.upsert({
-     *   create: {
-     *     // ... data to create a EmojiSession
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the EmojiSession we want to update
-     *   }
-     * })
-     */
-    upsert<T extends EmojiSessionUpsertArgs>(args: SelectSubset<T, EmojiSessionUpsertArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of EmojiSessions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionCountArgs} args - Arguments to filter EmojiSessions to count.
-     * @example
-     * // Count the number of EmojiSessions
-     * const count = await prisma.emojiSession.count({
-     *   where: {
-     *     // ... the filter for the EmojiSessions we want to count
-     *   }
-     * })
-    **/
-    count<T extends EmojiSessionCountArgs>(
-      args?: Subset<T, EmojiSessionCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], EmojiSessionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a EmojiSession.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends EmojiSessionAggregateArgs>(args: Subset<T, EmojiSessionAggregateArgs>): Prisma.PrismaPromise<GetEmojiSessionAggregateType<T>>
-
-    /**
-     * Group by EmojiSession.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmojiSessionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends EmojiSessionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: EmojiSessionGroupByArgs['orderBy'] }
-        : { orderBy?: EmojiSessionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, EmojiSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmojiSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the EmojiSession model
-   */
-  readonly fields: EmojiSessionFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for EmojiSession.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__EmojiSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    player<T extends PlayerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlayerDefaultArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    reactions<T extends EmojiSession$reactionsArgs<ExtArgs> = {}>(args?: Subset<T, EmojiSession$reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the EmojiSession model
-   */
-  interface EmojiSessionFieldRefs {
-    readonly id: FieldRef<"EmojiSession", 'String'>
-    readonly roomId: FieldRef<"EmojiSession", 'String'>
-    readonly playerId: FieldRef<"EmojiSession", 'String'>
-    readonly sentCount: FieldRef<"EmojiSession", 'Int'>
-    readonly createdAt: FieldRef<"EmojiSession", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * EmojiSession findUnique
-   */
-  export type EmojiSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter, which EmojiSession to fetch.
-     */
-    where: EmojiSessionWhereUniqueInput
-  }
-
-  /**
-   * EmojiSession findUniqueOrThrow
-   */
-  export type EmojiSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter, which EmojiSession to fetch.
-     */
-    where: EmojiSessionWhereUniqueInput
-  }
-
-  /**
-   * EmojiSession findFirst
-   */
-  export type EmojiSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter, which EmojiSession to fetch.
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EmojiSessions to fetch.
-     */
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for EmojiSessions.
-     */
-    cursor?: EmojiSessionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EmojiSessions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EmojiSessions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of EmojiSessions.
-     */
-    distinct?: EmojiSessionScalarFieldEnum | EmojiSessionScalarFieldEnum[]
-  }
-
-  /**
-   * EmojiSession findFirstOrThrow
-   */
-  export type EmojiSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter, which EmojiSession to fetch.
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EmojiSessions to fetch.
-     */
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for EmojiSessions.
-     */
-    cursor?: EmojiSessionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EmojiSessions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EmojiSessions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of EmojiSessions.
-     */
-    distinct?: EmojiSessionScalarFieldEnum | EmojiSessionScalarFieldEnum[]
-  }
-
-  /**
-   * EmojiSession findMany
-   */
-  export type EmojiSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter, which EmojiSessions to fetch.
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EmojiSessions to fetch.
-     */
-    orderBy?: EmojiSessionOrderByWithRelationInput | EmojiSessionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing EmojiSessions.
-     */
-    cursor?: EmojiSessionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EmojiSessions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EmojiSessions.
-     */
-    skip?: number
-    distinct?: EmojiSessionScalarFieldEnum | EmojiSessionScalarFieldEnum[]
-  }
-
-  /**
-   * EmojiSession create
-   */
-  export type EmojiSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * The data needed to create a EmojiSession.
-     */
-    data: XOR<EmojiSessionCreateInput, EmojiSessionUncheckedCreateInput>
-  }
-
-  /**
-   * EmojiSession createMany
-   */
-  export type EmojiSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many EmojiSessions.
-     */
-    data: EmojiSessionCreateManyInput | EmojiSessionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * EmojiSession createManyAndReturn
-   */
-  export type EmojiSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * The data used to create many EmojiSessions.
-     */
-    data: EmojiSessionCreateManyInput | EmojiSessionCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * EmojiSession update
-   */
-  export type EmojiSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * The data needed to update a EmojiSession.
-     */
-    data: XOR<EmojiSessionUpdateInput, EmojiSessionUncheckedUpdateInput>
-    /**
-     * Choose, which EmojiSession to update.
-     */
-    where: EmojiSessionWhereUniqueInput
-  }
-
-  /**
-   * EmojiSession updateMany
-   */
-  export type EmojiSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update EmojiSessions.
-     */
-    data: XOR<EmojiSessionUpdateManyMutationInput, EmojiSessionUncheckedUpdateManyInput>
-    /**
-     * Filter which EmojiSessions to update
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * Limit how many EmojiSessions to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * EmojiSession updateManyAndReturn
-   */
-  export type EmojiSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * The data used to update EmojiSessions.
-     */
-    data: XOR<EmojiSessionUpdateManyMutationInput, EmojiSessionUncheckedUpdateManyInput>
-    /**
-     * Filter which EmojiSessions to update
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * Limit how many EmojiSessions to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * EmojiSession upsert
-   */
-  export type EmojiSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * The filter to search for the EmojiSession to update in case it exists.
-     */
-    where: EmojiSessionWhereUniqueInput
-    /**
-     * In case the EmojiSession found by the `where` argument doesn't exist, create a new EmojiSession with this data.
-     */
-    create: XOR<EmojiSessionCreateInput, EmojiSessionUncheckedCreateInput>
-    /**
-     * In case the EmojiSession was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<EmojiSessionUpdateInput, EmojiSessionUncheckedUpdateInput>
-  }
-
-  /**
-   * EmojiSession delete
-   */
-  export type EmojiSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-    /**
-     * Filter which EmojiSession to delete.
-     */
-    where: EmojiSessionWhereUniqueInput
-  }
-
-  /**
-   * EmojiSession deleteMany
-   */
-  export type EmojiSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which EmojiSessions to delete
-     */
-    where?: EmojiSessionWhereInput
-    /**
-     * Limit how many EmojiSessions to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * EmojiSession.reactions
-   */
-  export type EmojiSession$reactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoomEmoji
-     */
-    select?: RoomEmojiSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the RoomEmoji
-     */
-    omit?: RoomEmojiOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RoomEmojiInclude<ExtArgs> | null
-    where?: RoomEmojiWhereInput
-    orderBy?: RoomEmojiOrderByWithRelationInput | RoomEmojiOrderByWithRelationInput[]
-    cursor?: RoomEmojiWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RoomEmojiScalarFieldEnum | RoomEmojiScalarFieldEnum[]
-  }
-
-  /**
-   * EmojiSession without action
-   */
-  export type EmojiSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EmojiSession
-     */
-    select?: EmojiSessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EmojiSession
-     */
-    omit?: EmojiSessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmojiSessionInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model RoomEmoji
    */
 
@@ -5858,21 +4623,24 @@ export namespace Prisma {
 
   export type RoomEmojiMinAggregateOutputType = {
     id: string | null
-    sessionId: string | null
+    roomId: string | null
+    playerId: string | null
     emoji: string | null
     createdAt: Date | null
   }
 
   export type RoomEmojiMaxAggregateOutputType = {
     id: string | null
-    sessionId: string | null
+    roomId: string | null
+    playerId: string | null
     emoji: string | null
     createdAt: Date | null
   }
 
   export type RoomEmojiCountAggregateOutputType = {
     id: number
-    sessionId: number
+    roomId: number
+    playerId: number
     emoji: number
     createdAt: number
     _all: number
@@ -5881,21 +4649,24 @@ export namespace Prisma {
 
   export type RoomEmojiMinAggregateInputType = {
     id?: true
-    sessionId?: true
+    roomId?: true
+    playerId?: true
     emoji?: true
     createdAt?: true
   }
 
   export type RoomEmojiMaxAggregateInputType = {
     id?: true
-    sessionId?: true
+    roomId?: true
+    playerId?: true
     emoji?: true
     createdAt?: true
   }
 
   export type RoomEmojiCountAggregateInputType = {
     id?: true
-    sessionId?: true
+    roomId?: true
+    playerId?: true
     emoji?: true
     createdAt?: true
     _all?: true
@@ -5975,7 +4746,8 @@ export namespace Prisma {
 
   export type RoomEmojiGroupByOutputType = {
     id: string
-    sessionId: string
+    roomId: string
+    playerId: string
     emoji: string
     createdAt: Date
     _count: RoomEmojiCountAggregateOutputType | null
@@ -5999,54 +4771,66 @@ export namespace Prisma {
 
   export type RoomEmojiSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
+    roomId?: boolean
+    playerId?: boolean
     emoji?: boolean
     createdAt?: boolean
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomEmoji"]>
 
   export type RoomEmojiSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
+    roomId?: boolean
+    playerId?: boolean
     emoji?: boolean
     createdAt?: boolean
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomEmoji"]>
 
   export type RoomEmojiSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
+    roomId?: boolean
+    playerId?: boolean
     emoji?: boolean
     createdAt?: boolean
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomEmoji"]>
 
   export type RoomEmojiSelectScalar = {
     id?: boolean
-    sessionId?: boolean
+    roomId?: boolean
+    playerId?: boolean
     emoji?: boolean
     createdAt?: boolean
   }
 
-  export type RoomEmojiOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionId" | "emoji" | "createdAt", ExtArgs["result"]["roomEmoji"]>
+  export type RoomEmojiOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "playerId" | "emoji" | "createdAt", ExtArgs["result"]["roomEmoji"]>
   export type RoomEmojiInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }
   export type RoomEmojiIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }
   export type RoomEmojiIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | EmojiSessionDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
   }
 
   export type $RoomEmojiPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RoomEmoji"
     objects: {
-      session: Prisma.$EmojiSessionPayload<ExtArgs>
+      room: Prisma.$RoomPayload<ExtArgs>
+      player: Prisma.$PlayerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      sessionId: string
+      roomId: string
+      playerId: string
       emoji: string
       createdAt: Date
     }, ExtArgs["result"]["roomEmoji"]>
@@ -6443,7 +5227,8 @@ export namespace Prisma {
    */
   export interface Prisma__RoomEmojiClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    session<T extends EmojiSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmojiSessionDefaultArgs<ExtArgs>>): Prisma__EmojiSessionClient<$Result.GetResult<Prisma.$EmojiSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    player<T extends PlayerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlayerDefaultArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6474,7 +5259,8 @@ export namespace Prisma {
    */
   interface RoomEmojiFieldRefs {
     readonly id: FieldRef<"RoomEmoji", 'String'>
-    readonly sessionId: FieldRef<"RoomEmoji", 'String'>
+    readonly roomId: FieldRef<"RoomEmoji", 'String'>
+    readonly playerId: FieldRef<"RoomEmoji", 'String'>
     readonly emoji: FieldRef<"RoomEmoji", 'String'>
     readonly createdAt: FieldRef<"RoomEmoji", 'DateTime'>
   }
@@ -6922,7 +5708,8 @@ export namespace Prisma {
     PlayersCanEditPoints: 'PlayersCanEditPoints',
     PlayersCanEditName: 'PlayersCanEditName',
     EmojisEnabled: 'EmojisEnabled',
-    EmojiLimit: 'EmojiLimit'
+    EmojiLimit: 'EmojiLimit',
+    EmojiCooldown: 'EmojiCooldown'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -6939,20 +5726,10 @@ export namespace Prisma {
   export type PlayerScalarFieldEnum = (typeof PlayerScalarFieldEnum)[keyof typeof PlayerScalarFieldEnum]
 
 
-  export const EmojiSessionScalarFieldEnum: {
+  export const RoomEmojiScalarFieldEnum: {
     id: 'id',
     roomId: 'roomId',
     playerId: 'playerId',
-    sentCount: 'sentCount',
-    createdAt: 'createdAt'
-  };
-
-  export type EmojiSessionScalarFieldEnum = (typeof EmojiSessionScalarFieldEnum)[keyof typeof EmojiSessionScalarFieldEnum]
-
-
-  export const RoomEmojiScalarFieldEnum: {
-    id: 'id',
-    sessionId: 'sessionId',
     emoji: 'emoji',
     createdAt: 'createdAt'
   };
@@ -7112,9 +5889,10 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFilter<"Room"> | boolean
     EmojisEnabled?: BoolFilter<"Room"> | boolean
     EmojiLimit?: IntFilter<"Room"> | number
+    EmojiCooldown?: IntFilter<"Room"> | number
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
-    emojiSessions?: EmojiSessionListRelationFilter
+    emojis?: RoomEmojiListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -7126,9 +5904,10 @@ export namespace Prisma {
     PlayersCanEditName?: SortOrder
     EmojisEnabled?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
     owner?: UserOrderByWithRelationInput
     players?: PlayerOrderByRelationAggregateInput
-    emojiSessions?: EmojiSessionOrderByRelationAggregateInput
+    emojis?: RoomEmojiOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -7143,9 +5922,10 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFilter<"Room"> | boolean
     EmojisEnabled?: BoolFilter<"Room"> | boolean
     EmojiLimit?: IntFilter<"Room"> | number
+    EmojiCooldown?: IntFilter<"Room"> | number
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
-    emojiSessions?: EmojiSessionListRelationFilter
+    emojis?: RoomEmojiListRelationFilter
   }, "id">
 
   export type RoomOrderByWithAggregationInput = {
@@ -7157,6 +5937,7 @@ export namespace Prisma {
     PlayersCanEditName?: SortOrder
     EmojisEnabled?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
@@ -7176,6 +5957,7 @@ export namespace Prisma {
     PlayersCanEditName?: BoolWithAggregatesFilter<"Room"> | boolean
     EmojisEnabled?: BoolWithAggregatesFilter<"Room"> | boolean
     EmojiLimit?: IntWithAggregatesFilter<"Room"> | number
+    EmojiCooldown?: IntWithAggregatesFilter<"Room"> | number
   }
 
   export type PlayerWhereInput = {
@@ -7188,7 +5970,7 @@ export namespace Prisma {
     roomId?: StringFilter<"Player"> | string
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    emojiSessions?: EmojiSessionListRelationFilter
+    emojis?: RoomEmojiListRelationFilter
   }
 
   export type PlayerOrderByWithRelationInput = {
@@ -7198,7 +5980,7 @@ export namespace Prisma {
     roomId?: SortOrder
     points?: SortOrder
     room?: RoomOrderByWithRelationInput
-    emojiSessions?: EmojiSessionOrderByRelationAggregateInput
+    emojis?: RoomEmojiOrderByRelationAggregateInput
   }
 
   export type PlayerWhereUniqueInput = Prisma.AtLeast<{
@@ -7211,7 +5993,7 @@ export namespace Prisma {
     roomId?: StringFilter<"Player"> | string
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    emojiSessions?: EmojiSessionListRelationFilter
+    emojis?: RoomEmojiListRelationFilter
   }, "id">
 
   export type PlayerOrderByWithAggregationInput = {
@@ -7238,86 +6020,27 @@ export namespace Prisma {
     points?: IntWithAggregatesFilter<"Player"> | number
   }
 
-  export type EmojiSessionWhereInput = {
-    AND?: EmojiSessionWhereInput | EmojiSessionWhereInput[]
-    OR?: EmojiSessionWhereInput[]
-    NOT?: EmojiSessionWhereInput | EmojiSessionWhereInput[]
-    id?: StringFilter<"EmojiSession"> | string
-    roomId?: StringFilter<"EmojiSession"> | string
-    playerId?: StringFilter<"EmojiSession"> | string
-    sentCount?: IntFilter<"EmojiSession"> | number
-    createdAt?: DateTimeFilter<"EmojiSession"> | Date | string
-    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
-    reactions?: RoomEmojiListRelationFilter
-  }
-
-  export type EmojiSessionOrderByWithRelationInput = {
-    id?: SortOrder
-    roomId?: SortOrder
-    playerId?: SortOrder
-    sentCount?: SortOrder
-    createdAt?: SortOrder
-    room?: RoomOrderByWithRelationInput
-    player?: PlayerOrderByWithRelationInput
-    reactions?: RoomEmojiOrderByRelationAggregateInput
-  }
-
-  export type EmojiSessionWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: EmojiSessionWhereInput | EmojiSessionWhereInput[]
-    OR?: EmojiSessionWhereInput[]
-    NOT?: EmojiSessionWhereInput | EmojiSessionWhereInput[]
-    roomId?: StringFilter<"EmojiSession"> | string
-    playerId?: StringFilter<"EmojiSession"> | string
-    sentCount?: IntFilter<"EmojiSession"> | number
-    createdAt?: DateTimeFilter<"EmojiSession"> | Date | string
-    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
-    reactions?: RoomEmojiListRelationFilter
-  }, "id">
-
-  export type EmojiSessionOrderByWithAggregationInput = {
-    id?: SortOrder
-    roomId?: SortOrder
-    playerId?: SortOrder
-    sentCount?: SortOrder
-    createdAt?: SortOrder
-    _count?: EmojiSessionCountOrderByAggregateInput
-    _avg?: EmojiSessionAvgOrderByAggregateInput
-    _max?: EmojiSessionMaxOrderByAggregateInput
-    _min?: EmojiSessionMinOrderByAggregateInput
-    _sum?: EmojiSessionSumOrderByAggregateInput
-  }
-
-  export type EmojiSessionScalarWhereWithAggregatesInput = {
-    AND?: EmojiSessionScalarWhereWithAggregatesInput | EmojiSessionScalarWhereWithAggregatesInput[]
-    OR?: EmojiSessionScalarWhereWithAggregatesInput[]
-    NOT?: EmojiSessionScalarWhereWithAggregatesInput | EmojiSessionScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"EmojiSession"> | string
-    roomId?: StringWithAggregatesFilter<"EmojiSession"> | string
-    playerId?: StringWithAggregatesFilter<"EmojiSession"> | string
-    sentCount?: IntWithAggregatesFilter<"EmojiSession"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"EmojiSession"> | Date | string
-  }
-
   export type RoomEmojiWhereInput = {
     AND?: RoomEmojiWhereInput | RoomEmojiWhereInput[]
     OR?: RoomEmojiWhereInput[]
     NOT?: RoomEmojiWhereInput | RoomEmojiWhereInput[]
     id?: StringFilter<"RoomEmoji"> | string
-    sessionId?: StringFilter<"RoomEmoji"> | string
+    roomId?: StringFilter<"RoomEmoji"> | string
+    playerId?: StringFilter<"RoomEmoji"> | string
     emoji?: StringFilter<"RoomEmoji"> | string
     createdAt?: DateTimeFilter<"RoomEmoji"> | Date | string
-    session?: XOR<EmojiSessionScalarRelationFilter, EmojiSessionWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
   }
 
   export type RoomEmojiOrderByWithRelationInput = {
     id?: SortOrder
-    sessionId?: SortOrder
+    roomId?: SortOrder
+    playerId?: SortOrder
     emoji?: SortOrder
     createdAt?: SortOrder
-    session?: EmojiSessionOrderByWithRelationInput
+    room?: RoomOrderByWithRelationInput
+    player?: PlayerOrderByWithRelationInput
   }
 
   export type RoomEmojiWhereUniqueInput = Prisma.AtLeast<{
@@ -7325,15 +6048,18 @@ export namespace Prisma {
     AND?: RoomEmojiWhereInput | RoomEmojiWhereInput[]
     OR?: RoomEmojiWhereInput[]
     NOT?: RoomEmojiWhereInput | RoomEmojiWhereInput[]
-    sessionId?: StringFilter<"RoomEmoji"> | string
+    roomId?: StringFilter<"RoomEmoji"> | string
+    playerId?: StringFilter<"RoomEmoji"> | string
     emoji?: StringFilter<"RoomEmoji"> | string
     createdAt?: DateTimeFilter<"RoomEmoji"> | Date | string
-    session?: XOR<EmojiSessionScalarRelationFilter, EmojiSessionWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
   }, "id">
 
   export type RoomEmojiOrderByWithAggregationInput = {
     id?: SortOrder
-    sessionId?: SortOrder
+    roomId?: SortOrder
+    playerId?: SortOrder
     emoji?: SortOrder
     createdAt?: SortOrder
     _count?: RoomEmojiCountOrderByAggregateInput
@@ -7346,7 +6072,8 @@ export namespace Prisma {
     OR?: RoomEmojiScalarWhereWithAggregatesInput[]
     NOT?: RoomEmojiScalarWhereWithAggregatesInput | RoomEmojiScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RoomEmoji"> | string
-    sessionId?: StringWithAggregatesFilter<"RoomEmoji"> | string
+    roomId?: StringWithAggregatesFilter<"RoomEmoji"> | string
+    playerId?: StringWithAggregatesFilter<"RoomEmoji"> | string
     emoji?: StringWithAggregatesFilter<"RoomEmoji"> | string
     createdAt?: DateTimeWithAggregatesFilter<"RoomEmoji"> | Date | string
   }
@@ -7405,9 +6132,10 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     owner: UserCreateNestedOneWithoutRoomsInput
     players?: PlayerCreateNestedManyWithoutRoomInput
-    emojiSessions?: EmojiSessionCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -7419,8 +6147,9 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
-    emojiSessions?: EmojiSessionUncheckedCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -7431,9 +6160,10 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     players?: PlayerUpdateManyWithoutRoomNestedInput
-    emojiSessions?: EmojiSessionUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -7445,8 +6175,9 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
-    emojiSessions?: EmojiSessionUncheckedUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -7458,6 +6189,7 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
   }
 
   export type RoomUpdateManyMutationInput = {
@@ -7468,6 +6200,7 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
   }
 
   export type RoomUncheckedUpdateManyInput = {
@@ -7479,6 +6212,7 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlayerCreateInput = {
@@ -7487,7 +6221,7 @@ export namespace Prisma {
     avatar?: string | null
     points?: number
     room: RoomCreateNestedOneWithoutPlayersInput
-    emojiSessions?: EmojiSessionCreateNestedManyWithoutPlayerInput
+    emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUncheckedCreateInput = {
@@ -7496,7 +6230,7 @@ export namespace Prisma {
     avatar?: string | null
     roomId: string
     points?: number
-    emojiSessions?: EmojiSessionUncheckedCreateNestedManyWithoutPlayerInput
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUpdateInput = {
@@ -7505,7 +6239,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
-    emojiSessions?: EmojiSessionUpdateManyWithoutPlayerNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateInput = {
@@ -7514,7 +6248,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
-    emojiSessions?: EmojiSessionUncheckedUpdateManyWithoutPlayerNestedInput
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerCreateManyInput = {
@@ -7540,74 +6274,18 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
   }
 
-  export type EmojiSessionCreateInput = {
-    id?: string
-    sentCount?: number
-    createdAt?: Date | string
-    room: RoomCreateNestedOneWithoutEmojiSessionsInput
-    player: PlayerCreateNestedOneWithoutEmojiSessionsInput
-    reactions?: RoomEmojiCreateNestedManyWithoutSessionInput
-  }
-
-  export type EmojiSessionUncheckedCreateInput = {
-    id?: string
-    roomId: string
-    playerId: string
-    sentCount?: number
-    createdAt?: Date | string
-    reactions?: RoomEmojiUncheckedCreateNestedManyWithoutSessionInput
-  }
-
-  export type EmojiSessionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    room?: RoomUpdateOneRequiredWithoutEmojiSessionsNestedInput
-    player?: PlayerUpdateOneRequiredWithoutEmojiSessionsNestedInput
-    reactions?: RoomEmojiUpdateManyWithoutSessionNestedInput
-  }
-
-  export type EmojiSessionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    roomId?: StringFieldUpdateOperationsInput | string
-    playerId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reactions?: RoomEmojiUncheckedUpdateManyWithoutSessionNestedInput
-  }
-
-  export type EmojiSessionCreateManyInput = {
-    id?: string
-    roomId: string
-    playerId: string
-    sentCount?: number
-    createdAt?: Date | string
-  }
-
-  export type EmojiSessionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type EmojiSessionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    roomId?: StringFieldUpdateOperationsInput | string
-    playerId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type RoomEmojiCreateInput = {
     id?: string
     emoji: string
     createdAt?: Date | string
-    session: EmojiSessionCreateNestedOneWithoutReactionsInput
+    room: RoomCreateNestedOneWithoutEmojisInput
+    player: PlayerCreateNestedOneWithoutEmojisInput
   }
 
   export type RoomEmojiUncheckedCreateInput = {
     id?: string
-    sessionId: string
+    roomId: string
+    playerId: string
     emoji: string
     createdAt?: Date | string
   }
@@ -7616,19 +6294,22 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    session?: EmojiSessionUpdateOneRequiredWithoutReactionsNestedInput
+    room?: RoomUpdateOneRequiredWithoutEmojisNestedInput
+    player?: PlayerUpdateOneRequiredWithoutEmojisNestedInput
   }
 
   export type RoomEmojiUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomEmojiCreateManyInput = {
     id?: string
-    sessionId: string
+    roomId: string
+    playerId: string
     emoji: string
     createdAt?: Date | string
   }
@@ -7641,7 +6322,8 @@ export namespace Prisma {
 
   export type RoomEmojiUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7734,17 +6416,17 @@ export namespace Prisma {
     none?: PlayerWhereInput
   }
 
-  export type EmojiSessionListRelationFilter = {
-    every?: EmojiSessionWhereInput
-    some?: EmojiSessionWhereInput
-    none?: EmojiSessionWhereInput
+  export type RoomEmojiListRelationFilter = {
+    every?: RoomEmojiWhereInput
+    some?: RoomEmojiWhereInput
+    none?: RoomEmojiWhereInput
   }
 
   export type PlayerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type EmojiSessionOrderByRelationAggregateInput = {
+  export type RoomEmojiOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7757,11 +6439,13 @@ export namespace Prisma {
     PlayersCanEditName?: SortOrder
     EmojisEnabled?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
   }
 
   export type RoomAvgOrderByAggregateInput = {
     PlayerLimit?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
   }
 
   export type RoomMaxOrderByAggregateInput = {
@@ -7773,6 +6457,7 @@ export namespace Prisma {
     PlayersCanEditName?: SortOrder
     EmojisEnabled?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
   }
 
   export type RoomMinOrderByAggregateInput = {
@@ -7784,11 +6469,13 @@ export namespace Prisma {
     PlayersCanEditName?: SortOrder
     EmojisEnabled?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
   }
 
   export type RoomSumOrderByAggregateInput = {
     PlayerLimit?: SortOrder
     EmojiLimit?: SortOrder
+    EmojiCooldown?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7906,46 +6593,28 @@ export namespace Prisma {
     isNot?: PlayerWhereInput
   }
 
-  export type RoomEmojiListRelationFilter = {
-    every?: RoomEmojiWhereInput
-    some?: RoomEmojiWhereInput
-    none?: RoomEmojiWhereInput
-  }
-
-  export type RoomEmojiOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type EmojiSessionCountOrderByAggregateInput = {
+  export type RoomEmojiCountOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
     playerId?: SortOrder
-    sentCount?: SortOrder
+    emoji?: SortOrder
     createdAt?: SortOrder
   }
 
-  export type EmojiSessionAvgOrderByAggregateInput = {
-    sentCount?: SortOrder
-  }
-
-  export type EmojiSessionMaxOrderByAggregateInput = {
+  export type RoomEmojiMaxOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
     playerId?: SortOrder
-    sentCount?: SortOrder
+    emoji?: SortOrder
     createdAt?: SortOrder
   }
 
-  export type EmojiSessionMinOrderByAggregateInput = {
+  export type RoomEmojiMinOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
     playerId?: SortOrder
-    sentCount?: SortOrder
+    emoji?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type EmojiSessionSumOrderByAggregateInput = {
-    sentCount?: SortOrder
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -7960,32 +6629,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type EmojiSessionScalarRelationFilter = {
-    is?: EmojiSessionWhereInput
-    isNot?: EmojiSessionWhereInput
-  }
-
-  export type RoomEmojiCountOrderByAggregateInput = {
-    id?: SortOrder
-    sessionId?: SortOrder
-    emoji?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RoomEmojiMaxOrderByAggregateInput = {
-    id?: SortOrder
-    sessionId?: SortOrder
-    emoji?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RoomEmojiMinOrderByAggregateInput = {
-    id?: SortOrder
-    sessionId?: SortOrder
-    emoji?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type RoomCreateNestedManyWithoutOwnerInput = {
@@ -8047,11 +6690,11 @@ export namespace Prisma {
     connect?: PlayerWhereUniqueInput | PlayerWhereUniqueInput[]
   }
 
-  export type EmojiSessionCreateNestedManyWithoutRoomInput = {
-    create?: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput> | EmojiSessionCreateWithoutRoomInput[] | EmojiSessionUncheckedCreateWithoutRoomInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutRoomInput | EmojiSessionCreateOrConnectWithoutRoomInput[]
-    createMany?: EmojiSessionCreateManyRoomInputEnvelope
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
+  export type RoomEmojiCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput> | RoomEmojiCreateWithoutRoomInput[] | RoomEmojiUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutRoomInput | RoomEmojiCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomEmojiCreateManyRoomInputEnvelope
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
   export type PlayerUncheckedCreateNestedManyWithoutRoomInput = {
@@ -8061,11 +6704,11 @@ export namespace Prisma {
     connect?: PlayerWhereUniqueInput | PlayerWhereUniqueInput[]
   }
 
-  export type EmojiSessionUncheckedCreateNestedManyWithoutRoomInput = {
-    create?: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput> | EmojiSessionCreateWithoutRoomInput[] | EmojiSessionUncheckedCreateWithoutRoomInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutRoomInput | EmojiSessionCreateOrConnectWithoutRoomInput[]
-    createMany?: EmojiSessionCreateManyRoomInputEnvelope
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
+  export type RoomEmojiUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput> | RoomEmojiCreateWithoutRoomInput[] | RoomEmojiUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutRoomInput | RoomEmojiCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomEmojiCreateManyRoomInputEnvelope
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -8102,18 +6745,18 @@ export namespace Prisma {
     deleteMany?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
   }
 
-  export type EmojiSessionUpdateManyWithoutRoomNestedInput = {
-    create?: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput> | EmojiSessionCreateWithoutRoomInput[] | EmojiSessionUncheckedCreateWithoutRoomInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutRoomInput | EmojiSessionCreateOrConnectWithoutRoomInput[]
-    upsert?: EmojiSessionUpsertWithWhereUniqueWithoutRoomInput | EmojiSessionUpsertWithWhereUniqueWithoutRoomInput[]
-    createMany?: EmojiSessionCreateManyRoomInputEnvelope
-    set?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    disconnect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    delete?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    update?: EmojiSessionUpdateWithWhereUniqueWithoutRoomInput | EmojiSessionUpdateWithWhereUniqueWithoutRoomInput[]
-    updateMany?: EmojiSessionUpdateManyWithWhereWithoutRoomInput | EmojiSessionUpdateManyWithWhereWithoutRoomInput[]
-    deleteMany?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
+  export type RoomEmojiUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput> | RoomEmojiCreateWithoutRoomInput[] | RoomEmojiUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutRoomInput | RoomEmojiCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutRoomInput | RoomEmojiUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomEmojiCreateManyRoomInputEnvelope
+    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    update?: RoomEmojiUpdateWithWhereUniqueWithoutRoomInput | RoomEmojiUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomEmojiUpdateManyWithWhereWithoutRoomInput | RoomEmojiUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
   export type PlayerUncheckedUpdateManyWithoutRoomNestedInput = {
@@ -8130,18 +6773,18 @@ export namespace Prisma {
     deleteMany?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
   }
 
-  export type EmojiSessionUncheckedUpdateManyWithoutRoomNestedInput = {
-    create?: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput> | EmojiSessionCreateWithoutRoomInput[] | EmojiSessionUncheckedCreateWithoutRoomInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutRoomInput | EmojiSessionCreateOrConnectWithoutRoomInput[]
-    upsert?: EmojiSessionUpsertWithWhereUniqueWithoutRoomInput | EmojiSessionUpsertWithWhereUniqueWithoutRoomInput[]
-    createMany?: EmojiSessionCreateManyRoomInputEnvelope
-    set?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    disconnect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    delete?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    update?: EmojiSessionUpdateWithWhereUniqueWithoutRoomInput | EmojiSessionUpdateWithWhereUniqueWithoutRoomInput[]
-    updateMany?: EmojiSessionUpdateManyWithWhereWithoutRoomInput | EmojiSessionUpdateManyWithWhereWithoutRoomInput[]
-    deleteMany?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
+  export type RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput> | RoomEmojiCreateWithoutRoomInput[] | RoomEmojiUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutRoomInput | RoomEmojiCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutRoomInput | RoomEmojiUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomEmojiCreateManyRoomInputEnvelope
+    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    update?: RoomEmojiUpdateWithWhereUniqueWithoutRoomInput | RoomEmojiUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomEmojiUpdateManyWithWhereWithoutRoomInput | RoomEmojiUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
   export type RoomCreateNestedOneWithoutPlayersInput = {
@@ -8150,18 +6793,18 @@ export namespace Prisma {
     connect?: RoomWhereUniqueInput
   }
 
-  export type EmojiSessionCreateNestedManyWithoutPlayerInput = {
-    create?: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput> | EmojiSessionCreateWithoutPlayerInput[] | EmojiSessionUncheckedCreateWithoutPlayerInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutPlayerInput | EmojiSessionCreateOrConnectWithoutPlayerInput[]
-    createMany?: EmojiSessionCreateManyPlayerInputEnvelope
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
+  export type RoomEmojiCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
+    createMany?: RoomEmojiCreateManyPlayerInputEnvelope
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
-  export type EmojiSessionUncheckedCreateNestedManyWithoutPlayerInput = {
-    create?: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput> | EmojiSessionCreateWithoutPlayerInput[] | EmojiSessionUncheckedCreateWithoutPlayerInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutPlayerInput | EmojiSessionCreateOrConnectWithoutPlayerInput[]
-    createMany?: EmojiSessionCreateManyPlayerInputEnvelope
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
+  export type RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
+    createMany?: RoomEmojiCreateManyPlayerInputEnvelope
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -8176,120 +6819,64 @@ export namespace Prisma {
     update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutPlayersInput, RoomUpdateWithoutPlayersInput>, RoomUncheckedUpdateWithoutPlayersInput>
   }
 
-  export type EmojiSessionUpdateManyWithoutPlayerNestedInput = {
-    create?: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput> | EmojiSessionCreateWithoutPlayerInput[] | EmojiSessionUncheckedCreateWithoutPlayerInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutPlayerInput | EmojiSessionCreateOrConnectWithoutPlayerInput[]
-    upsert?: EmojiSessionUpsertWithWhereUniqueWithoutPlayerInput | EmojiSessionUpsertWithWhereUniqueWithoutPlayerInput[]
-    createMany?: EmojiSessionCreateManyPlayerInputEnvelope
-    set?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    disconnect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    delete?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    update?: EmojiSessionUpdateWithWhereUniqueWithoutPlayerInput | EmojiSessionUpdateWithWhereUniqueWithoutPlayerInput[]
-    updateMany?: EmojiSessionUpdateManyWithWhereWithoutPlayerInput | EmojiSessionUpdateManyWithWhereWithoutPlayerInput[]
-    deleteMany?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
+  export type RoomEmojiUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
+    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput | RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: RoomEmojiCreateManyPlayerInputEnvelope
+    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    update?: RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput | RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: RoomEmojiUpdateManyWithWhereWithoutPlayerInput | RoomEmojiUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
-  export type EmojiSessionUncheckedUpdateManyWithoutPlayerNestedInput = {
-    create?: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput> | EmojiSessionCreateWithoutPlayerInput[] | EmojiSessionUncheckedCreateWithoutPlayerInput[]
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutPlayerInput | EmojiSessionCreateOrConnectWithoutPlayerInput[]
-    upsert?: EmojiSessionUpsertWithWhereUniqueWithoutPlayerInput | EmojiSessionUpsertWithWhereUniqueWithoutPlayerInput[]
-    createMany?: EmojiSessionCreateManyPlayerInputEnvelope
-    set?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    disconnect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    delete?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    connect?: EmojiSessionWhereUniqueInput | EmojiSessionWhereUniqueInput[]
-    update?: EmojiSessionUpdateWithWhereUniqueWithoutPlayerInput | EmojiSessionUpdateWithWhereUniqueWithoutPlayerInput[]
-    updateMany?: EmojiSessionUpdateManyWithWhereWithoutPlayerInput | EmojiSessionUpdateManyWithWhereWithoutPlayerInput[]
-    deleteMany?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
+  export type RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
+    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput | RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: RoomEmojiCreateManyPlayerInputEnvelope
+    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+    update?: RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput | RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: RoomEmojiUpdateManyWithWhereWithoutPlayerInput | RoomEmojiUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
-  export type RoomCreateNestedOneWithoutEmojiSessionsInput = {
-    create?: XOR<RoomCreateWithoutEmojiSessionsInput, RoomUncheckedCreateWithoutEmojiSessionsInput>
-    connectOrCreate?: RoomCreateOrConnectWithoutEmojiSessionsInput
+  export type RoomCreateNestedOneWithoutEmojisInput = {
+    create?: XOR<RoomCreateWithoutEmojisInput, RoomUncheckedCreateWithoutEmojisInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutEmojisInput
     connect?: RoomWhereUniqueInput
   }
 
-  export type PlayerCreateNestedOneWithoutEmojiSessionsInput = {
-    create?: XOR<PlayerCreateWithoutEmojiSessionsInput, PlayerUncheckedCreateWithoutEmojiSessionsInput>
-    connectOrCreate?: PlayerCreateOrConnectWithoutEmojiSessionsInput
+  export type PlayerCreateNestedOneWithoutEmojisInput = {
+    create?: XOR<PlayerCreateWithoutEmojisInput, PlayerUncheckedCreateWithoutEmojisInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutEmojisInput
     connect?: PlayerWhereUniqueInput
-  }
-
-  export type RoomEmojiCreateNestedManyWithoutSessionInput = {
-    create?: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput> | RoomEmojiCreateWithoutSessionInput[] | RoomEmojiUncheckedCreateWithoutSessionInput[]
-    connectOrCreate?: RoomEmojiCreateOrConnectWithoutSessionInput | RoomEmojiCreateOrConnectWithoutSessionInput[]
-    createMany?: RoomEmojiCreateManySessionInputEnvelope
-    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-  }
-
-  export type RoomEmojiUncheckedCreateNestedManyWithoutSessionInput = {
-    create?: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput> | RoomEmojiCreateWithoutSessionInput[] | RoomEmojiUncheckedCreateWithoutSessionInput[]
-    connectOrCreate?: RoomEmojiCreateOrConnectWithoutSessionInput | RoomEmojiCreateOrConnectWithoutSessionInput[]
-    createMany?: RoomEmojiCreateManySessionInputEnvelope
-    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type RoomUpdateOneRequiredWithoutEmojiSessionsNestedInput = {
-    create?: XOR<RoomCreateWithoutEmojiSessionsInput, RoomUncheckedCreateWithoutEmojiSessionsInput>
-    connectOrCreate?: RoomCreateOrConnectWithoutEmojiSessionsInput
-    upsert?: RoomUpsertWithoutEmojiSessionsInput
+  export type RoomUpdateOneRequiredWithoutEmojisNestedInput = {
+    create?: XOR<RoomCreateWithoutEmojisInput, RoomUncheckedCreateWithoutEmojisInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutEmojisInput
+    upsert?: RoomUpsertWithoutEmojisInput
     connect?: RoomWhereUniqueInput
-    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutEmojiSessionsInput, RoomUpdateWithoutEmojiSessionsInput>, RoomUncheckedUpdateWithoutEmojiSessionsInput>
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutEmojisInput, RoomUpdateWithoutEmojisInput>, RoomUncheckedUpdateWithoutEmojisInput>
   }
 
-  export type PlayerUpdateOneRequiredWithoutEmojiSessionsNestedInput = {
-    create?: XOR<PlayerCreateWithoutEmojiSessionsInput, PlayerUncheckedCreateWithoutEmojiSessionsInput>
-    connectOrCreate?: PlayerCreateOrConnectWithoutEmojiSessionsInput
-    upsert?: PlayerUpsertWithoutEmojiSessionsInput
+  export type PlayerUpdateOneRequiredWithoutEmojisNestedInput = {
+    create?: XOR<PlayerCreateWithoutEmojisInput, PlayerUncheckedCreateWithoutEmojisInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutEmojisInput
+    upsert?: PlayerUpsertWithoutEmojisInput
     connect?: PlayerWhereUniqueInput
-    update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutEmojiSessionsInput, PlayerUpdateWithoutEmojiSessionsInput>, PlayerUncheckedUpdateWithoutEmojiSessionsInput>
-  }
-
-  export type RoomEmojiUpdateManyWithoutSessionNestedInput = {
-    create?: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput> | RoomEmojiCreateWithoutSessionInput[] | RoomEmojiUncheckedCreateWithoutSessionInput[]
-    connectOrCreate?: RoomEmojiCreateOrConnectWithoutSessionInput | RoomEmojiCreateOrConnectWithoutSessionInput[]
-    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutSessionInput | RoomEmojiUpsertWithWhereUniqueWithoutSessionInput[]
-    createMany?: RoomEmojiCreateManySessionInputEnvelope
-    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    update?: RoomEmojiUpdateWithWhereUniqueWithoutSessionInput | RoomEmojiUpdateWithWhereUniqueWithoutSessionInput[]
-    updateMany?: RoomEmojiUpdateManyWithWhereWithoutSessionInput | RoomEmojiUpdateManyWithWhereWithoutSessionInput[]
-    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
-  }
-
-  export type RoomEmojiUncheckedUpdateManyWithoutSessionNestedInput = {
-    create?: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput> | RoomEmojiCreateWithoutSessionInput[] | RoomEmojiUncheckedCreateWithoutSessionInput[]
-    connectOrCreate?: RoomEmojiCreateOrConnectWithoutSessionInput | RoomEmojiCreateOrConnectWithoutSessionInput[]
-    upsert?: RoomEmojiUpsertWithWhereUniqueWithoutSessionInput | RoomEmojiUpsertWithWhereUniqueWithoutSessionInput[]
-    createMany?: RoomEmojiCreateManySessionInputEnvelope
-    set?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    disconnect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    delete?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
-    update?: RoomEmojiUpdateWithWhereUniqueWithoutSessionInput | RoomEmojiUpdateWithWhereUniqueWithoutSessionInput[]
-    updateMany?: RoomEmojiUpdateManyWithWhereWithoutSessionInput | RoomEmojiUpdateManyWithWhereWithoutSessionInput[]
-    deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
-  }
-
-  export type EmojiSessionCreateNestedOneWithoutReactionsInput = {
-    create?: XOR<EmojiSessionCreateWithoutReactionsInput, EmojiSessionUncheckedCreateWithoutReactionsInput>
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutReactionsInput
-    connect?: EmojiSessionWhereUniqueInput
-  }
-
-  export type EmojiSessionUpdateOneRequiredWithoutReactionsNestedInput = {
-    create?: XOR<EmojiSessionCreateWithoutReactionsInput, EmojiSessionUncheckedCreateWithoutReactionsInput>
-    connectOrCreate?: EmojiSessionCreateOrConnectWithoutReactionsInput
-    upsert?: EmojiSessionUpsertWithoutReactionsInput
-    connect?: EmojiSessionWhereUniqueInput
-    update?: XOR<XOR<EmojiSessionUpdateToOneWithWhereWithoutReactionsInput, EmojiSessionUpdateWithoutReactionsInput>, EmojiSessionUncheckedUpdateWithoutReactionsInput>
+    update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutEmojisInput, PlayerUpdateWithoutEmojisInput>, PlayerUncheckedUpdateWithoutEmojisInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8449,8 +7036,9 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     players?: PlayerCreateNestedManyWithoutRoomInput
-    emojiSessions?: EmojiSessionCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutOwnerInput = {
@@ -8461,8 +7049,9 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
-    emojiSessions?: EmojiSessionUncheckedCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutOwnerInput = {
@@ -8503,6 +7092,7 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFilter<"Room"> | boolean
     EmojisEnabled?: BoolFilter<"Room"> | boolean
     EmojiLimit?: IntFilter<"Room"> | number
+    EmojiCooldown?: IntFilter<"Room"> | number
   }
 
   export type UserCreateWithoutRoomsInput = {
@@ -8527,7 +7117,7 @@ export namespace Prisma {
     name: string
     avatar?: string | null
     points?: number
-    emojiSessions?: EmojiSessionCreateNestedManyWithoutPlayerInput
+    emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUncheckedCreateWithoutRoomInput = {
@@ -8535,7 +7125,7 @@ export namespace Prisma {
     name: string
     avatar?: string | null
     points?: number
-    emojiSessions?: EmojiSessionUncheckedCreateNestedManyWithoutPlayerInput
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerCreateOrConnectWithoutRoomInput = {
@@ -8548,29 +7138,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type EmojiSessionCreateWithoutRoomInput = {
+  export type RoomEmojiCreateWithoutRoomInput = {
     id?: string
-    sentCount?: number
+    emoji: string
     createdAt?: Date | string
-    player: PlayerCreateNestedOneWithoutEmojiSessionsInput
-    reactions?: RoomEmojiCreateNestedManyWithoutSessionInput
+    player: PlayerCreateNestedOneWithoutEmojisInput
   }
 
-  export type EmojiSessionUncheckedCreateWithoutRoomInput = {
+  export type RoomEmojiUncheckedCreateWithoutRoomInput = {
     id?: string
     playerId: string
-    sentCount?: number
+    emoji: string
     createdAt?: Date | string
-    reactions?: RoomEmojiUncheckedCreateNestedManyWithoutSessionInput
   }
 
-  export type EmojiSessionCreateOrConnectWithoutRoomInput = {
-    where: EmojiSessionWhereUniqueInput
-    create: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput>
+  export type RoomEmojiCreateOrConnectWithoutRoomInput = {
+    where: RoomEmojiWhereUniqueInput
+    create: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput>
   }
 
-  export type EmojiSessionCreateManyRoomInputEnvelope = {
-    data: EmojiSessionCreateManyRoomInput | EmojiSessionCreateManyRoomInput[]
+  export type RoomEmojiCreateManyRoomInputEnvelope = {
+    data: RoomEmojiCreateManyRoomInput | RoomEmojiCreateManyRoomInput[]
     skipDuplicates?: boolean
   }
 
@@ -8624,31 +7212,31 @@ export namespace Prisma {
     points?: IntFilter<"Player"> | number
   }
 
-  export type EmojiSessionUpsertWithWhereUniqueWithoutRoomInput = {
-    where: EmojiSessionWhereUniqueInput
-    update: XOR<EmojiSessionUpdateWithoutRoomInput, EmojiSessionUncheckedUpdateWithoutRoomInput>
-    create: XOR<EmojiSessionCreateWithoutRoomInput, EmojiSessionUncheckedCreateWithoutRoomInput>
+  export type RoomEmojiUpsertWithWhereUniqueWithoutRoomInput = {
+    where: RoomEmojiWhereUniqueInput
+    update: XOR<RoomEmojiUpdateWithoutRoomInput, RoomEmojiUncheckedUpdateWithoutRoomInput>
+    create: XOR<RoomEmojiCreateWithoutRoomInput, RoomEmojiUncheckedCreateWithoutRoomInput>
   }
 
-  export type EmojiSessionUpdateWithWhereUniqueWithoutRoomInput = {
-    where: EmojiSessionWhereUniqueInput
-    data: XOR<EmojiSessionUpdateWithoutRoomInput, EmojiSessionUncheckedUpdateWithoutRoomInput>
+  export type RoomEmojiUpdateWithWhereUniqueWithoutRoomInput = {
+    where: RoomEmojiWhereUniqueInput
+    data: XOR<RoomEmojiUpdateWithoutRoomInput, RoomEmojiUncheckedUpdateWithoutRoomInput>
   }
 
-  export type EmojiSessionUpdateManyWithWhereWithoutRoomInput = {
-    where: EmojiSessionScalarWhereInput
-    data: XOR<EmojiSessionUpdateManyMutationInput, EmojiSessionUncheckedUpdateManyWithoutRoomInput>
+  export type RoomEmojiUpdateManyWithWhereWithoutRoomInput = {
+    where: RoomEmojiScalarWhereInput
+    data: XOR<RoomEmojiUpdateManyMutationInput, RoomEmojiUncheckedUpdateManyWithoutRoomInput>
   }
 
-  export type EmojiSessionScalarWhereInput = {
-    AND?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
-    OR?: EmojiSessionScalarWhereInput[]
-    NOT?: EmojiSessionScalarWhereInput | EmojiSessionScalarWhereInput[]
-    id?: StringFilter<"EmojiSession"> | string
-    roomId?: StringFilter<"EmojiSession"> | string
-    playerId?: StringFilter<"EmojiSession"> | string
-    sentCount?: IntFilter<"EmojiSession"> | number
-    createdAt?: DateTimeFilter<"EmojiSession"> | Date | string
+  export type RoomEmojiScalarWhereInput = {
+    AND?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
+    OR?: RoomEmojiScalarWhereInput[]
+    NOT?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
+    id?: StringFilter<"RoomEmoji"> | string
+    roomId?: StringFilter<"RoomEmoji"> | string
+    playerId?: StringFilter<"RoomEmoji"> | string
+    emoji?: StringFilter<"RoomEmoji"> | string
+    createdAt?: DateTimeFilter<"RoomEmoji"> | Date | string
   }
 
   export type RoomCreateWithoutPlayersInput = {
@@ -8659,8 +7247,9 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     owner: UserCreateNestedOneWithoutRoomsInput
-    emojiSessions?: EmojiSessionCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutPlayersInput = {
@@ -8672,7 +7261,8 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
-    emojiSessions?: EmojiSessionUncheckedCreateNestedManyWithoutRoomInput
+    EmojiCooldown?: number
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutPlayersInput = {
@@ -8680,29 +7270,27 @@ export namespace Prisma {
     create: XOR<RoomCreateWithoutPlayersInput, RoomUncheckedCreateWithoutPlayersInput>
   }
 
-  export type EmojiSessionCreateWithoutPlayerInput = {
+  export type RoomEmojiCreateWithoutPlayerInput = {
     id?: string
-    sentCount?: number
+    emoji: string
     createdAt?: Date | string
-    room: RoomCreateNestedOneWithoutEmojiSessionsInput
-    reactions?: RoomEmojiCreateNestedManyWithoutSessionInput
+    room: RoomCreateNestedOneWithoutEmojisInput
   }
 
-  export type EmojiSessionUncheckedCreateWithoutPlayerInput = {
+  export type RoomEmojiUncheckedCreateWithoutPlayerInput = {
     id?: string
     roomId: string
-    sentCount?: number
+    emoji: string
     createdAt?: Date | string
-    reactions?: RoomEmojiUncheckedCreateNestedManyWithoutSessionInput
   }
 
-  export type EmojiSessionCreateOrConnectWithoutPlayerInput = {
-    where: EmojiSessionWhereUniqueInput
-    create: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput>
+  export type RoomEmojiCreateOrConnectWithoutPlayerInput = {
+    where: RoomEmojiWhereUniqueInput
+    create: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput>
   }
 
-  export type EmojiSessionCreateManyPlayerInputEnvelope = {
-    data: EmojiSessionCreateManyPlayerInput | EmojiSessionCreateManyPlayerInput[]
+  export type RoomEmojiCreateManyPlayerInputEnvelope = {
+    data: RoomEmojiCreateManyPlayerInput | RoomEmojiCreateManyPlayerInput[]
     skipDuplicates?: boolean
   }
 
@@ -8725,8 +7313,9 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
-    emojiSessions?: EmojiSessionUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutPlayersInput = {
@@ -8738,26 +7327,27 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
-    emojiSessions?: EmojiSessionUncheckedUpdateManyWithoutRoomNestedInput
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type EmojiSessionUpsertWithWhereUniqueWithoutPlayerInput = {
-    where: EmojiSessionWhereUniqueInput
-    update: XOR<EmojiSessionUpdateWithoutPlayerInput, EmojiSessionUncheckedUpdateWithoutPlayerInput>
-    create: XOR<EmojiSessionCreateWithoutPlayerInput, EmojiSessionUncheckedCreateWithoutPlayerInput>
+  export type RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput = {
+    where: RoomEmojiWhereUniqueInput
+    update: XOR<RoomEmojiUpdateWithoutPlayerInput, RoomEmojiUncheckedUpdateWithoutPlayerInput>
+    create: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput>
   }
 
-  export type EmojiSessionUpdateWithWhereUniqueWithoutPlayerInput = {
-    where: EmojiSessionWhereUniqueInput
-    data: XOR<EmojiSessionUpdateWithoutPlayerInput, EmojiSessionUncheckedUpdateWithoutPlayerInput>
+  export type RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput = {
+    where: RoomEmojiWhereUniqueInput
+    data: XOR<RoomEmojiUpdateWithoutPlayerInput, RoomEmojiUncheckedUpdateWithoutPlayerInput>
   }
 
-  export type EmojiSessionUpdateManyWithWhereWithoutPlayerInput = {
-    where: EmojiSessionScalarWhereInput
-    data: XOR<EmojiSessionUpdateManyMutationInput, EmojiSessionUncheckedUpdateManyWithoutPlayerInput>
+  export type RoomEmojiUpdateManyWithWhereWithoutPlayerInput = {
+    where: RoomEmojiScalarWhereInput
+    data: XOR<RoomEmojiUpdateManyMutationInput, RoomEmojiUncheckedUpdateManyWithoutPlayerInput>
   }
 
-  export type RoomCreateWithoutEmojiSessionsInput = {
+  export type RoomCreateWithoutEmojisInput = {
     id?: string
     name: string
     PlayerLimit?: number
@@ -8765,11 +7355,12 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     owner: UserCreateNestedOneWithoutRoomsInput
     players?: PlayerCreateNestedManyWithoutRoomInput
   }
 
-  export type RoomUncheckedCreateWithoutEmojiSessionsInput = {
+  export type RoomUncheckedCreateWithoutEmojisInput = {
     id?: string
     name: string
     ownerId: string
@@ -8778,15 +7369,16 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
   }
 
-  export type RoomCreateOrConnectWithoutEmojiSessionsInput = {
+  export type RoomCreateOrConnectWithoutEmojisInput = {
     where: RoomWhereUniqueInput
-    create: XOR<RoomCreateWithoutEmojiSessionsInput, RoomUncheckedCreateWithoutEmojiSessionsInput>
+    create: XOR<RoomCreateWithoutEmojisInput, RoomUncheckedCreateWithoutEmojisInput>
   }
 
-  export type PlayerCreateWithoutEmojiSessionsInput = {
+  export type PlayerCreateWithoutEmojisInput = {
     id?: string
     name: string
     avatar?: string | null
@@ -8794,7 +7386,7 @@ export namespace Prisma {
     room: RoomCreateNestedOneWithoutPlayersInput
   }
 
-  export type PlayerUncheckedCreateWithoutEmojiSessionsInput = {
+  export type PlayerUncheckedCreateWithoutEmojisInput = {
     id?: string
     name: string
     avatar?: string | null
@@ -8802,45 +7394,23 @@ export namespace Prisma {
     points?: number
   }
 
-  export type PlayerCreateOrConnectWithoutEmojiSessionsInput = {
+  export type PlayerCreateOrConnectWithoutEmojisInput = {
     where: PlayerWhereUniqueInput
-    create: XOR<PlayerCreateWithoutEmojiSessionsInput, PlayerUncheckedCreateWithoutEmojiSessionsInput>
+    create: XOR<PlayerCreateWithoutEmojisInput, PlayerUncheckedCreateWithoutEmojisInput>
   }
 
-  export type RoomEmojiCreateWithoutSessionInput = {
-    id?: string
-    emoji: string
-    createdAt?: Date | string
-  }
-
-  export type RoomEmojiUncheckedCreateWithoutSessionInput = {
-    id?: string
-    emoji: string
-    createdAt?: Date | string
-  }
-
-  export type RoomEmojiCreateOrConnectWithoutSessionInput = {
-    where: RoomEmojiWhereUniqueInput
-    create: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput>
-  }
-
-  export type RoomEmojiCreateManySessionInputEnvelope = {
-    data: RoomEmojiCreateManySessionInput | RoomEmojiCreateManySessionInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type RoomUpsertWithoutEmojiSessionsInput = {
-    update: XOR<RoomUpdateWithoutEmojiSessionsInput, RoomUncheckedUpdateWithoutEmojiSessionsInput>
-    create: XOR<RoomCreateWithoutEmojiSessionsInput, RoomUncheckedCreateWithoutEmojiSessionsInput>
+  export type RoomUpsertWithoutEmojisInput = {
+    update: XOR<RoomUpdateWithoutEmojisInput, RoomUncheckedUpdateWithoutEmojisInput>
+    create: XOR<RoomCreateWithoutEmojisInput, RoomUncheckedCreateWithoutEmojisInput>
     where?: RoomWhereInput
   }
 
-  export type RoomUpdateToOneWithWhereWithoutEmojiSessionsInput = {
+  export type RoomUpdateToOneWithWhereWithoutEmojisInput = {
     where?: RoomWhereInput
-    data: XOR<RoomUpdateWithoutEmojiSessionsInput, RoomUncheckedUpdateWithoutEmojiSessionsInput>
+    data: XOR<RoomUpdateWithoutEmojisInput, RoomUncheckedUpdateWithoutEmojisInput>
   }
 
-  export type RoomUpdateWithoutEmojiSessionsInput = {
+  export type RoomUpdateWithoutEmojisInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     PlayerLimit?: IntFieldUpdateOperationsInput | number
@@ -8848,11 +7418,12 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     players?: PlayerUpdateManyWithoutRoomNestedInput
   }
 
-  export type RoomUncheckedUpdateWithoutEmojiSessionsInput = {
+  export type RoomUncheckedUpdateWithoutEmojisInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -8861,21 +7432,22 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type PlayerUpsertWithoutEmojiSessionsInput = {
-    update: XOR<PlayerUpdateWithoutEmojiSessionsInput, PlayerUncheckedUpdateWithoutEmojiSessionsInput>
-    create: XOR<PlayerCreateWithoutEmojiSessionsInput, PlayerUncheckedCreateWithoutEmojiSessionsInput>
+  export type PlayerUpsertWithoutEmojisInput = {
+    update: XOR<PlayerUpdateWithoutEmojisInput, PlayerUncheckedUpdateWithoutEmojisInput>
+    create: XOR<PlayerCreateWithoutEmojisInput, PlayerUncheckedCreateWithoutEmojisInput>
     where?: PlayerWhereInput
   }
 
-  export type PlayerUpdateToOneWithWhereWithoutEmojiSessionsInput = {
+  export type PlayerUpdateToOneWithWhereWithoutEmojisInput = {
     where?: PlayerWhereInput
-    data: XOR<PlayerUpdateWithoutEmojiSessionsInput, PlayerUncheckedUpdateWithoutEmojiSessionsInput>
+    data: XOR<PlayerUpdateWithoutEmojisInput, PlayerUncheckedUpdateWithoutEmojisInput>
   }
 
-  export type PlayerUpdateWithoutEmojiSessionsInput = {
+  export type PlayerUpdateWithoutEmojisInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8883,86 +7455,12 @@ export namespace Prisma {
     room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
   }
 
-  export type PlayerUncheckedUpdateWithoutEmojiSessionsInput = {
+  export type PlayerUncheckedUpdateWithoutEmojisInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RoomEmojiUpsertWithWhereUniqueWithoutSessionInput = {
-    where: RoomEmojiWhereUniqueInput
-    update: XOR<RoomEmojiUpdateWithoutSessionInput, RoomEmojiUncheckedUpdateWithoutSessionInput>
-    create: XOR<RoomEmojiCreateWithoutSessionInput, RoomEmojiUncheckedCreateWithoutSessionInput>
-  }
-
-  export type RoomEmojiUpdateWithWhereUniqueWithoutSessionInput = {
-    where: RoomEmojiWhereUniqueInput
-    data: XOR<RoomEmojiUpdateWithoutSessionInput, RoomEmojiUncheckedUpdateWithoutSessionInput>
-  }
-
-  export type RoomEmojiUpdateManyWithWhereWithoutSessionInput = {
-    where: RoomEmojiScalarWhereInput
-    data: XOR<RoomEmojiUpdateManyMutationInput, RoomEmojiUncheckedUpdateManyWithoutSessionInput>
-  }
-
-  export type RoomEmojiScalarWhereInput = {
-    AND?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
-    OR?: RoomEmojiScalarWhereInput[]
-    NOT?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
-    id?: StringFilter<"RoomEmoji"> | string
-    sessionId?: StringFilter<"RoomEmoji"> | string
-    emoji?: StringFilter<"RoomEmoji"> | string
-    createdAt?: DateTimeFilter<"RoomEmoji"> | Date | string
-  }
-
-  export type EmojiSessionCreateWithoutReactionsInput = {
-    id?: string
-    sentCount?: number
-    createdAt?: Date | string
-    room: RoomCreateNestedOneWithoutEmojiSessionsInput
-    player: PlayerCreateNestedOneWithoutEmojiSessionsInput
-  }
-
-  export type EmojiSessionUncheckedCreateWithoutReactionsInput = {
-    id?: string
-    roomId: string
-    playerId: string
-    sentCount?: number
-    createdAt?: Date | string
-  }
-
-  export type EmojiSessionCreateOrConnectWithoutReactionsInput = {
-    where: EmojiSessionWhereUniqueInput
-    create: XOR<EmojiSessionCreateWithoutReactionsInput, EmojiSessionUncheckedCreateWithoutReactionsInput>
-  }
-
-  export type EmojiSessionUpsertWithoutReactionsInput = {
-    update: XOR<EmojiSessionUpdateWithoutReactionsInput, EmojiSessionUncheckedUpdateWithoutReactionsInput>
-    create: XOR<EmojiSessionCreateWithoutReactionsInput, EmojiSessionUncheckedCreateWithoutReactionsInput>
-    where?: EmojiSessionWhereInput
-  }
-
-  export type EmojiSessionUpdateToOneWithWhereWithoutReactionsInput = {
-    where?: EmojiSessionWhereInput
-    data: XOR<EmojiSessionUpdateWithoutReactionsInput, EmojiSessionUncheckedUpdateWithoutReactionsInput>
-  }
-
-  export type EmojiSessionUpdateWithoutReactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    room?: RoomUpdateOneRequiredWithoutEmojiSessionsNestedInput
-    player?: PlayerUpdateOneRequiredWithoutEmojiSessionsNestedInput
-  }
-
-  export type EmojiSessionUncheckedUpdateWithoutReactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    roomId?: StringFieldUpdateOperationsInput | string
-    playerId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomCreateManyOwnerInput = {
@@ -8973,6 +7471,7 @@ export namespace Prisma {
     PlayersCanEditName?: boolean
     EmojisEnabled?: boolean
     EmojiLimit?: number
+    EmojiCooldown?: number
   }
 
   export type RoomUpdateWithoutOwnerInput = {
@@ -8983,8 +7482,9 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUpdateManyWithoutRoomNestedInput
-    emojiSessions?: EmojiSessionUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutOwnerInput = {
@@ -8995,8 +7495,9 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
-    emojiSessions?: EmojiSessionUncheckedUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutOwnerInput = {
@@ -9007,6 +7508,7 @@ export namespace Prisma {
     PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
     EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
     EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlayerCreateManyRoomInput = {
@@ -9016,10 +7518,10 @@ export namespace Prisma {
     points?: number
   }
 
-  export type EmojiSessionCreateManyRoomInput = {
+  export type RoomEmojiCreateManyRoomInput = {
     id?: string
     playerId: string
-    sentCount?: number
+    emoji: string
     createdAt?: Date | string
   }
 
@@ -9028,7 +7530,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
-    emojiSessions?: EmojiSessionUpdateManyWithoutPlayerNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateWithoutRoomInput = {
@@ -9036,7 +7538,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
-    emojiSessions?: EmojiSessionUncheckedUpdateManyWithoutPlayerNestedInput
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateManyWithoutRoomInput = {
@@ -9046,79 +7548,51 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
   }
 
-  export type EmojiSessionUpdateWithoutRoomInput = {
+  export type RoomEmojiUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
+    emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    player?: PlayerUpdateOneRequiredWithoutEmojiSessionsNestedInput
-    reactions?: RoomEmojiUpdateManyWithoutSessionNestedInput
+    player?: PlayerUpdateOneRequiredWithoutEmojisNestedInput
   }
 
-  export type EmojiSessionUncheckedUpdateWithoutRoomInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    playerId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reactions?: RoomEmojiUncheckedUpdateManyWithoutSessionNestedInput
-  }
-
-  export type EmojiSessionUncheckedUpdateManyWithoutRoomInput = {
+  export type RoomEmojiUncheckedUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     playerId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
+    emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type EmojiSessionCreateManyPlayerInput = {
+  export type RoomEmojiUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
+    emoji?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomEmojiCreateManyPlayerInput = {
     id?: string
     roomId: string
-    sentCount?: number
-    createdAt?: Date | string
-  }
-
-  export type EmojiSessionUpdateWithoutPlayerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    room?: RoomUpdateOneRequiredWithoutEmojiSessionsNestedInput
-    reactions?: RoomEmojiUpdateManyWithoutSessionNestedInput
-  }
-
-  export type EmojiSessionUncheckedUpdateWithoutPlayerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    roomId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reactions?: RoomEmojiUncheckedUpdateManyWithoutSessionNestedInput
-  }
-
-  export type EmojiSessionUncheckedUpdateManyWithoutPlayerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    roomId?: StringFieldUpdateOperationsInput | string
-    sentCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RoomEmojiCreateManySessionInput = {
-    id?: string
     emoji: string
     createdAt?: Date | string
   }
 
-  export type RoomEmojiUpdateWithoutSessionInput = {
+  export type RoomEmojiUpdateWithoutPlayerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    emoji?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutEmojisNestedInput
+  }
+
+  export type RoomEmojiUncheckedUpdateWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RoomEmojiUncheckedUpdateWithoutSessionInput = {
+  export type RoomEmojiUncheckedUpdateManyWithoutPlayerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    emoji?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RoomEmojiUncheckedUpdateManyWithoutSessionInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

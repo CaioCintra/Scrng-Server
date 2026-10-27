@@ -107,7 +107,8 @@ exports.Prisma.RoomScalarFieldEnum = {
   PlayersCanEditPoints: 'PlayersCanEditPoints',
   PlayersCanEditName: 'PlayersCanEditName',
   EmojisEnabled: 'EmojisEnabled',
-  EmojiLimit: 'EmojiLimit'
+  EmojiLimit: 'EmojiLimit',
+  EmojiCooldown: 'EmojiCooldown'
 };
 
 exports.Prisma.PlayerScalarFieldEnum = {
@@ -118,17 +119,10 @@ exports.Prisma.PlayerScalarFieldEnum = {
   points: 'points'
 };
 
-exports.Prisma.EmojiSessionScalarFieldEnum = {
+exports.Prisma.RoomEmojiScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
   playerId: 'playerId',
-  sentCount: 'sentCount',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.RoomEmojiScalarFieldEnum = {
-  id: 'id',
-  sessionId: 'sessionId',
   emoji: 'emoji',
   createdAt: 'createdAt'
 };
@@ -153,7 +147,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Room: 'Room',
   Player: 'Player',
-  EmojiSession: 'EmojiSession',
   RoomEmoji: 'RoomEmoji'
 };
 /**
@@ -204,13 +197,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String         @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User           @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[]       @relation(\"RoomPlayers\")\n  PlayerLimit          Int            @default(10)\n  PlayersCanEditPoints Boolean        @default(false)\n  PlayersCanEditName   Boolean        @default(false)\n  EmojisEnabled        Boolean        @default(false)\n  EmojiLimit           Int            @default(10)\n  emojiSessions        EmojiSession[]\n}\n\nmodel Player {\n  id            String         @id @default(uuid())\n  name          String\n  avatar        String?\n  roomId        String\n  room          Room           @relation(\"RoomPlayers\", fields: [roomId], references: [id], onDelete: Cascade)\n  points        Int            @default(0)\n  emojiSessions EmojiSession[]\n}\n\nmodel EmojiSession {\n  id        String      @id @default(uuid())\n  roomId    String\n  playerId  String\n  sentCount Int         @default(0)\n  createdAt DateTime    @default(now())\n  room      Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)\n  player    Player      @relation(fields: [playerId], references: [id], onDelete: Cascade)\n  reactions RoomEmoji[]\n\n  @@index([roomId, createdAt])\n  @@index([createdAt])\n}\n\nmodel RoomEmoji {\n  id        String       @id @default(uuid())\n  sessionId String\n  emoji     String\n  createdAt DateTime     @default(now())\n  session   EmojiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)\n\n  @@index([sessionId, createdAt])\n  @@index([createdAt])\n}\n",
-  "inlineSchemaHash": "4265d32a455221e41a2f6ad4b2721f4ab7c0ea386d3bed5f48c4c5547dace688",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String      @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User        @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[]    @relation(\"RoomPlayers\")\n  PlayerLimit          Int         @default(10)\n  PlayersCanEditPoints Boolean     @default(false)\n  PlayersCanEditName   Boolean     @default(false)\n  EmojisEnabled        Boolean     @default(false)\n  EmojiLimit           Int         @default(10)\n  EmojiCooldown        Int         @default(5)\n  emojis               RoomEmoji[]\n}\n\nmodel Player {\n  id     String      @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room        @relation(\"RoomPlayers\", fields: [roomId], references: [id], onDelete: Cascade)\n  points Int         @default(0)\n  emojis RoomEmoji[]\n}\n\nmodel RoomEmoji {\n  id        String   @id @default(uuid())\n  roomId    String\n  playerId  String\n  emoji     String\n  createdAt DateTime @default(now())\n  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)\n  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)\n\n  @@index([roomId, createdAt])\n  @@index([playerId, createdAt])\n  @@index([createdAt])\n}\n",
+  "inlineSchemaHash": "b60d7c055f5d98ce25875cb37383cbf1454297b9cb2609a75c1cf523f0dc5611",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"},{\"name\":\"PlayerLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"PlayersCanEditPoints\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"PlayersCanEditName\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojisEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojiLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojiSessions\",\"kind\":\"object\",\"type\":\"EmojiSession\",\"relationName\":\"EmojiSessionToRoom\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojiSessions\",\"kind\":\"object\",\"type\":\"EmojiSession\",\"relationName\":\"EmojiSessionToPlayer\"}],\"dbName\":null},\"EmojiSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sentCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"EmojiSessionToRoom\"},{\"name\":\"player\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"EmojiSessionToPlayer\"},{\"name\":\"reactions\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"EmojiSessionToRoomEmoji\"}],\"dbName\":null},\"RoomEmoji\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emoji\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"session\",\"kind\":\"object\",\"type\":\"EmojiSession\",\"relationName\":\"EmojiSessionToRoomEmoji\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"},{\"name\":\"PlayerLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"PlayersCanEditPoints\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"PlayersCanEditName\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojisEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojiLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"EmojiCooldown\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"RoomToRoomEmoji\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"PlayerToRoomEmoji\"}],\"dbName\":null},\"RoomEmoji\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emoji\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomToRoomEmoji\"},{\"name\":\"player\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"PlayerToRoomEmoji\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

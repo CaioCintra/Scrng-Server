@@ -135,7 +135,8 @@ exports.Prisma.RoomScalarFieldEnum = {
   PlayersCanEditPoints: 'PlayersCanEditPoints',
   PlayersCanEditName: 'PlayersCanEditName',
   EmojisEnabled: 'EmojisEnabled',
-  EmojiLimit: 'EmojiLimit'
+  EmojiLimit: 'EmojiLimit',
+  EmojiCooldown: 'EmojiCooldown'
 };
 
 exports.Prisma.PlayerScalarFieldEnum = {
@@ -146,17 +147,10 @@ exports.Prisma.PlayerScalarFieldEnum = {
   points: 'points'
 };
 
-exports.Prisma.EmojiSessionScalarFieldEnum = {
+exports.Prisma.RoomEmojiScalarFieldEnum = {
   id: 'id',
   roomId: 'roomId',
   playerId: 'playerId',
-  sentCount: 'sentCount',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.RoomEmojiScalarFieldEnum = {
-  id: 'id',
-  sessionId: 'sessionId',
   emoji: 'emoji',
   createdAt: 'createdAt'
 };
@@ -181,7 +175,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Room: 'Room',
   Player: 'Player',
-  EmojiSession: 'EmojiSession',
   RoomEmoji: 'RoomEmoji'
 };
 
