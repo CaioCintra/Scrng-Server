@@ -155,6 +155,30 @@ exports.Prisma.RoomEmojiScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AuctionScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  item: 'item',
+  startingBid: 'startingBid',
+  minIncrement: 'minIncrement',
+  status: 'status',
+  endsAt: 'endsAt',
+  currentBid: 'currentBid',
+  leaderId: 'leaderId',
+  leaderName: 'leaderName',
+  createdAt: 'createdAt',
+  finishedAt: 'finishedAt'
+};
+
+exports.Prisma.AuctionBidScalarFieldEnum = {
+  id: 'id',
+  auctionId: 'auctionId',
+  playerId: 'playerId',
+  playerName: 'playerName',
+  amount: 'amount',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -169,13 +193,19 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.AuctionStatus = exports.$Enums.AuctionStatus = {
+  RUNNING: 'RUNNING',
+  FINISHED: 'FINISHED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Room: 'Room',
   Player: 'Player',
-  RoomEmoji: 'RoomEmoji'
+  RoomEmoji: 'RoomEmoji',
+  Auction: 'Auction',
+  AuctionBid: 'AuctionBid'
 };
 
 /**

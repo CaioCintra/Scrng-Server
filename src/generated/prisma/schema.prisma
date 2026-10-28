@@ -28,16 +28,19 @@ model Room {
   EmojiLimit           Int         @default(10)
   EmojiCooldown        Int         @default(5)
   emojis               RoomEmoji[]
+  auctions             Auction[]
 }
 
 model Player {
-  id     String      @id @default(uuid())
-  name   String
-  avatar String?
-  roomId String
-  room   Room        @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
-  points Int         @default(0)
-  emojis RoomEmoji[]
+  id              String       @id @default(uuid())
+  name            String
+  avatar          String?
+  roomId          String
+  room            Room         @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
+  points          Int          @default(0)
+  emojis          RoomEmoji[]
+  leadingAuctions Auction[]    @relation("AuctionLeader")
+  bids            AuctionBid[]
 }
 
 model RoomEmoji {
@@ -52,4 +55,44 @@ model RoomEmoji {
   @@index([roomId, createdAt])
   @@index([playerId, createdAt])
   @@index([createdAt])
+}
+
+enum AuctionStatus {
+  RUNNING
+  FINISHED
+  CANCELLED
+}
+
+model Auction {
+  id           String        @id @default(uuid())
+  roomId       String
+  item         String?
+  startingBid  Int
+  minIncrement Int           @default(1)
+  status       AuctionStatus @default(RUNNING)
+  endsAt       DateTime
+  // lance vencedor no momento; os pontos dele ficam reservados (já descontados do jogador)
+  currentBid   Int?
+  leaderId     String?
+  leaderName   String?
+  createdAt    DateTime      @default(now())
+  finishedAt   DateTime?
+  room         Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  leader       Player?       @relation("AuctionLeader", fields: [leaderId], references: [id], onDelete: SetNull)
+  bids         AuctionBid[]
+
+  @@index([roomId, createdAt])
+}
+
+model AuctionBid {
+  id         String   @id @default(uuid())
+  auctionId  String
+  playerId   String?
+  playerName String
+  amount     Int
+  createdAt  DateTime @default(now())
+  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  player     Player?  @relation(fields: [playerId], references: [id], onDelete: SetNull)
+
+  @@index([auctionId, createdAt])
 }

@@ -127,6 +127,30 @@ exports.Prisma.RoomEmojiScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AuctionScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  item: 'item',
+  startingBid: 'startingBid',
+  minIncrement: 'minIncrement',
+  status: 'status',
+  endsAt: 'endsAt',
+  currentBid: 'currentBid',
+  leaderId: 'leaderId',
+  leaderName: 'leaderName',
+  createdAt: 'createdAt',
+  finishedAt: 'finishedAt'
+};
+
+exports.Prisma.AuctionBidScalarFieldEnum = {
+  id: 'id',
+  auctionId: 'auctionId',
+  playerId: 'playerId',
+  playerName: 'playerName',
+  amount: 'amount',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,13 +165,19 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.AuctionStatus = exports.$Enums.AuctionStatus = {
+  RUNNING: 'RUNNING',
+  FINISHED: 'FINISHED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Room: 'Room',
   Player: 'Player',
-  RoomEmoji: 'RoomEmoji'
+  RoomEmoji: 'RoomEmoji',
+  Auction: 'Auction',
+  AuctionBid: 'AuctionBid'
 };
 /**
  * Create the Client
@@ -197,13 +227,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String      @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User        @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[]    @relation(\"RoomPlayers\")\n  PlayerLimit          Int         @default(10)\n  PlayersCanEditPoints Boolean     @default(false)\n  PlayersCanEditName   Boolean     @default(false)\n  EmojisEnabled        Boolean     @default(false)\n  EmojiLimit           Int         @default(10)\n  EmojiCooldown        Int         @default(5)\n  emojis               RoomEmoji[]\n}\n\nmodel Player {\n  id     String      @id @default(uuid())\n  name   String\n  avatar String?\n  roomId String\n  room   Room        @relation(\"RoomPlayers\", fields: [roomId], references: [id], onDelete: Cascade)\n  points Int         @default(0)\n  emojis RoomEmoji[]\n}\n\nmodel RoomEmoji {\n  id        String   @id @default(uuid())\n  roomId    String\n  playerId  String\n  emoji     String\n  createdAt DateTime @default(now())\n  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)\n  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)\n\n  @@index([roomId, createdAt])\n  @@index([playerId, createdAt])\n  @@index([createdAt])\n}\n",
-  "inlineSchemaHash": "b60d7c055f5d98ce25875cb37383cbf1454297b9cb2609a75c1cf523f0dc5611",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  name     String\n  password String\n  rooms    Room[] @relation(\"UserRooms\")\n}\n\nmodel Room {\n  id                   String      @id @default(uuid())\n  name                 String\n  ownerId              String\n  owner                User        @relation(\"UserRooms\", fields: [ownerId], references: [id])\n  players              Player[]    @relation(\"RoomPlayers\")\n  PlayerLimit          Int         @default(10)\n  PlayersCanEditPoints Boolean     @default(false)\n  PlayersCanEditName   Boolean     @default(false)\n  EmojisEnabled        Boolean     @default(false)\n  EmojiLimit           Int         @default(10)\n  EmojiCooldown        Int         @default(5)\n  emojis               RoomEmoji[]\n  auctions             Auction[]\n}\n\nmodel Player {\n  id              String       @id @default(uuid())\n  name            String\n  avatar          String?\n  roomId          String\n  room            Room         @relation(\"RoomPlayers\", fields: [roomId], references: [id], onDelete: Cascade)\n  points          Int          @default(0)\n  emojis          RoomEmoji[]\n  leadingAuctions Auction[]    @relation(\"AuctionLeader\")\n  bids            AuctionBid[]\n}\n\nmodel RoomEmoji {\n  id        String   @id @default(uuid())\n  roomId    String\n  playerId  String\n  emoji     String\n  createdAt DateTime @default(now())\n  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)\n  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)\n\n  @@index([roomId, createdAt])\n  @@index([playerId, createdAt])\n  @@index([createdAt])\n}\n\nenum AuctionStatus {\n  RUNNING\n  FINISHED\n  CANCELLED\n}\n\nmodel Auction {\n  id           String        @id @default(uuid())\n  roomId       String\n  item         String?\n  startingBid  Int\n  minIncrement Int           @default(1)\n  status       AuctionStatus @default(RUNNING)\n  endsAt       DateTime\n  // lance vencedor no momento; os pontos dele ficam reservados (já descontados do jogador)\n  currentBid   Int?\n  leaderId     String?\n  leaderName   String?\n  createdAt    DateTime      @default(now())\n  finishedAt   DateTime?\n  room         Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)\n  leader       Player?       @relation(\"AuctionLeader\", fields: [leaderId], references: [id], onDelete: SetNull)\n  bids         AuctionBid[]\n\n  @@index([roomId, createdAt])\n}\n\nmodel AuctionBid {\n  id         String   @id @default(uuid())\n  auctionId  String\n  playerId   String?\n  playerName String\n  amount     Int\n  createdAt  DateTime @default(now())\n  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)\n  player     Player?  @relation(fields: [playerId], references: [id], onDelete: SetNull)\n\n  @@index([auctionId, createdAt])\n}\n",
+  "inlineSchemaHash": "9a88af27f20e3f89ecd87fc88bb91963ba33d6c0269cf1961bbe319728acef0e",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"},{\"name\":\"PlayerLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"PlayersCanEditPoints\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"PlayersCanEditName\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojisEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojiLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"EmojiCooldown\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"RoomToRoomEmoji\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"PlayerToRoomEmoji\"}],\"dbName\":null},\"RoomEmoji\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emoji\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomToRoomEmoji\"},{\"name\":\"player\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"PlayerToRoomEmoji\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rooms\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"UserRooms\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserRooms\"},{\"name\":\"players\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"RoomPlayers\"},{\"name\":\"PlayerLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"PlayersCanEditPoints\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"PlayersCanEditName\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojisEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"EmojiLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"EmojiCooldown\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"RoomToRoomEmoji\"},{\"name\":\"auctions\",\"kind\":\"object\",\"type\":\"Auction\",\"relationName\":\"AuctionToRoom\"}],\"dbName\":null},\"Player\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomPlayers\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"emojis\",\"kind\":\"object\",\"type\":\"RoomEmoji\",\"relationName\":\"PlayerToRoomEmoji\"},{\"name\":\"leadingAuctions\",\"kind\":\"object\",\"type\":\"Auction\",\"relationName\":\"AuctionLeader\"},{\"name\":\"bids\",\"kind\":\"object\",\"type\":\"AuctionBid\",\"relationName\":\"AuctionBidToPlayer\"}],\"dbName\":null},\"RoomEmoji\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emoji\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomToRoomEmoji\"},{\"name\":\"player\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"PlayerToRoomEmoji\"}],\"dbName\":null},\"Auction\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"item\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startingBid\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"minIncrement\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"AuctionStatus\"},{\"name\":\"endsAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"currentBid\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"leaderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"leaderName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"finishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"AuctionToRoom\"},{\"name\":\"leader\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"AuctionLeader\"},{\"name\":\"bids\",\"kind\":\"object\",\"type\":\"AuctionBid\",\"relationName\":\"AuctionToAuctionBid\"}],\"dbName\":null},\"AuctionBid\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"auctionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"auction\",\"kind\":\"object\",\"type\":\"Auction\",\"relationName\":\"AuctionToAuctionBid\"},{\"name\":\"player\",\"kind\":\"object\",\"type\":\"Player\",\"relationName\":\"AuctionBidToPlayer\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

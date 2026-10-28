@@ -33,6 +33,34 @@ export type Player = $Result.DefaultSelection<Prisma.$PlayerPayload>
  * 
  */
 export type RoomEmoji = $Result.DefaultSelection<Prisma.$RoomEmojiPayload>
+/**
+ * Model Auction
+ * 
+ */
+export type Auction = $Result.DefaultSelection<Prisma.$AuctionPayload>
+/**
+ * Model AuctionBid
+ * 
+ */
+export type AuctionBid = $Result.DefaultSelection<Prisma.$AuctionBidPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const AuctionStatus: {
+  RUNNING: 'RUNNING',
+  FINISHED: 'FINISHED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type AuctionStatus = (typeof AuctionStatus)[keyof typeof AuctionStatus]
+
+}
+
+export type AuctionStatus = $Enums.AuctionStatus
+
+export const AuctionStatus: typeof $Enums.AuctionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -191,6 +219,26 @@ export class PrismaClient<
     * ```
     */
   get roomEmoji(): Prisma.RoomEmojiDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.auction`: Exposes CRUD operations for the **Auction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Auctions
+    * const auctions = await prisma.auction.findMany()
+    * ```
+    */
+  get auction(): Prisma.AuctionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.auctionBid`: Exposes CRUD operations for the **AuctionBid** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuctionBids
+    * const auctionBids = await prisma.auctionBid.findMany()
+    * ```
+    */
+  get auctionBid(): Prisma.AuctionBidDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -635,7 +683,9 @@ export namespace Prisma {
     User: 'User',
     Room: 'Room',
     Player: 'Player',
-    RoomEmoji: 'RoomEmoji'
+    RoomEmoji: 'RoomEmoji',
+    Auction: 'Auction',
+    AuctionBid: 'AuctionBid'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -654,7 +704,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "room" | "player" | "roomEmoji"
+      modelProps: "user" | "room" | "player" | "roomEmoji" | "auction" | "auctionBid"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -954,6 +1004,154 @@ export namespace Prisma {
           }
         }
       }
+      Auction: {
+        payload: Prisma.$AuctionPayload<ExtArgs>
+        fields: Prisma.AuctionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuctionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuctionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          findFirst: {
+            args: Prisma.AuctionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuctionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          findMany: {
+            args: Prisma.AuctionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          create: {
+            args: Prisma.AuctionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          createMany: {
+            args: Prisma.AuctionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuctionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          delete: {
+            args: Prisma.AuctionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          update: {
+            args: Prisma.AuctionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuctionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuctionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuctionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuctionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          aggregate: {
+            args: Prisma.AuctionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuction>
+          }
+          groupBy: {
+            args: Prisma.AuctionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuctionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuctionCountArgs<ExtArgs>
+            result: $Utils.Optional<AuctionCountAggregateOutputType> | number
+          }
+        }
+      }
+      AuctionBid: {
+        payload: Prisma.$AuctionBidPayload<ExtArgs>
+        fields: Prisma.AuctionBidFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuctionBidFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuctionBidFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          findFirst: {
+            args: Prisma.AuctionBidFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuctionBidFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          findMany: {
+            args: Prisma.AuctionBidFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>[]
+          }
+          create: {
+            args: Prisma.AuctionBidCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          createMany: {
+            args: Prisma.AuctionBidCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuctionBidCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>[]
+          }
+          delete: {
+            args: Prisma.AuctionBidDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          update: {
+            args: Prisma.AuctionBidUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuctionBidDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuctionBidUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuctionBidUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuctionBidUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionBidPayload>
+          }
+          aggregate: {
+            args: Prisma.AuctionBidAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuctionBid>
+          }
+          groupBy: {
+            args: Prisma.AuctionBidGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuctionBidGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuctionBidCountArgs<ExtArgs>
+            result: $Utils.Optional<AuctionBidCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1054,6 +1252,8 @@ export namespace Prisma {
     room?: RoomOmit
     player?: PlayerOmit
     roomEmoji?: RoomEmojiOmit
+    auction?: AuctionOmit
+    auctionBid?: AuctionBidOmit
   }
 
   /* Types for Logging */
@@ -1167,11 +1367,13 @@ export namespace Prisma {
   export type RoomCountOutputType = {
     players: number
     emojis: number
+    auctions: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     players?: boolean | RoomCountOutputTypeCountPlayersArgs
     emojis?: boolean | RoomCountOutputTypeCountEmojisArgs
+    auctions?: boolean | RoomCountOutputTypeCountAuctionsArgs
   }
 
   // Custom InputTypes
@@ -1199,6 +1401,13 @@ export namespace Prisma {
     where?: RoomEmojiWhereInput
   }
 
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountAuctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionWhereInput
+  }
+
 
   /**
    * Count Type PlayerCountOutputType
@@ -1206,10 +1415,14 @@ export namespace Prisma {
 
   export type PlayerCountOutputType = {
     emojis: number
+    leadingAuctions: number
+    bids: number
   }
 
   export type PlayerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     emojis?: boolean | PlayerCountOutputTypeCountEmojisArgs
+    leadingAuctions?: boolean | PlayerCountOutputTypeCountLeadingAuctionsArgs
+    bids?: boolean | PlayerCountOutputTypeCountBidsArgs
   }
 
   // Custom InputTypes
@@ -1228,6 +1441,51 @@ export namespace Prisma {
    */
   export type PlayerCountOutputTypeCountEmojisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoomEmojiWhereInput
+  }
+
+  /**
+   * PlayerCountOutputType without action
+   */
+  export type PlayerCountOutputTypeCountLeadingAuctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionWhereInput
+  }
+
+  /**
+   * PlayerCountOutputType without action
+   */
+  export type PlayerCountOutputTypeCountBidsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionBidWhereInput
+  }
+
+
+  /**
+   * Count Type AuctionCountOutputType
+   */
+
+  export type AuctionCountOutputType = {
+    bids: number
+  }
+
+  export type AuctionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bids?: boolean | AuctionCountOutputTypeCountBidsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AuctionCountOutputType without action
+   */
+  export type AuctionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionCountOutputType
+     */
+    select?: AuctionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AuctionCountOutputType without action
+   */
+  export type AuctionCountOutputTypeCountBidsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionBidWhereInput
   }
 
 
@@ -2520,6 +2778,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
     emojis?: boolean | Room$emojisArgs<ExtArgs>
+    auctions?: boolean | Room$auctionsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -2566,6 +2825,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     players?: boolean | Room$playersArgs<ExtArgs>
     emojis?: boolean | Room$emojisArgs<ExtArgs>
+    auctions?: boolean | Room$auctionsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2581,6 +2841,7 @@ export namespace Prisma {
       owner: Prisma.$UserPayload<ExtArgs>
       players: Prisma.$PlayerPayload<ExtArgs>[]
       emojis: Prisma.$RoomEmojiPayload<ExtArgs>[]
+      auctions: Prisma.$AuctionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2989,6 +3250,7 @@ export namespace Prisma {
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     players<T extends Room$playersArgs<ExtArgs> = {}>(args?: Subset<T, Room$playersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     emojis<T extends Room$emojisArgs<ExtArgs> = {}>(args?: Subset<T, Room$emojisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auctions<T extends Room$auctionsArgs<ExtArgs> = {}>(args?: Subset<T, Room$auctionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3471,6 +3733,30 @@ export namespace Prisma {
   }
 
   /**
+   * Room.auctions
+   */
+  export type Room$auctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    where?: AuctionWhereInput
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
    * Room without action
    */
   export type RoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3689,6 +3975,8 @@ export namespace Prisma {
     points?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
     emojis?: boolean | Player$emojisArgs<ExtArgs>
+    leadingAuctions?: boolean | Player$leadingAuctionsArgs<ExtArgs>
+    bids?: boolean | Player$bidsArgs<ExtArgs>
     _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["player"]>
 
@@ -3722,6 +4010,8 @@ export namespace Prisma {
   export type PlayerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
     emojis?: boolean | Player$emojisArgs<ExtArgs>
+    leadingAuctions?: boolean | Player$leadingAuctionsArgs<ExtArgs>
+    bids?: boolean | Player$bidsArgs<ExtArgs>
     _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlayerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3736,6 +4026,8 @@ export namespace Prisma {
     objects: {
       room: Prisma.$RoomPayload<ExtArgs>
       emojis: Prisma.$RoomEmojiPayload<ExtArgs>[]
+      leadingAuctions: Prisma.$AuctionPayload<ExtArgs>[]
+      bids: Prisma.$AuctionBidPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4139,6 +4431,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     emojis<T extends Player$emojisArgs<ExtArgs> = {}>(args?: Subset<T, Player$emojisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leadingAuctions<T extends Player$leadingAuctionsArgs<ExtArgs> = {}>(args?: Subset<T, Player$leadingAuctionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bids<T extends Player$bidsArgs<ExtArgs> = {}>(args?: Subset<T, Player$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4590,6 +4884,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RoomEmojiScalarFieldEnum | RoomEmojiScalarFieldEnum[]
+  }
+
+  /**
+   * Player.leadingAuctions
+   */
+  export type Player$leadingAuctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    where?: AuctionWhereInput
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Player.bids
+   */
+  export type Player$bidsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    where?: AuctionBidWhereInput
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    cursor?: AuctionBidWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuctionBidScalarFieldEnum | AuctionBidScalarFieldEnum[]
   }
 
   /**
@@ -5678,6 +6020,2386 @@ export namespace Prisma {
 
 
   /**
+   * Model Auction
+   */
+
+  export type AggregateAuction = {
+    _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  export type AuctionAvgAggregateOutputType = {
+    startingBid: number | null
+    minIncrement: number | null
+    currentBid: number | null
+  }
+
+  export type AuctionSumAggregateOutputType = {
+    startingBid: number | null
+    minIncrement: number | null
+    currentBid: number | null
+  }
+
+  export type AuctionMinAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    item: string | null
+    startingBid: number | null
+    minIncrement: number | null
+    status: $Enums.AuctionStatus | null
+    endsAt: Date | null
+    currentBid: number | null
+    leaderId: string | null
+    leaderName: string | null
+    createdAt: Date | null
+    finishedAt: Date | null
+  }
+
+  export type AuctionMaxAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    item: string | null
+    startingBid: number | null
+    minIncrement: number | null
+    status: $Enums.AuctionStatus | null
+    endsAt: Date | null
+    currentBid: number | null
+    leaderId: string | null
+    leaderName: string | null
+    createdAt: Date | null
+    finishedAt: Date | null
+  }
+
+  export type AuctionCountAggregateOutputType = {
+    id: number
+    roomId: number
+    item: number
+    startingBid: number
+    minIncrement: number
+    status: number
+    endsAt: number
+    currentBid: number
+    leaderId: number
+    leaderName: number
+    createdAt: number
+    finishedAt: number
+    _all: number
+  }
+
+
+  export type AuctionAvgAggregateInputType = {
+    startingBid?: true
+    minIncrement?: true
+    currentBid?: true
+  }
+
+  export type AuctionSumAggregateInputType = {
+    startingBid?: true
+    minIncrement?: true
+    currentBid?: true
+  }
+
+  export type AuctionMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    item?: true
+    startingBid?: true
+    minIncrement?: true
+    status?: true
+    endsAt?: true
+    currentBid?: true
+    leaderId?: true
+    leaderName?: true
+    createdAt?: true
+    finishedAt?: true
+  }
+
+  export type AuctionMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    item?: true
+    startingBid?: true
+    minIncrement?: true
+    status?: true
+    endsAt?: true
+    currentBid?: true
+    leaderId?: true
+    leaderName?: true
+    createdAt?: true
+    finishedAt?: true
+  }
+
+  export type AuctionCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    item?: true
+    startingBid?: true
+    minIncrement?: true
+    status?: true
+    endsAt?: true
+    currentBid?: true
+    leaderId?: true
+    leaderName?: true
+    createdAt?: true
+    finishedAt?: true
+    _all?: true
+  }
+
+  export type AuctionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Auction to aggregate.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Auctions
+    **/
+    _count?: true | AuctionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuctionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuctionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuctionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuctionMaxAggregateInputType
+  }
+
+  export type GetAuctionAggregateType<T extends AuctionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuction[P]>
+      : GetScalarType<T[P], AggregateAuction[P]>
+  }
+
+
+
+
+  export type AuctionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionWhereInput
+    orderBy?: AuctionOrderByWithAggregationInput | AuctionOrderByWithAggregationInput[]
+    by: AuctionScalarFieldEnum[] | AuctionScalarFieldEnum
+    having?: AuctionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuctionCountAggregateInputType | true
+    _avg?: AuctionAvgAggregateInputType
+    _sum?: AuctionSumAggregateInputType
+    _min?: AuctionMinAggregateInputType
+    _max?: AuctionMaxAggregateInputType
+  }
+
+  export type AuctionGroupByOutputType = {
+    id: string
+    roomId: string
+    item: string | null
+    startingBid: number
+    minIncrement: number
+    status: $Enums.AuctionStatus
+    endsAt: Date
+    currentBid: number | null
+    leaderId: string | null
+    leaderName: string | null
+    createdAt: Date
+    finishedAt: Date | null
+    _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  type GetAuctionGroupByPayload<T extends AuctionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuctionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+            : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuctionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    item?: boolean
+    startingBid?: boolean
+    minIncrement?: boolean
+    status?: boolean
+    endsAt?: boolean
+    currentBid?: boolean
+    leaderId?: boolean
+    leaderName?: boolean
+    createdAt?: boolean
+    finishedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+    bids?: boolean | Auction$bidsArgs<ExtArgs>
+    _count?: boolean | AuctionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    item?: boolean
+    startingBid?: boolean
+    minIncrement?: boolean
+    status?: boolean
+    endsAt?: boolean
+    currentBid?: boolean
+    leaderId?: boolean
+    leaderName?: boolean
+    createdAt?: boolean
+    finishedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    item?: boolean
+    startingBid?: boolean
+    minIncrement?: boolean
+    status?: boolean
+    endsAt?: boolean
+    currentBid?: boolean
+    leaderId?: boolean
+    leaderName?: boolean
+    createdAt?: boolean
+    finishedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    item?: boolean
+    startingBid?: boolean
+    minIncrement?: boolean
+    status?: boolean
+    endsAt?: boolean
+    currentBid?: boolean
+    leaderId?: boolean
+    leaderName?: boolean
+    createdAt?: boolean
+    finishedAt?: boolean
+  }
+
+  export type AuctionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "item" | "startingBid" | "minIncrement" | "status" | "endsAt" | "currentBid" | "leaderId" | "leaderName" | "createdAt" | "finishedAt", ExtArgs["result"]["auction"]>
+  export type AuctionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+    bids?: boolean | Auction$bidsArgs<ExtArgs>
+    _count?: boolean | AuctionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AuctionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+  }
+  export type AuctionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    leader?: boolean | Auction$leaderArgs<ExtArgs>
+  }
+
+  export type $AuctionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Auction"
+    objects: {
+      room: Prisma.$RoomPayload<ExtArgs>
+      leader: Prisma.$PlayerPayload<ExtArgs> | null
+      bids: Prisma.$AuctionBidPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roomId: string
+      item: string | null
+      startingBid: number
+      minIncrement: number
+      status: $Enums.AuctionStatus
+      endsAt: Date
+      currentBid: number | null
+      leaderId: string | null
+      leaderName: string | null
+      createdAt: Date
+      finishedAt: Date | null
+    }, ExtArgs["result"]["auction"]>
+    composites: {}
+  }
+
+  type AuctionGetPayload<S extends boolean | null | undefined | AuctionDefaultArgs> = $Result.GetResult<Prisma.$AuctionPayload, S>
+
+  type AuctionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuctionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuctionCountAggregateInputType | true
+    }
+
+  export interface AuctionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Auction'], meta: { name: 'Auction' } }
+    /**
+     * Find zero or one Auction that matches the filter.
+     * @param {AuctionFindUniqueArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuctionFindUniqueArgs>(args: SelectSubset<T, AuctionFindUniqueArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Auction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuctionFindUniqueOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuctionFindUniqueOrThrowArgs>(args: SelectSubset<T, AuctionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Auction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuctionFindFirstArgs>(args?: SelectSubset<T, AuctionFindFirstArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Auction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuctionFindFirstOrThrowArgs>(args?: SelectSubset<T, AuctionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Auctions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Auctions
+     * const auctions = await prisma.auction.findMany()
+     * 
+     * // Get first 10 Auctions
+     * const auctions = await prisma.auction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auctionWithIdOnly = await prisma.auction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuctionFindManyArgs>(args?: SelectSubset<T, AuctionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Auction.
+     * @param {AuctionCreateArgs} args - Arguments to create a Auction.
+     * @example
+     * // Create one Auction
+     * const Auction = await prisma.auction.create({
+     *   data: {
+     *     // ... data to create a Auction
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuctionCreateArgs>(args: SelectSubset<T, AuctionCreateArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Auctions.
+     * @param {AuctionCreateManyArgs} args - Arguments to create many Auctions.
+     * @example
+     * // Create many Auctions
+     * const auction = await prisma.auction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuctionCreateManyArgs>(args?: SelectSubset<T, AuctionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Auctions and returns the data saved in the database.
+     * @param {AuctionCreateManyAndReturnArgs} args - Arguments to create many Auctions.
+     * @example
+     * // Create many Auctions
+     * const auction = await prisma.auction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Auctions and only return the `id`
+     * const auctionWithIdOnly = await prisma.auction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuctionCreateManyAndReturnArgs>(args?: SelectSubset<T, AuctionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Auction.
+     * @param {AuctionDeleteArgs} args - Arguments to delete one Auction.
+     * @example
+     * // Delete one Auction
+     * const Auction = await prisma.auction.delete({
+     *   where: {
+     *     // ... filter to delete one Auction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuctionDeleteArgs>(args: SelectSubset<T, AuctionDeleteArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Auction.
+     * @param {AuctionUpdateArgs} args - Arguments to update one Auction.
+     * @example
+     * // Update one Auction
+     * const auction = await prisma.auction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuctionUpdateArgs>(args: SelectSubset<T, AuctionUpdateArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Auctions.
+     * @param {AuctionDeleteManyArgs} args - Arguments to filter Auctions to delete.
+     * @example
+     * // Delete a few Auctions
+     * const { count } = await prisma.auction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuctionDeleteManyArgs>(args?: SelectSubset<T, AuctionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Auctions
+     * const auction = await prisma.auction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuctionUpdateManyArgs>(args: SelectSubset<T, AuctionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Auctions and returns the data updated in the database.
+     * @param {AuctionUpdateManyAndReturnArgs} args - Arguments to update many Auctions.
+     * @example
+     * // Update many Auctions
+     * const auction = await prisma.auction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Auctions and only return the `id`
+     * const auctionWithIdOnly = await prisma.auction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuctionUpdateManyAndReturnArgs>(args: SelectSubset<T, AuctionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Auction.
+     * @param {AuctionUpsertArgs} args - Arguments to update or create a Auction.
+     * @example
+     * // Update or create a Auction
+     * const auction = await prisma.auction.upsert({
+     *   create: {
+     *     // ... data to create a Auction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Auction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuctionUpsertArgs>(args: SelectSubset<T, AuctionUpsertArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionCountArgs} args - Arguments to filter Auctions to count.
+     * @example
+     * // Count the number of Auctions
+     * const count = await prisma.auction.count({
+     *   where: {
+     *     // ... the filter for the Auctions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuctionCountArgs>(
+      args?: Subset<T, AuctionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuctionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuctionAggregateArgs>(args: Subset<T, AuctionAggregateArgs>): Prisma.PrismaPromise<GetAuctionAggregateType<T>>
+
+    /**
+     * Group by Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuctionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuctionGroupByArgs['orderBy'] }
+        : { orderBy?: AuctionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuctionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Auction model
+   */
+  readonly fields: AuctionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Auction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuctionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    leader<T extends Auction$leaderArgs<ExtArgs> = {}>(args?: Subset<T, Auction$leaderArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    bids<T extends Auction$bidsArgs<ExtArgs> = {}>(args?: Subset<T, Auction$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Auction model
+   */
+  interface AuctionFieldRefs {
+    readonly id: FieldRef<"Auction", 'String'>
+    readonly roomId: FieldRef<"Auction", 'String'>
+    readonly item: FieldRef<"Auction", 'String'>
+    readonly startingBid: FieldRef<"Auction", 'Int'>
+    readonly minIncrement: FieldRef<"Auction", 'Int'>
+    readonly status: FieldRef<"Auction", 'AuctionStatus'>
+    readonly endsAt: FieldRef<"Auction", 'DateTime'>
+    readonly currentBid: FieldRef<"Auction", 'Int'>
+    readonly leaderId: FieldRef<"Auction", 'String'>
+    readonly leaderName: FieldRef<"Auction", 'String'>
+    readonly createdAt: FieldRef<"Auction", 'DateTime'>
+    readonly finishedAt: FieldRef<"Auction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Auction findUnique
+   */
+  export type AuctionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction findUniqueOrThrow
+   */
+  export type AuctionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction findFirst
+   */
+  export type AuctionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction findFirstOrThrow
+   */
+  export type AuctionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction findMany
+   */
+  export type AuctionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auctions to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction create
+   */
+  export type AuctionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Auction.
+     */
+    data: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+  }
+
+  /**
+   * Auction createMany
+   */
+  export type AuctionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Auctions.
+     */
+    data: AuctionCreateManyInput | AuctionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Auction createManyAndReturn
+   */
+  export type AuctionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Auctions.
+     */
+    data: AuctionCreateManyInput | AuctionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Auction update
+   */
+  export type AuctionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Auction.
+     */
+    data: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+    /**
+     * Choose, which Auction to update.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction updateMany
+   */
+  export type AuctionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Auctions.
+     */
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyInput>
+    /**
+     * Filter which Auctions to update
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Auction updateManyAndReturn
+   */
+  export type AuctionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * The data used to update Auctions.
+     */
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyInput>
+    /**
+     * Filter which Auctions to update
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Auction upsert
+   */
+  export type AuctionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Auction to update in case it exists.
+     */
+    where: AuctionWhereUniqueInput
+    /**
+     * In case the Auction found by the `where` argument doesn't exist, create a new Auction with this data.
+     */
+    create: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+    /**
+     * In case the Auction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+  }
+
+  /**
+   * Auction delete
+   */
+  export type AuctionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter which Auction to delete.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction deleteMany
+   */
+  export type AuctionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Auctions to delete
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Auction.leader
+   */
+  export type Auction$leaderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    where?: PlayerWhereInput
+  }
+
+  /**
+   * Auction.bids
+   */
+  export type Auction$bidsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    where?: AuctionBidWhereInput
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    cursor?: AuctionBidWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuctionBidScalarFieldEnum | AuctionBidScalarFieldEnum[]
+  }
+
+  /**
+   * Auction without action
+   */
+  export type AuctionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AuctionBid
+   */
+
+  export type AggregateAuctionBid = {
+    _count: AuctionBidCountAggregateOutputType | null
+    _avg: AuctionBidAvgAggregateOutputType | null
+    _sum: AuctionBidSumAggregateOutputType | null
+    _min: AuctionBidMinAggregateOutputType | null
+    _max: AuctionBidMaxAggregateOutputType | null
+  }
+
+  export type AuctionBidAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type AuctionBidSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type AuctionBidMinAggregateOutputType = {
+    id: string | null
+    auctionId: string | null
+    playerId: string | null
+    playerName: string | null
+    amount: number | null
+    createdAt: Date | null
+  }
+
+  export type AuctionBidMaxAggregateOutputType = {
+    id: string | null
+    auctionId: string | null
+    playerId: string | null
+    playerName: string | null
+    amount: number | null
+    createdAt: Date | null
+  }
+
+  export type AuctionBidCountAggregateOutputType = {
+    id: number
+    auctionId: number
+    playerId: number
+    playerName: number
+    amount: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AuctionBidAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type AuctionBidSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type AuctionBidMinAggregateInputType = {
+    id?: true
+    auctionId?: true
+    playerId?: true
+    playerName?: true
+    amount?: true
+    createdAt?: true
+  }
+
+  export type AuctionBidMaxAggregateInputType = {
+    id?: true
+    auctionId?: true
+    playerId?: true
+    playerName?: true
+    amount?: true
+    createdAt?: true
+  }
+
+  export type AuctionBidCountAggregateInputType = {
+    id?: true
+    auctionId?: true
+    playerId?: true
+    playerName?: true
+    amount?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AuctionBidAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuctionBid to aggregate.
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuctionBids to fetch.
+     */
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuctionBidWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuctionBids from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuctionBids.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AuctionBids
+    **/
+    _count?: true | AuctionBidCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuctionBidAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuctionBidSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuctionBidMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuctionBidMaxAggregateInputType
+  }
+
+  export type GetAuctionBidAggregateType<T extends AuctionBidAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuctionBid]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuctionBid[P]>
+      : GetScalarType<T[P], AggregateAuctionBid[P]>
+  }
+
+
+
+
+  export type AuctionBidGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionBidWhereInput
+    orderBy?: AuctionBidOrderByWithAggregationInput | AuctionBidOrderByWithAggregationInput[]
+    by: AuctionBidScalarFieldEnum[] | AuctionBidScalarFieldEnum
+    having?: AuctionBidScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuctionBidCountAggregateInputType | true
+    _avg?: AuctionBidAvgAggregateInputType
+    _sum?: AuctionBidSumAggregateInputType
+    _min?: AuctionBidMinAggregateInputType
+    _max?: AuctionBidMaxAggregateInputType
+  }
+
+  export type AuctionBidGroupByOutputType = {
+    id: string
+    auctionId: string
+    playerId: string | null
+    playerName: string
+    amount: number
+    createdAt: Date
+    _count: AuctionBidCountAggregateOutputType | null
+    _avg: AuctionBidAvgAggregateOutputType | null
+    _sum: AuctionBidSumAggregateOutputType | null
+    _min: AuctionBidMinAggregateOutputType | null
+    _max: AuctionBidMaxAggregateOutputType | null
+  }
+
+  type GetAuctionBidGroupByPayload<T extends AuctionBidGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuctionBidGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuctionBidGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuctionBidGroupByOutputType[P]>
+            : GetScalarType<T[P], AuctionBidGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuctionBidSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    auctionId?: boolean
+    playerId?: boolean
+    playerName?: boolean
+    amount?: boolean
+    createdAt?: boolean
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }, ExtArgs["result"]["auctionBid"]>
+
+  export type AuctionBidSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    auctionId?: boolean
+    playerId?: boolean
+    playerName?: boolean
+    amount?: boolean
+    createdAt?: boolean
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }, ExtArgs["result"]["auctionBid"]>
+
+  export type AuctionBidSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    auctionId?: boolean
+    playerId?: boolean
+    playerName?: boolean
+    amount?: boolean
+    createdAt?: boolean
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }, ExtArgs["result"]["auctionBid"]>
+
+  export type AuctionBidSelectScalar = {
+    id?: boolean
+    auctionId?: boolean
+    playerId?: boolean
+    playerName?: boolean
+    amount?: boolean
+    createdAt?: boolean
+  }
+
+  export type AuctionBidOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "auctionId" | "playerId" | "playerName" | "amount" | "createdAt", ExtArgs["result"]["auctionBid"]>
+  export type AuctionBidInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }
+  export type AuctionBidIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }
+  export type AuctionBidIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    auction?: boolean | AuctionDefaultArgs<ExtArgs>
+    player?: boolean | AuctionBid$playerArgs<ExtArgs>
+  }
+
+  export type $AuctionBidPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuctionBid"
+    objects: {
+      auction: Prisma.$AuctionPayload<ExtArgs>
+      player: Prisma.$PlayerPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      auctionId: string
+      playerId: string | null
+      playerName: string
+      amount: number
+      createdAt: Date
+    }, ExtArgs["result"]["auctionBid"]>
+    composites: {}
+  }
+
+  type AuctionBidGetPayload<S extends boolean | null | undefined | AuctionBidDefaultArgs> = $Result.GetResult<Prisma.$AuctionBidPayload, S>
+
+  type AuctionBidCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuctionBidFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuctionBidCountAggregateInputType | true
+    }
+
+  export interface AuctionBidDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuctionBid'], meta: { name: 'AuctionBid' } }
+    /**
+     * Find zero or one AuctionBid that matches the filter.
+     * @param {AuctionBidFindUniqueArgs} args - Arguments to find a AuctionBid
+     * @example
+     * // Get one AuctionBid
+     * const auctionBid = await prisma.auctionBid.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuctionBidFindUniqueArgs>(args: SelectSubset<T, AuctionBidFindUniqueArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AuctionBid that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuctionBidFindUniqueOrThrowArgs} args - Arguments to find a AuctionBid
+     * @example
+     * // Get one AuctionBid
+     * const auctionBid = await prisma.auctionBid.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuctionBidFindUniqueOrThrowArgs>(args: SelectSubset<T, AuctionBidFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuctionBid that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidFindFirstArgs} args - Arguments to find a AuctionBid
+     * @example
+     * // Get one AuctionBid
+     * const auctionBid = await prisma.auctionBid.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuctionBidFindFirstArgs>(args?: SelectSubset<T, AuctionBidFindFirstArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuctionBid that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidFindFirstOrThrowArgs} args - Arguments to find a AuctionBid
+     * @example
+     * // Get one AuctionBid
+     * const auctionBid = await prisma.auctionBid.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuctionBidFindFirstOrThrowArgs>(args?: SelectSubset<T, AuctionBidFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuctionBids that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AuctionBids
+     * const auctionBids = await prisma.auctionBid.findMany()
+     * 
+     * // Get first 10 AuctionBids
+     * const auctionBids = await prisma.auctionBid.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auctionBidWithIdOnly = await prisma.auctionBid.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuctionBidFindManyArgs>(args?: SelectSubset<T, AuctionBidFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AuctionBid.
+     * @param {AuctionBidCreateArgs} args - Arguments to create a AuctionBid.
+     * @example
+     * // Create one AuctionBid
+     * const AuctionBid = await prisma.auctionBid.create({
+     *   data: {
+     *     // ... data to create a AuctionBid
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuctionBidCreateArgs>(args: SelectSubset<T, AuctionBidCreateArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AuctionBids.
+     * @param {AuctionBidCreateManyArgs} args - Arguments to create many AuctionBids.
+     * @example
+     * // Create many AuctionBids
+     * const auctionBid = await prisma.auctionBid.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuctionBidCreateManyArgs>(args?: SelectSubset<T, AuctionBidCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AuctionBids and returns the data saved in the database.
+     * @param {AuctionBidCreateManyAndReturnArgs} args - Arguments to create many AuctionBids.
+     * @example
+     * // Create many AuctionBids
+     * const auctionBid = await prisma.auctionBid.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AuctionBids and only return the `id`
+     * const auctionBidWithIdOnly = await prisma.auctionBid.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuctionBidCreateManyAndReturnArgs>(args?: SelectSubset<T, AuctionBidCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AuctionBid.
+     * @param {AuctionBidDeleteArgs} args - Arguments to delete one AuctionBid.
+     * @example
+     * // Delete one AuctionBid
+     * const AuctionBid = await prisma.auctionBid.delete({
+     *   where: {
+     *     // ... filter to delete one AuctionBid
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuctionBidDeleteArgs>(args: SelectSubset<T, AuctionBidDeleteArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AuctionBid.
+     * @param {AuctionBidUpdateArgs} args - Arguments to update one AuctionBid.
+     * @example
+     * // Update one AuctionBid
+     * const auctionBid = await prisma.auctionBid.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuctionBidUpdateArgs>(args: SelectSubset<T, AuctionBidUpdateArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AuctionBids.
+     * @param {AuctionBidDeleteManyArgs} args - Arguments to filter AuctionBids to delete.
+     * @example
+     * // Delete a few AuctionBids
+     * const { count } = await prisma.auctionBid.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuctionBidDeleteManyArgs>(args?: SelectSubset<T, AuctionBidDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuctionBids.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AuctionBids
+     * const auctionBid = await prisma.auctionBid.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuctionBidUpdateManyArgs>(args: SelectSubset<T, AuctionBidUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuctionBids and returns the data updated in the database.
+     * @param {AuctionBidUpdateManyAndReturnArgs} args - Arguments to update many AuctionBids.
+     * @example
+     * // Update many AuctionBids
+     * const auctionBid = await prisma.auctionBid.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AuctionBids and only return the `id`
+     * const auctionBidWithIdOnly = await prisma.auctionBid.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuctionBidUpdateManyAndReturnArgs>(args: SelectSubset<T, AuctionBidUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AuctionBid.
+     * @param {AuctionBidUpsertArgs} args - Arguments to update or create a AuctionBid.
+     * @example
+     * // Update or create a AuctionBid
+     * const auctionBid = await prisma.auctionBid.upsert({
+     *   create: {
+     *     // ... data to create a AuctionBid
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AuctionBid we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuctionBidUpsertArgs>(args: SelectSubset<T, AuctionBidUpsertArgs<ExtArgs>>): Prisma__AuctionBidClient<$Result.GetResult<Prisma.$AuctionBidPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AuctionBids.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidCountArgs} args - Arguments to filter AuctionBids to count.
+     * @example
+     * // Count the number of AuctionBids
+     * const count = await prisma.auctionBid.count({
+     *   where: {
+     *     // ... the filter for the AuctionBids we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuctionBidCountArgs>(
+      args?: Subset<T, AuctionBidCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuctionBidCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AuctionBid.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuctionBidAggregateArgs>(args: Subset<T, AuctionBidAggregateArgs>): Prisma.PrismaPromise<GetAuctionBidAggregateType<T>>
+
+    /**
+     * Group by AuctionBid.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionBidGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuctionBidGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuctionBidGroupByArgs['orderBy'] }
+        : { orderBy?: AuctionBidGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuctionBidGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionBidGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AuctionBid model
+   */
+  readonly fields: AuctionBidFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AuctionBid.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuctionBidClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    auction<T extends AuctionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AuctionDefaultArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    player<T extends AuctionBid$playerArgs<ExtArgs> = {}>(args?: Subset<T, AuctionBid$playerArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AuctionBid model
+   */
+  interface AuctionBidFieldRefs {
+    readonly id: FieldRef<"AuctionBid", 'String'>
+    readonly auctionId: FieldRef<"AuctionBid", 'String'>
+    readonly playerId: FieldRef<"AuctionBid", 'String'>
+    readonly playerName: FieldRef<"AuctionBid", 'String'>
+    readonly amount: FieldRef<"AuctionBid", 'Int'>
+    readonly createdAt: FieldRef<"AuctionBid", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AuctionBid findUnique
+   */
+  export type AuctionBidFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter, which AuctionBid to fetch.
+     */
+    where: AuctionBidWhereUniqueInput
+  }
+
+  /**
+   * AuctionBid findUniqueOrThrow
+   */
+  export type AuctionBidFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter, which AuctionBid to fetch.
+     */
+    where: AuctionBidWhereUniqueInput
+  }
+
+  /**
+   * AuctionBid findFirst
+   */
+  export type AuctionBidFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter, which AuctionBid to fetch.
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuctionBids to fetch.
+     */
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuctionBids.
+     */
+    cursor?: AuctionBidWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuctionBids from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuctionBids.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuctionBids.
+     */
+    distinct?: AuctionBidScalarFieldEnum | AuctionBidScalarFieldEnum[]
+  }
+
+  /**
+   * AuctionBid findFirstOrThrow
+   */
+  export type AuctionBidFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter, which AuctionBid to fetch.
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuctionBids to fetch.
+     */
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuctionBids.
+     */
+    cursor?: AuctionBidWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuctionBids from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuctionBids.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuctionBids.
+     */
+    distinct?: AuctionBidScalarFieldEnum | AuctionBidScalarFieldEnum[]
+  }
+
+  /**
+   * AuctionBid findMany
+   */
+  export type AuctionBidFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter, which AuctionBids to fetch.
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuctionBids to fetch.
+     */
+    orderBy?: AuctionBidOrderByWithRelationInput | AuctionBidOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AuctionBids.
+     */
+    cursor?: AuctionBidWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuctionBids from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuctionBids.
+     */
+    skip?: number
+    distinct?: AuctionBidScalarFieldEnum | AuctionBidScalarFieldEnum[]
+  }
+
+  /**
+   * AuctionBid create
+   */
+  export type AuctionBidCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AuctionBid.
+     */
+    data: XOR<AuctionBidCreateInput, AuctionBidUncheckedCreateInput>
+  }
+
+  /**
+   * AuctionBid createMany
+   */
+  export type AuctionBidCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AuctionBids.
+     */
+    data: AuctionBidCreateManyInput | AuctionBidCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuctionBid createManyAndReturn
+   */
+  export type AuctionBidCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * The data used to create many AuctionBids.
+     */
+    data: AuctionBidCreateManyInput | AuctionBidCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuctionBid update
+   */
+  export type AuctionBidUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AuctionBid.
+     */
+    data: XOR<AuctionBidUpdateInput, AuctionBidUncheckedUpdateInput>
+    /**
+     * Choose, which AuctionBid to update.
+     */
+    where: AuctionBidWhereUniqueInput
+  }
+
+  /**
+   * AuctionBid updateMany
+   */
+  export type AuctionBidUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AuctionBids.
+     */
+    data: XOR<AuctionBidUpdateManyMutationInput, AuctionBidUncheckedUpdateManyInput>
+    /**
+     * Filter which AuctionBids to update
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * Limit how many AuctionBids to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuctionBid updateManyAndReturn
+   */
+  export type AuctionBidUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * The data used to update AuctionBids.
+     */
+    data: XOR<AuctionBidUpdateManyMutationInput, AuctionBidUncheckedUpdateManyInput>
+    /**
+     * Filter which AuctionBids to update
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * Limit how many AuctionBids to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuctionBid upsert
+   */
+  export type AuctionBidUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AuctionBid to update in case it exists.
+     */
+    where: AuctionBidWhereUniqueInput
+    /**
+     * In case the AuctionBid found by the `where` argument doesn't exist, create a new AuctionBid with this data.
+     */
+    create: XOR<AuctionBidCreateInput, AuctionBidUncheckedCreateInput>
+    /**
+     * In case the AuctionBid was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuctionBidUpdateInput, AuctionBidUncheckedUpdateInput>
+  }
+
+  /**
+   * AuctionBid delete
+   */
+  export type AuctionBidDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+    /**
+     * Filter which AuctionBid to delete.
+     */
+    where: AuctionBidWhereUniqueInput
+  }
+
+  /**
+   * AuctionBid deleteMany
+   */
+  export type AuctionBidDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuctionBids to delete
+     */
+    where?: AuctionBidWhereInput
+    /**
+     * Limit how many AuctionBids to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuctionBid.player
+   */
+  export type AuctionBid$playerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    where?: PlayerWhereInput
+  }
+
+  /**
+   * AuctionBid without action
+   */
+  export type AuctionBidDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuctionBid
+     */
+    select?: AuctionBidSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuctionBid
+     */
+    omit?: AuctionBidOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionBidInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5735,6 +8457,36 @@ export namespace Prisma {
   };
 
   export type RoomEmojiScalarFieldEnum = (typeof RoomEmojiScalarFieldEnum)[keyof typeof RoomEmojiScalarFieldEnum]
+
+
+  export const AuctionScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    item: 'item',
+    startingBid: 'startingBid',
+    minIncrement: 'minIncrement',
+    status: 'status',
+    endsAt: 'endsAt',
+    currentBid: 'currentBid',
+    leaderId: 'leaderId',
+    leaderName: 'leaderName',
+    createdAt: 'createdAt',
+    finishedAt: 'finishedAt'
+  };
+
+  export type AuctionScalarFieldEnum = (typeof AuctionScalarFieldEnum)[keyof typeof AuctionScalarFieldEnum]
+
+
+  export const AuctionBidScalarFieldEnum: {
+    id: 'id',
+    auctionId: 'auctionId',
+    playerId: 'playerId',
+    playerName: 'playerName',
+    amount: 'amount',
+    createdAt: 'createdAt'
+  };
+
+  export type AuctionBidScalarFieldEnum = (typeof AuctionBidScalarFieldEnum)[keyof typeof AuctionBidScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5816,6 +8568,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AuctionStatus'
+   */
+  export type EnumAuctionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuctionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuctionStatus[]'
+   */
+  export type ListEnumAuctionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuctionStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -5893,6 +8659,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
     emojis?: RoomEmojiListRelationFilter
+    auctions?: AuctionListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -5908,6 +8675,7 @@ export namespace Prisma {
     owner?: UserOrderByWithRelationInput
     players?: PlayerOrderByRelationAggregateInput
     emojis?: RoomEmojiOrderByRelationAggregateInput
+    auctions?: AuctionOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -5926,6 +8694,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     players?: PlayerListRelationFilter
     emojis?: RoomEmojiListRelationFilter
+    auctions?: AuctionListRelationFilter
   }, "id">
 
   export type RoomOrderByWithAggregationInput = {
@@ -5971,6 +8740,8 @@ export namespace Prisma {
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     emojis?: RoomEmojiListRelationFilter
+    leadingAuctions?: AuctionListRelationFilter
+    bids?: AuctionBidListRelationFilter
   }
 
   export type PlayerOrderByWithRelationInput = {
@@ -5981,6 +8752,8 @@ export namespace Prisma {
     points?: SortOrder
     room?: RoomOrderByWithRelationInput
     emojis?: RoomEmojiOrderByRelationAggregateInput
+    leadingAuctions?: AuctionOrderByRelationAggregateInput
+    bids?: AuctionBidOrderByRelationAggregateInput
   }
 
   export type PlayerWhereUniqueInput = Prisma.AtLeast<{
@@ -5994,6 +8767,8 @@ export namespace Prisma {
     points?: IntFilter<"Player"> | number
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     emojis?: RoomEmojiListRelationFilter
+    leadingAuctions?: AuctionListRelationFilter
+    bids?: AuctionBidListRelationFilter
   }, "id">
 
   export type PlayerOrderByWithAggregationInput = {
@@ -6078,6 +8853,169 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RoomEmoji"> | Date | string
   }
 
+  export type AuctionWhereInput = {
+    AND?: AuctionWhereInput | AuctionWhereInput[]
+    OR?: AuctionWhereInput[]
+    NOT?: AuctionWhereInput | AuctionWhereInput[]
+    id?: StringFilter<"Auction"> | string
+    roomId?: StringFilter<"Auction"> | string
+    item?: StringNullableFilter<"Auction"> | string | null
+    startingBid?: IntFilter<"Auction"> | number
+    minIncrement?: IntFilter<"Auction"> | number
+    status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
+    endsAt?: DateTimeFilter<"Auction"> | Date | string
+    currentBid?: IntNullableFilter<"Auction"> | number | null
+    leaderId?: StringNullableFilter<"Auction"> | string | null
+    leaderName?: StringNullableFilter<"Auction"> | string | null
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    finishedAt?: DateTimeNullableFilter<"Auction"> | Date | string | null
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    leader?: XOR<PlayerNullableScalarRelationFilter, PlayerWhereInput> | null
+    bids?: AuctionBidListRelationFilter
+  }
+
+  export type AuctionOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    item?: SortOrderInput | SortOrder
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    status?: SortOrder
+    endsAt?: SortOrder
+    currentBid?: SortOrderInput | SortOrder
+    leaderId?: SortOrderInput | SortOrder
+    leaderName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    room?: RoomOrderByWithRelationInput
+    leader?: PlayerOrderByWithRelationInput
+    bids?: AuctionBidOrderByRelationAggregateInput
+  }
+
+  export type AuctionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AuctionWhereInput | AuctionWhereInput[]
+    OR?: AuctionWhereInput[]
+    NOT?: AuctionWhereInput | AuctionWhereInput[]
+    roomId?: StringFilter<"Auction"> | string
+    item?: StringNullableFilter<"Auction"> | string | null
+    startingBid?: IntFilter<"Auction"> | number
+    minIncrement?: IntFilter<"Auction"> | number
+    status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
+    endsAt?: DateTimeFilter<"Auction"> | Date | string
+    currentBid?: IntNullableFilter<"Auction"> | number | null
+    leaderId?: StringNullableFilter<"Auction"> | string | null
+    leaderName?: StringNullableFilter<"Auction"> | string | null
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    finishedAt?: DateTimeNullableFilter<"Auction"> | Date | string | null
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    leader?: XOR<PlayerNullableScalarRelationFilter, PlayerWhereInput> | null
+    bids?: AuctionBidListRelationFilter
+  }, "id">
+
+  export type AuctionOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    item?: SortOrderInput | SortOrder
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    status?: SortOrder
+    endsAt?: SortOrder
+    currentBid?: SortOrderInput | SortOrder
+    leaderId?: SortOrderInput | SortOrder
+    leaderName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    _count?: AuctionCountOrderByAggregateInput
+    _avg?: AuctionAvgOrderByAggregateInput
+    _max?: AuctionMaxOrderByAggregateInput
+    _min?: AuctionMinOrderByAggregateInput
+    _sum?: AuctionSumOrderByAggregateInput
+  }
+
+  export type AuctionScalarWhereWithAggregatesInput = {
+    AND?: AuctionScalarWhereWithAggregatesInput | AuctionScalarWhereWithAggregatesInput[]
+    OR?: AuctionScalarWhereWithAggregatesInput[]
+    NOT?: AuctionScalarWhereWithAggregatesInput | AuctionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Auction"> | string
+    roomId?: StringWithAggregatesFilter<"Auction"> | string
+    item?: StringNullableWithAggregatesFilter<"Auction"> | string | null
+    startingBid?: IntWithAggregatesFilter<"Auction"> | number
+    minIncrement?: IntWithAggregatesFilter<"Auction"> | number
+    status?: EnumAuctionStatusWithAggregatesFilter<"Auction"> | $Enums.AuctionStatus
+    endsAt?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
+    currentBid?: IntNullableWithAggregatesFilter<"Auction"> | number | null
+    leaderId?: StringNullableWithAggregatesFilter<"Auction"> | string | null
+    leaderName?: StringNullableWithAggregatesFilter<"Auction"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
+    finishedAt?: DateTimeNullableWithAggregatesFilter<"Auction"> | Date | string | null
+  }
+
+  export type AuctionBidWhereInput = {
+    AND?: AuctionBidWhereInput | AuctionBidWhereInput[]
+    OR?: AuctionBidWhereInput[]
+    NOT?: AuctionBidWhereInput | AuctionBidWhereInput[]
+    id?: StringFilter<"AuctionBid"> | string
+    auctionId?: StringFilter<"AuctionBid"> | string
+    playerId?: StringNullableFilter<"AuctionBid"> | string | null
+    playerName?: StringFilter<"AuctionBid"> | string
+    amount?: IntFilter<"AuctionBid"> | number
+    createdAt?: DateTimeFilter<"AuctionBid"> | Date | string
+    auction?: XOR<AuctionScalarRelationFilter, AuctionWhereInput>
+    player?: XOR<PlayerNullableScalarRelationFilter, PlayerWhereInput> | null
+  }
+
+  export type AuctionBidOrderByWithRelationInput = {
+    id?: SortOrder
+    auctionId?: SortOrder
+    playerId?: SortOrderInput | SortOrder
+    playerName?: SortOrder
+    amount?: SortOrder
+    createdAt?: SortOrder
+    auction?: AuctionOrderByWithRelationInput
+    player?: PlayerOrderByWithRelationInput
+  }
+
+  export type AuctionBidWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AuctionBidWhereInput | AuctionBidWhereInput[]
+    OR?: AuctionBidWhereInput[]
+    NOT?: AuctionBidWhereInput | AuctionBidWhereInput[]
+    auctionId?: StringFilter<"AuctionBid"> | string
+    playerId?: StringNullableFilter<"AuctionBid"> | string | null
+    playerName?: StringFilter<"AuctionBid"> | string
+    amount?: IntFilter<"AuctionBid"> | number
+    createdAt?: DateTimeFilter<"AuctionBid"> | Date | string
+    auction?: XOR<AuctionScalarRelationFilter, AuctionWhereInput>
+    player?: XOR<PlayerNullableScalarRelationFilter, PlayerWhereInput> | null
+  }, "id">
+
+  export type AuctionBidOrderByWithAggregationInput = {
+    id?: SortOrder
+    auctionId?: SortOrder
+    playerId?: SortOrderInput | SortOrder
+    playerName?: SortOrder
+    amount?: SortOrder
+    createdAt?: SortOrder
+    _count?: AuctionBidCountOrderByAggregateInput
+    _avg?: AuctionBidAvgOrderByAggregateInput
+    _max?: AuctionBidMaxOrderByAggregateInput
+    _min?: AuctionBidMinOrderByAggregateInput
+    _sum?: AuctionBidSumOrderByAggregateInput
+  }
+
+  export type AuctionBidScalarWhereWithAggregatesInput = {
+    AND?: AuctionBidScalarWhereWithAggregatesInput | AuctionBidScalarWhereWithAggregatesInput[]
+    OR?: AuctionBidScalarWhereWithAggregatesInput[]
+    NOT?: AuctionBidScalarWhereWithAggregatesInput | AuctionBidScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AuctionBid"> | string
+    auctionId?: StringWithAggregatesFilter<"AuctionBid"> | string
+    playerId?: StringNullableWithAggregatesFilter<"AuctionBid"> | string | null
+    playerName?: StringWithAggregatesFilter<"AuctionBid"> | string
+    amount?: IntWithAggregatesFilter<"AuctionBid"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"AuctionBid"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -6136,6 +9074,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutRoomsInput
     players?: PlayerCreateNestedManyWithoutRoomInput
     emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
+    auctions?: AuctionCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -6150,6 +9089,7 @@ export namespace Prisma {
     EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
     emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -6164,6 +9104,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     players?: PlayerUpdateManyWithoutRoomNestedInput
     emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -6178,6 +9119,7 @@ export namespace Prisma {
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
     emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -6222,6 +9164,8 @@ export namespace Prisma {
     points?: number
     room: RoomCreateNestedOneWithoutPlayersInput
     emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUncheckedCreateInput = {
@@ -6231,6 +9175,8 @@ export namespace Prisma {
     roomId: string
     points?: number
     emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionUncheckedCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUpdateInput = {
@@ -6240,6 +9186,8 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
     emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateInput = {
@@ -6249,6 +9197,8 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUncheckedUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerCreateManyInput = {
@@ -6325,6 +9275,174 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     playerId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionCreateInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    room: RoomCreateNestedOneWithoutAuctionsInput
+    leader?: PlayerCreateNestedOneWithoutLeadingAuctionsInput
+    bids?: AuctionBidCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateInput = {
+    id?: string
+    roomId: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderId?: string | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    room?: RoomUpdateOneRequiredWithoutAuctionsNestedInput
+    leader?: PlayerUpdateOneWithoutLeadingAuctionsNestedInput
+    bids?: AuctionBidUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bids?: AuctionBidUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionCreateManyInput = {
+    id?: string
+    roomId: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderId?: string | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+  }
+
+  export type AuctionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AuctionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AuctionBidCreateInput = {
+    id?: string
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+    auction: AuctionCreateNestedOneWithoutBidsInput
+    player?: PlayerCreateNestedOneWithoutBidsInput
+  }
+
+  export type AuctionBidUncheckedCreateInput = {
+    id?: string
+    auctionId: string
+    playerId?: string | null
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+  }
+
+  export type AuctionBidUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auction?: AuctionUpdateOneRequiredWithoutBidsNestedInput
+    player?: PlayerUpdateOneWithoutBidsNestedInput
+  }
+
+  export type AuctionBidUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionBidCreateManyInput = {
+    id?: string
+    auctionId: string
+    playerId?: string | null
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+  }
+
+  export type AuctionBidUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionBidUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6422,11 +9540,21 @@ export namespace Prisma {
     none?: RoomEmojiWhereInput
   }
 
+  export type AuctionListRelationFilter = {
+    every?: AuctionWhereInput
+    some?: AuctionWhereInput
+    none?: AuctionWhereInput
+  }
+
   export type PlayerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type RoomEmojiOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuctionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6522,9 +9650,19 @@ export namespace Prisma {
     isNot?: RoomWhereInput
   }
 
+  export type AuctionBidListRelationFilter = {
+    every?: AuctionBidWhereInput
+    some?: AuctionBidWhereInput
+    none?: AuctionBidWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AuctionBidOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PlayerCountOrderByAggregateInput = {
@@ -6631,6 +9769,177 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumAuctionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuctionStatus | EnumAuctionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuctionStatusFilter<$PrismaModel> | $Enums.AuctionStatus
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type PlayerNullableScalarRelationFilter = {
+    is?: PlayerWhereInput | null
+    isNot?: PlayerWhereInput | null
+  }
+
+  export type AuctionCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    item?: SortOrder
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    status?: SortOrder
+    endsAt?: SortOrder
+    currentBid?: SortOrder
+    leaderId?: SortOrder
+    leaderName?: SortOrder
+    createdAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type AuctionAvgOrderByAggregateInput = {
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    currentBid?: SortOrder
+  }
+
+  export type AuctionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    item?: SortOrder
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    status?: SortOrder
+    endsAt?: SortOrder
+    currentBid?: SortOrder
+    leaderId?: SortOrder
+    leaderName?: SortOrder
+    createdAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type AuctionMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    item?: SortOrder
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    status?: SortOrder
+    endsAt?: SortOrder
+    currentBid?: SortOrder
+    leaderId?: SortOrder
+    leaderName?: SortOrder
+    createdAt?: SortOrder
+    finishedAt?: SortOrder
+  }
+
+  export type AuctionSumOrderByAggregateInput = {
+    startingBid?: SortOrder
+    minIncrement?: SortOrder
+    currentBid?: SortOrder
+  }
+
+  export type EnumAuctionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuctionStatus | EnumAuctionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuctionStatusWithAggregatesFilter<$PrismaModel> | $Enums.AuctionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuctionStatusFilter<$PrismaModel>
+    _max?: NestedEnumAuctionStatusFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type AuctionScalarRelationFilter = {
+    is?: AuctionWhereInput
+    isNot?: AuctionWhereInput
+  }
+
+  export type AuctionBidCountOrderByAggregateInput = {
+    id?: SortOrder
+    auctionId?: SortOrder
+    playerId?: SortOrder
+    playerName?: SortOrder
+    amount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuctionBidAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type AuctionBidMaxOrderByAggregateInput = {
+    id?: SortOrder
+    auctionId?: SortOrder
+    playerId?: SortOrder
+    playerName?: SortOrder
+    amount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuctionBidMinOrderByAggregateInput = {
+    id?: SortOrder
+    auctionId?: SortOrder
+    playerId?: SortOrder
+    playerName?: SortOrder
+    amount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuctionBidSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
   export type RoomCreateNestedManyWithoutOwnerInput = {
     create?: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput> | RoomCreateWithoutOwnerInput[] | RoomUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: RoomCreateOrConnectWithoutOwnerInput | RoomCreateOrConnectWithoutOwnerInput[]
@@ -6697,6 +10006,13 @@ export namespace Prisma {
     connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
+  export type AuctionCreateNestedManyWithoutRoomInput = {
+    create?: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput> | AuctionCreateWithoutRoomInput[] | AuctionUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutRoomInput | AuctionCreateOrConnectWithoutRoomInput[]
+    createMany?: AuctionCreateManyRoomInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+  }
+
   export type PlayerUncheckedCreateNestedManyWithoutRoomInput = {
     create?: XOR<PlayerCreateWithoutRoomInput, PlayerUncheckedCreateWithoutRoomInput> | PlayerCreateWithoutRoomInput[] | PlayerUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutRoomInput | PlayerCreateOrConnectWithoutRoomInput[]
@@ -6709,6 +10025,13 @@ export namespace Prisma {
     connectOrCreate?: RoomEmojiCreateOrConnectWithoutRoomInput | RoomEmojiCreateOrConnectWithoutRoomInput[]
     createMany?: RoomEmojiCreateManyRoomInputEnvelope
     connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput> | AuctionCreateWithoutRoomInput[] | AuctionUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutRoomInput | AuctionCreateOrConnectWithoutRoomInput[]
+    createMany?: AuctionCreateManyRoomInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -6759,6 +10082,20 @@ export namespace Prisma {
     deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
+  export type AuctionUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput> | AuctionCreateWithoutRoomInput[] | AuctionUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutRoomInput | AuctionCreateOrConnectWithoutRoomInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutRoomInput | AuctionUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: AuctionCreateManyRoomInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutRoomInput | AuctionUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutRoomInput | AuctionUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
   export type PlayerUncheckedUpdateManyWithoutRoomNestedInput = {
     create?: XOR<PlayerCreateWithoutRoomInput, PlayerUncheckedCreateWithoutRoomInput> | PlayerCreateWithoutRoomInput[] | PlayerUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutRoomInput | PlayerCreateOrConnectWithoutRoomInput[]
@@ -6787,6 +10124,20 @@ export namespace Prisma {
     deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
+  export type AuctionUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput> | AuctionCreateWithoutRoomInput[] | AuctionUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutRoomInput | AuctionCreateOrConnectWithoutRoomInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutRoomInput | AuctionUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: AuctionCreateManyRoomInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutRoomInput | AuctionUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutRoomInput | AuctionUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
   export type RoomCreateNestedOneWithoutPlayersInput = {
     create?: XOR<RoomCreateWithoutPlayersInput, RoomUncheckedCreateWithoutPlayersInput>
     connectOrCreate?: RoomCreateOrConnectWithoutPlayersInput
@@ -6800,11 +10151,39 @@ export namespace Prisma {
     connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
   }
 
+  export type AuctionCreateNestedManyWithoutLeaderInput = {
+    create?: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput> | AuctionCreateWithoutLeaderInput[] | AuctionUncheckedCreateWithoutLeaderInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutLeaderInput | AuctionCreateOrConnectWithoutLeaderInput[]
+    createMany?: AuctionCreateManyLeaderInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+  }
+
+  export type AuctionBidCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput> | AuctionBidCreateWithoutPlayerInput[] | AuctionBidUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutPlayerInput | AuctionBidCreateOrConnectWithoutPlayerInput[]
+    createMany?: AuctionBidCreateManyPlayerInputEnvelope
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+  }
+
   export type RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput = {
     create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
     connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
     createMany?: RoomEmojiCreateManyPlayerInputEnvelope
     connect?: RoomEmojiWhereUniqueInput | RoomEmojiWhereUniqueInput[]
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutLeaderInput = {
+    create?: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput> | AuctionCreateWithoutLeaderInput[] | AuctionUncheckedCreateWithoutLeaderInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutLeaderInput | AuctionCreateOrConnectWithoutLeaderInput[]
+    createMany?: AuctionCreateManyLeaderInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+  }
+
+  export type AuctionBidUncheckedCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput> | AuctionBidCreateWithoutPlayerInput[] | AuctionBidUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutPlayerInput | AuctionBidCreateOrConnectWithoutPlayerInput[]
+    createMany?: AuctionBidCreateManyPlayerInputEnvelope
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -6833,6 +10212,34 @@ export namespace Prisma {
     deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
   }
 
+  export type AuctionUpdateManyWithoutLeaderNestedInput = {
+    create?: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput> | AuctionCreateWithoutLeaderInput[] | AuctionUncheckedCreateWithoutLeaderInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutLeaderInput | AuctionCreateOrConnectWithoutLeaderInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutLeaderInput | AuctionUpsertWithWhereUniqueWithoutLeaderInput[]
+    createMany?: AuctionCreateManyLeaderInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutLeaderInput | AuctionUpdateWithWhereUniqueWithoutLeaderInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutLeaderInput | AuctionUpdateManyWithWhereWithoutLeaderInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
+  export type AuctionBidUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput> | AuctionBidCreateWithoutPlayerInput[] | AuctionBidUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutPlayerInput | AuctionBidCreateOrConnectWithoutPlayerInput[]
+    upsert?: AuctionBidUpsertWithWhereUniqueWithoutPlayerInput | AuctionBidUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: AuctionBidCreateManyPlayerInputEnvelope
+    set?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    disconnect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    delete?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    update?: AuctionBidUpdateWithWhereUniqueWithoutPlayerInput | AuctionBidUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: AuctionBidUpdateManyWithWhereWithoutPlayerInput | AuctionBidUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
+  }
+
   export type RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput = {
     create?: XOR<RoomEmojiCreateWithoutPlayerInput, RoomEmojiUncheckedCreateWithoutPlayerInput> | RoomEmojiCreateWithoutPlayerInput[] | RoomEmojiUncheckedCreateWithoutPlayerInput[]
     connectOrCreate?: RoomEmojiCreateOrConnectWithoutPlayerInput | RoomEmojiCreateOrConnectWithoutPlayerInput[]
@@ -6845,6 +10252,34 @@ export namespace Prisma {
     update?: RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput | RoomEmojiUpdateWithWhereUniqueWithoutPlayerInput[]
     updateMany?: RoomEmojiUpdateManyWithWhereWithoutPlayerInput | RoomEmojiUpdateManyWithWhereWithoutPlayerInput[]
     deleteMany?: RoomEmojiScalarWhereInput | RoomEmojiScalarWhereInput[]
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutLeaderNestedInput = {
+    create?: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput> | AuctionCreateWithoutLeaderInput[] | AuctionUncheckedCreateWithoutLeaderInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutLeaderInput | AuctionCreateOrConnectWithoutLeaderInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutLeaderInput | AuctionUpsertWithWhereUniqueWithoutLeaderInput[]
+    createMany?: AuctionCreateManyLeaderInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutLeaderInput | AuctionUpdateWithWhereUniqueWithoutLeaderInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutLeaderInput | AuctionUpdateManyWithWhereWithoutLeaderInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
+  export type AuctionBidUncheckedUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput> | AuctionBidCreateWithoutPlayerInput[] | AuctionBidUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutPlayerInput | AuctionBidCreateOrConnectWithoutPlayerInput[]
+    upsert?: AuctionBidUpsertWithWhereUniqueWithoutPlayerInput | AuctionBidUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: AuctionBidCreateManyPlayerInputEnvelope
+    set?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    disconnect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    delete?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    update?: AuctionBidUpdateWithWhereUniqueWithoutPlayerInput | AuctionBidUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: AuctionBidUpdateManyWithWhereWithoutPlayerInput | AuctionBidUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
   }
 
   export type RoomCreateNestedOneWithoutEmojisInput = {
@@ -6877,6 +10312,124 @@ export namespace Prisma {
     upsert?: PlayerUpsertWithoutEmojisInput
     connect?: PlayerWhereUniqueInput
     update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutEmojisInput, PlayerUpdateWithoutEmojisInput>, PlayerUncheckedUpdateWithoutEmojisInput>
+  }
+
+  export type RoomCreateNestedOneWithoutAuctionsInput = {
+    create?: XOR<RoomCreateWithoutAuctionsInput, RoomUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutAuctionsInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type PlayerCreateNestedOneWithoutLeadingAuctionsInput = {
+    create?: XOR<PlayerCreateWithoutLeadingAuctionsInput, PlayerUncheckedCreateWithoutLeadingAuctionsInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutLeadingAuctionsInput
+    connect?: PlayerWhereUniqueInput
+  }
+
+  export type AuctionBidCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput> | AuctionBidCreateWithoutAuctionInput[] | AuctionBidUncheckedCreateWithoutAuctionInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutAuctionInput | AuctionBidCreateOrConnectWithoutAuctionInput[]
+    createMany?: AuctionBidCreateManyAuctionInputEnvelope
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+  }
+
+  export type AuctionBidUncheckedCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput> | AuctionBidCreateWithoutAuctionInput[] | AuctionBidUncheckedCreateWithoutAuctionInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutAuctionInput | AuctionBidCreateOrConnectWithoutAuctionInput[]
+    createMany?: AuctionBidCreateManyAuctionInputEnvelope
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+  }
+
+  export type EnumAuctionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AuctionStatus
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type RoomUpdateOneRequiredWithoutAuctionsNestedInput = {
+    create?: XOR<RoomCreateWithoutAuctionsInput, RoomUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutAuctionsInput
+    upsert?: RoomUpsertWithoutAuctionsInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutAuctionsInput, RoomUpdateWithoutAuctionsInput>, RoomUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type PlayerUpdateOneWithoutLeadingAuctionsNestedInput = {
+    create?: XOR<PlayerCreateWithoutLeadingAuctionsInput, PlayerUncheckedCreateWithoutLeadingAuctionsInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutLeadingAuctionsInput
+    upsert?: PlayerUpsertWithoutLeadingAuctionsInput
+    disconnect?: PlayerWhereInput | boolean
+    delete?: PlayerWhereInput | boolean
+    connect?: PlayerWhereUniqueInput
+    update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutLeadingAuctionsInput, PlayerUpdateWithoutLeadingAuctionsInput>, PlayerUncheckedUpdateWithoutLeadingAuctionsInput>
+  }
+
+  export type AuctionBidUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput> | AuctionBidCreateWithoutAuctionInput[] | AuctionBidUncheckedCreateWithoutAuctionInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutAuctionInput | AuctionBidCreateOrConnectWithoutAuctionInput[]
+    upsert?: AuctionBidUpsertWithWhereUniqueWithoutAuctionInput | AuctionBidUpsertWithWhereUniqueWithoutAuctionInput[]
+    createMany?: AuctionBidCreateManyAuctionInputEnvelope
+    set?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    disconnect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    delete?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    update?: AuctionBidUpdateWithWhereUniqueWithoutAuctionInput | AuctionBidUpdateWithWhereUniqueWithoutAuctionInput[]
+    updateMany?: AuctionBidUpdateManyWithWhereWithoutAuctionInput | AuctionBidUpdateManyWithWhereWithoutAuctionInput[]
+    deleteMany?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
+  }
+
+  export type AuctionBidUncheckedUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput> | AuctionBidCreateWithoutAuctionInput[] | AuctionBidUncheckedCreateWithoutAuctionInput[]
+    connectOrCreate?: AuctionBidCreateOrConnectWithoutAuctionInput | AuctionBidCreateOrConnectWithoutAuctionInput[]
+    upsert?: AuctionBidUpsertWithWhereUniqueWithoutAuctionInput | AuctionBidUpsertWithWhereUniqueWithoutAuctionInput[]
+    createMany?: AuctionBidCreateManyAuctionInputEnvelope
+    set?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    disconnect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    delete?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    connect?: AuctionBidWhereUniqueInput | AuctionBidWhereUniqueInput[]
+    update?: AuctionBidUpdateWithWhereUniqueWithoutAuctionInput | AuctionBidUpdateWithWhereUniqueWithoutAuctionInput[]
+    updateMany?: AuctionBidUpdateManyWithWhereWithoutAuctionInput | AuctionBidUpdateManyWithWhereWithoutAuctionInput[]
+    deleteMany?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
+  }
+
+  export type AuctionCreateNestedOneWithoutBidsInput = {
+    create?: XOR<AuctionCreateWithoutBidsInput, AuctionUncheckedCreateWithoutBidsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutBidsInput
+    connect?: AuctionWhereUniqueInput
+  }
+
+  export type PlayerCreateNestedOneWithoutBidsInput = {
+    create?: XOR<PlayerCreateWithoutBidsInput, PlayerUncheckedCreateWithoutBidsInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutBidsInput
+    connect?: PlayerWhereUniqueInput
+  }
+
+  export type AuctionUpdateOneRequiredWithoutBidsNestedInput = {
+    create?: XOR<AuctionCreateWithoutBidsInput, AuctionUncheckedCreateWithoutBidsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutBidsInput
+    upsert?: AuctionUpsertWithoutBidsInput
+    connect?: AuctionWhereUniqueInput
+    update?: XOR<XOR<AuctionUpdateToOneWithWhereWithoutBidsInput, AuctionUpdateWithoutBidsInput>, AuctionUncheckedUpdateWithoutBidsInput>
+  }
+
+  export type PlayerUpdateOneWithoutBidsNestedInput = {
+    create?: XOR<PlayerCreateWithoutBidsInput, PlayerUncheckedCreateWithoutBidsInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutBidsInput
+    upsert?: PlayerUpsertWithoutBidsInput
+    disconnect?: PlayerWhereInput | boolean
+    delete?: PlayerWhereInput | boolean
+    connect?: PlayerWhereUniqueInput
+    update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutBidsInput, PlayerUpdateWithoutBidsInput>, PlayerUncheckedUpdateWithoutBidsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7028,6 +10581,75 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumAuctionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuctionStatus | EnumAuctionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuctionStatusFilter<$PrismaModel> | $Enums.AuctionStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumAuctionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuctionStatus | EnumAuctionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuctionStatus[] | ListEnumAuctionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuctionStatusWithAggregatesFilter<$PrismaModel> | $Enums.AuctionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuctionStatusFilter<$PrismaModel>
+    _max?: NestedEnumAuctionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type RoomCreateWithoutOwnerInput = {
     id?: string
     name: string
@@ -7039,6 +10661,7 @@ export namespace Prisma {
     EmojiCooldown?: number
     players?: PlayerCreateNestedManyWithoutRoomInput
     emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
+    auctions?: AuctionCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutOwnerInput = {
@@ -7052,6 +10675,7 @@ export namespace Prisma {
     EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
     emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutOwnerInput = {
@@ -7118,6 +10742,8 @@ export namespace Prisma {
     avatar?: string | null
     points?: number
     emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUncheckedCreateWithoutRoomInput = {
@@ -7126,6 +10752,8 @@ export namespace Prisma {
     avatar?: string | null
     points?: number
     emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionUncheckedCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerCreateOrConnectWithoutRoomInput = {
@@ -7159,6 +10787,46 @@ export namespace Prisma {
 
   export type RoomEmojiCreateManyRoomInputEnvelope = {
     data: RoomEmojiCreateManyRoomInput | RoomEmojiCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuctionCreateWithoutRoomInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    leader?: PlayerCreateNestedOneWithoutLeadingAuctionsInput
+    bids?: AuctionBidCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutRoomInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderId?: string | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutRoomInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput>
+  }
+
+  export type AuctionCreateManyRoomInputEnvelope = {
+    data: AuctionCreateManyRoomInput | AuctionCreateManyRoomInput[]
     skipDuplicates?: boolean
   }
 
@@ -7239,6 +10907,40 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"RoomEmoji"> | Date | string
   }
 
+  export type AuctionUpsertWithWhereUniqueWithoutRoomInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutRoomInput, AuctionUncheckedUpdateWithoutRoomInput>
+    create: XOR<AuctionCreateWithoutRoomInput, AuctionUncheckedCreateWithoutRoomInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutRoomInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutRoomInput, AuctionUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutRoomInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type AuctionScalarWhereInput = {
+    AND?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+    OR?: AuctionScalarWhereInput[]
+    NOT?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+    id?: StringFilter<"Auction"> | string
+    roomId?: StringFilter<"Auction"> | string
+    item?: StringNullableFilter<"Auction"> | string | null
+    startingBid?: IntFilter<"Auction"> | number
+    minIncrement?: IntFilter<"Auction"> | number
+    status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
+    endsAt?: DateTimeFilter<"Auction"> | Date | string
+    currentBid?: IntNullableFilter<"Auction"> | number | null
+    leaderId?: StringNullableFilter<"Auction"> | string | null
+    leaderName?: StringNullableFilter<"Auction"> | string | null
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    finishedAt?: DateTimeNullableFilter<"Auction"> | Date | string | null
+  }
+
   export type RoomCreateWithoutPlayersInput = {
     id?: string
     name: string
@@ -7250,6 +10952,7 @@ export namespace Prisma {
     EmojiCooldown?: number
     owner: UserCreateNestedOneWithoutRoomsInput
     emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
+    auctions?: AuctionCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutPlayersInput = {
@@ -7263,6 +10966,7 @@ export namespace Prisma {
     EmojiLimit?: number
     EmojiCooldown?: number
     emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutPlayersInput = {
@@ -7294,6 +10998,72 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AuctionCreateWithoutLeaderInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    room: RoomCreateNestedOneWithoutAuctionsInput
+    bids?: AuctionBidCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutLeaderInput = {
+    id?: string
+    roomId: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutLeaderInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput>
+  }
+
+  export type AuctionCreateManyLeaderInputEnvelope = {
+    data: AuctionCreateManyLeaderInput | AuctionCreateManyLeaderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuctionBidCreateWithoutPlayerInput = {
+    id?: string
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+    auction: AuctionCreateNestedOneWithoutBidsInput
+  }
+
+  export type AuctionBidUncheckedCreateWithoutPlayerInput = {
+    id?: string
+    auctionId: string
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+  }
+
+  export type AuctionBidCreateOrConnectWithoutPlayerInput = {
+    where: AuctionBidWhereUniqueInput
+    create: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type AuctionBidCreateManyPlayerInputEnvelope = {
+    data: AuctionBidCreateManyPlayerInput | AuctionBidCreateManyPlayerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RoomUpsertWithoutPlayersInput = {
     update: XOR<RoomUpdateWithoutPlayersInput, RoomUncheckedUpdateWithoutPlayersInput>
     create: XOR<RoomCreateWithoutPlayersInput, RoomUncheckedCreateWithoutPlayersInput>
@@ -7316,6 +11086,7 @@ export namespace Prisma {
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutPlayersInput = {
@@ -7329,6 +11100,7 @@ export namespace Prisma {
     EmojiLimit?: IntFieldUpdateOperationsInput | number
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomEmojiUpsertWithWhereUniqueWithoutPlayerInput = {
@@ -7347,6 +11119,50 @@ export namespace Prisma {
     data: XOR<RoomEmojiUpdateManyMutationInput, RoomEmojiUncheckedUpdateManyWithoutPlayerInput>
   }
 
+  export type AuctionUpsertWithWhereUniqueWithoutLeaderInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutLeaderInput, AuctionUncheckedUpdateWithoutLeaderInput>
+    create: XOR<AuctionCreateWithoutLeaderInput, AuctionUncheckedCreateWithoutLeaderInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutLeaderInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutLeaderInput, AuctionUncheckedUpdateWithoutLeaderInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutLeaderInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutLeaderInput>
+  }
+
+  export type AuctionBidUpsertWithWhereUniqueWithoutPlayerInput = {
+    where: AuctionBidWhereUniqueInput
+    update: XOR<AuctionBidUpdateWithoutPlayerInput, AuctionBidUncheckedUpdateWithoutPlayerInput>
+    create: XOR<AuctionBidCreateWithoutPlayerInput, AuctionBidUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type AuctionBidUpdateWithWhereUniqueWithoutPlayerInput = {
+    where: AuctionBidWhereUniqueInput
+    data: XOR<AuctionBidUpdateWithoutPlayerInput, AuctionBidUncheckedUpdateWithoutPlayerInput>
+  }
+
+  export type AuctionBidUpdateManyWithWhereWithoutPlayerInput = {
+    where: AuctionBidScalarWhereInput
+    data: XOR<AuctionBidUpdateManyMutationInput, AuctionBidUncheckedUpdateManyWithoutPlayerInput>
+  }
+
+  export type AuctionBidScalarWhereInput = {
+    AND?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
+    OR?: AuctionBidScalarWhereInput[]
+    NOT?: AuctionBidScalarWhereInput | AuctionBidScalarWhereInput[]
+    id?: StringFilter<"AuctionBid"> | string
+    auctionId?: StringFilter<"AuctionBid"> | string
+    playerId?: StringNullableFilter<"AuctionBid"> | string | null
+    playerName?: StringFilter<"AuctionBid"> | string
+    amount?: IntFilter<"AuctionBid"> | number
+    createdAt?: DateTimeFilter<"AuctionBid"> | Date | string
+  }
+
   export type RoomCreateWithoutEmojisInput = {
     id?: string
     name: string
@@ -7358,6 +11174,7 @@ export namespace Prisma {
     EmojiCooldown?: number
     owner: UserCreateNestedOneWithoutRoomsInput
     players?: PlayerCreateNestedManyWithoutRoomInput
+    auctions?: AuctionCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutEmojisInput = {
@@ -7371,6 +11188,7 @@ export namespace Prisma {
     EmojiLimit?: number
     EmojiCooldown?: number
     players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutEmojisInput = {
@@ -7384,6 +11202,8 @@ export namespace Prisma {
     avatar?: string | null
     points?: number
     room: RoomCreateNestedOneWithoutPlayersInput
+    leadingAuctions?: AuctionCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerUncheckedCreateWithoutEmojisInput = {
@@ -7392,6 +11212,8 @@ export namespace Prisma {
     avatar?: string | null
     roomId: string
     points?: number
+    leadingAuctions?: AuctionUncheckedCreateNestedManyWithoutLeaderInput
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type PlayerCreateOrConnectWithoutEmojisInput = {
@@ -7421,6 +11243,7 @@ export namespace Prisma {
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
     players?: PlayerUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutEmojisInput = {
@@ -7434,6 +11257,7 @@ export namespace Prisma {
     EmojiLimit?: IntFieldUpdateOperationsInput | number
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type PlayerUpsertWithoutEmojisInput = {
@@ -7453,6 +11277,8 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
+    leadingAuctions?: AuctionUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateWithoutEmojisInput = {
@@ -7461,6 +11287,310 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
+    leadingAuctions?: AuctionUncheckedUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUncheckedUpdateManyWithoutPlayerNestedInput
+  }
+
+  export type RoomCreateWithoutAuctionsInput = {
+    id?: string
+    name: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
+    EmojisEnabled?: boolean
+    EmojiLimit?: number
+    EmojiCooldown?: number
+    owner: UserCreateNestedOneWithoutRoomsInput
+    players?: PlayerCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutAuctionsInput = {
+    id?: string
+    name: string
+    ownerId: string
+    PlayerLimit?: number
+    PlayersCanEditPoints?: boolean
+    PlayersCanEditName?: boolean
+    EmojisEnabled?: boolean
+    EmojiLimit?: number
+    EmojiCooldown?: number
+    players?: PlayerUncheckedCreateNestedManyWithoutRoomInput
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutAuctionsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutAuctionsInput, RoomUncheckedCreateWithoutAuctionsInput>
+  }
+
+  export type PlayerCreateWithoutLeadingAuctionsInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    points?: number
+    room: RoomCreateNestedOneWithoutPlayersInput
+    emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
+    bids?: AuctionBidCreateNestedManyWithoutPlayerInput
+  }
+
+  export type PlayerUncheckedCreateWithoutLeadingAuctionsInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    roomId: string
+    points?: number
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
+    bids?: AuctionBidUncheckedCreateNestedManyWithoutPlayerInput
+  }
+
+  export type PlayerCreateOrConnectWithoutLeadingAuctionsInput = {
+    where: PlayerWhereUniqueInput
+    create: XOR<PlayerCreateWithoutLeadingAuctionsInput, PlayerUncheckedCreateWithoutLeadingAuctionsInput>
+  }
+
+  export type AuctionBidCreateWithoutAuctionInput = {
+    id?: string
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+    player?: PlayerCreateNestedOneWithoutBidsInput
+  }
+
+  export type AuctionBidUncheckedCreateWithoutAuctionInput = {
+    id?: string
+    playerId?: string | null
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+  }
+
+  export type AuctionBidCreateOrConnectWithoutAuctionInput = {
+    where: AuctionBidWhereUniqueInput
+    create: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type AuctionBidCreateManyAuctionInputEnvelope = {
+    data: AuctionBidCreateManyAuctionInput | AuctionBidCreateManyAuctionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoomUpsertWithoutAuctionsInput = {
+    update: XOR<RoomUpdateWithoutAuctionsInput, RoomUncheckedUpdateWithoutAuctionsInput>
+    create: XOR<RoomCreateWithoutAuctionsInput, RoomUncheckedCreateWithoutAuctionsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutAuctionsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutAuctionsInput, RoomUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type RoomUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
+    EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
+    EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
+    owner?: UserUpdateOneRequiredWithoutRoomsNestedInput
+    players?: PlayerUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    PlayerLimit?: IntFieldUpdateOperationsInput | number
+    PlayersCanEditPoints?: BoolFieldUpdateOperationsInput | boolean
+    PlayersCanEditName?: BoolFieldUpdateOperationsInput | boolean
+    EmojisEnabled?: BoolFieldUpdateOperationsInput | boolean
+    EmojiLimit?: IntFieldUpdateOperationsInput | number
+    EmojiCooldown?: IntFieldUpdateOperationsInput | number
+    players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type PlayerUpsertWithoutLeadingAuctionsInput = {
+    update: XOR<PlayerUpdateWithoutLeadingAuctionsInput, PlayerUncheckedUpdateWithoutLeadingAuctionsInput>
+    create: XOR<PlayerCreateWithoutLeadingAuctionsInput, PlayerUncheckedCreateWithoutLeadingAuctionsInput>
+    where?: PlayerWhereInput
+  }
+
+  export type PlayerUpdateToOneWithWhereWithoutLeadingAuctionsInput = {
+    where?: PlayerWhereInput
+    data: XOR<PlayerUpdateWithoutLeadingAuctionsInput, PlayerUncheckedUpdateWithoutLeadingAuctionsInput>
+  }
+
+  export type PlayerUpdateWithoutLeadingAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
+    bids?: AuctionBidUpdateManyWithoutPlayerNestedInput
+  }
+
+  export type PlayerUncheckedUpdateWithoutLeadingAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
+    bids?: AuctionBidUncheckedUpdateManyWithoutPlayerNestedInput
+  }
+
+  export type AuctionBidUpsertWithWhereUniqueWithoutAuctionInput = {
+    where: AuctionBidWhereUniqueInput
+    update: XOR<AuctionBidUpdateWithoutAuctionInput, AuctionBidUncheckedUpdateWithoutAuctionInput>
+    create: XOR<AuctionBidCreateWithoutAuctionInput, AuctionBidUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type AuctionBidUpdateWithWhereUniqueWithoutAuctionInput = {
+    where: AuctionBidWhereUniqueInput
+    data: XOR<AuctionBidUpdateWithoutAuctionInput, AuctionBidUncheckedUpdateWithoutAuctionInput>
+  }
+
+  export type AuctionBidUpdateManyWithWhereWithoutAuctionInput = {
+    where: AuctionBidScalarWhereInput
+    data: XOR<AuctionBidUpdateManyMutationInput, AuctionBidUncheckedUpdateManyWithoutAuctionInput>
+  }
+
+  export type AuctionCreateWithoutBidsInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+    room: RoomCreateNestedOneWithoutAuctionsInput
+    leader?: PlayerCreateNestedOneWithoutLeadingAuctionsInput
+  }
+
+  export type AuctionUncheckedCreateWithoutBidsInput = {
+    id?: string
+    roomId: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderId?: string | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+  }
+
+  export type AuctionCreateOrConnectWithoutBidsInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutBidsInput, AuctionUncheckedCreateWithoutBidsInput>
+  }
+
+  export type PlayerCreateWithoutBidsInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    points?: number
+    room: RoomCreateNestedOneWithoutPlayersInput
+    emojis?: RoomEmojiCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionCreateNestedManyWithoutLeaderInput
+  }
+
+  export type PlayerUncheckedCreateWithoutBidsInput = {
+    id?: string
+    name: string
+    avatar?: string | null
+    roomId: string
+    points?: number
+    emojis?: RoomEmojiUncheckedCreateNestedManyWithoutPlayerInput
+    leadingAuctions?: AuctionUncheckedCreateNestedManyWithoutLeaderInput
+  }
+
+  export type PlayerCreateOrConnectWithoutBidsInput = {
+    where: PlayerWhereUniqueInput
+    create: XOR<PlayerCreateWithoutBidsInput, PlayerUncheckedCreateWithoutBidsInput>
+  }
+
+  export type AuctionUpsertWithoutBidsInput = {
+    update: XOR<AuctionUpdateWithoutBidsInput, AuctionUncheckedUpdateWithoutBidsInput>
+    create: XOR<AuctionCreateWithoutBidsInput, AuctionUncheckedCreateWithoutBidsInput>
+    where?: AuctionWhereInput
+  }
+
+  export type AuctionUpdateToOneWithWhereWithoutBidsInput = {
+    where?: AuctionWhereInput
+    data: XOR<AuctionUpdateWithoutBidsInput, AuctionUncheckedUpdateWithoutBidsInput>
+  }
+
+  export type AuctionUpdateWithoutBidsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    room?: RoomUpdateOneRequiredWithoutAuctionsNestedInput
+    leader?: PlayerUpdateOneWithoutLeadingAuctionsNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutBidsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PlayerUpsertWithoutBidsInput = {
+    update: XOR<PlayerUpdateWithoutBidsInput, PlayerUncheckedUpdateWithoutBidsInput>
+    create: XOR<PlayerCreateWithoutBidsInput, PlayerUncheckedCreateWithoutBidsInput>
+    where?: PlayerWhereInput
+  }
+
+  export type PlayerUpdateToOneWithWhereWithoutBidsInput = {
+    where?: PlayerWhereInput
+    data: XOR<PlayerUpdateWithoutBidsInput, PlayerUncheckedUpdateWithoutBidsInput>
+  }
+
+  export type PlayerUpdateWithoutBidsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    room?: RoomUpdateOneRequiredWithoutPlayersNestedInput
+    emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUpdateManyWithoutLeaderNestedInput
+  }
+
+  export type PlayerUncheckedUpdateWithoutBidsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUncheckedUpdateManyWithoutLeaderNestedInput
   }
 
   export type RoomCreateManyOwnerInput = {
@@ -7485,6 +11615,7 @@ export namespace Prisma {
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUpdateManyWithoutRoomNestedInput
     emojis?: RoomEmojiUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutOwnerInput = {
@@ -7498,6 +11629,7 @@ export namespace Prisma {
     EmojiCooldown?: IntFieldUpdateOperationsInput | number
     players?: PlayerUncheckedUpdateManyWithoutRoomNestedInput
     emojis?: RoomEmojiUncheckedUpdateManyWithoutRoomNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutOwnerInput = {
@@ -7525,12 +11657,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AuctionCreateManyRoomInput = {
+    id?: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderId?: string | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+  }
+
   export type PlayerUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     emojis?: RoomEmojiUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateWithoutRoomInput = {
@@ -7539,6 +11687,8 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     emojis?: RoomEmojiUncheckedUpdateManyWithoutPlayerNestedInput
+    leadingAuctions?: AuctionUncheckedUpdateManyWithoutLeaderNestedInput
+    bids?: AuctionBidUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type PlayerUncheckedUpdateManyWithoutRoomInput = {
@@ -7569,10 +11719,76 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AuctionUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    leader?: PlayerUpdateOneWithoutLeadingAuctionsNestedInput
+    bids?: AuctionBidUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bids?: AuctionBidUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type RoomEmojiCreateManyPlayerInput = {
     id?: string
     roomId: string
     emoji: string
+    createdAt?: Date | string
+  }
+
+  export type AuctionCreateManyLeaderInput = {
+    id?: string
+    roomId: string
+    item?: string | null
+    startingBid: number
+    minIncrement?: number
+    status?: $Enums.AuctionStatus
+    endsAt: Date | string
+    currentBid?: number | null
+    leaderName?: string | null
+    createdAt?: Date | string
+    finishedAt?: Date | string | null
+  }
+
+  export type AuctionBidCreateManyPlayerInput = {
+    id?: string
+    auctionId: string
+    playerName: string
+    amount: number
     createdAt?: Date | string
   }
 
@@ -7594,6 +11810,106 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     roomId?: StringFieldUpdateOperationsInput | string
     emoji?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUpdateWithoutLeaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    room?: RoomUpdateOneRequiredWithoutAuctionsNestedInput
+    bids?: AuctionBidUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutLeaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bids?: AuctionBidUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutLeaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    item?: NullableStringFieldUpdateOperationsInput | string | null
+    startingBid?: IntFieldUpdateOperationsInput | number
+    minIncrement?: IntFieldUpdateOperationsInput | number
+    status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
+    endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentBid?: NullableIntFieldUpdateOperationsInput | number | null
+    leaderName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AuctionBidUpdateWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auction?: AuctionUpdateOneRequiredWithoutBidsNestedInput
+  }
+
+  export type AuctionBidUncheckedUpdateWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionBidUncheckedUpdateManyWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionBidCreateManyAuctionInput = {
+    id?: string
+    playerId?: string | null
+    playerName: string
+    amount: number
+    createdAt?: Date | string
+  }
+
+  export type AuctionBidUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    player?: PlayerUpdateOneWithoutBidsNestedInput
+  }
+
+  export type AuctionBidUncheckedUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionBidUncheckedUpdateManyWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerName?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
