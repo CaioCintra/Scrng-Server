@@ -16,29 +16,29 @@ model User {
 }
 
 model Room {
-  id                   String   @id @default(uuid())
+  id                   String      @id @default(uuid())
   name                 String
   ownerId              String
-  owner                User     @relation("UserRooms", fields: [ownerId], references: [id])
-  players              Player[] @relation("RoomPlayers")
-  PlayerLimit          Int      @default(10)
-  PlayersCanEditPoints Boolean  @default(false)
-  PlayersCanEditName   Boolean  @default(false)
-  EmojisEnabled        Boolean  @default(false)
-  EmojiLimit           Int      @default(10)
-  EmojiCooldown        Int      @default(5)
+  owner                User        @relation("UserRooms", fields: [ownerId], references: [id])
+  players              Player[]    @relation("RoomPlayers")
+  PlayerLimit          Int         @default(10)
+  PlayersCanEditPoints Boolean     @default(false)
+  PlayersCanEditName   Boolean     @default(false)
+  EmojisEnabled        Boolean     @default(false)
+  EmojiLimit           Int         @default(10)
+  EmojiCooldown        Int         @default(5)
   emojis               RoomEmoji[]
   auctions             Auction[]
 }
 
 model Player {
-  id     String  @id @default(uuid())
-  name   String
-  avatar String?
-  roomId String
-  room   Room    @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
-  points Int     @default(0)
-  emojis RoomEmoji[]
+  id              String       @id @default(uuid())
+  name            String
+  avatar          String?
+  roomId          String
+  room            Room         @relation("RoomPlayers", fields: [roomId], references: [id], onDelete: Cascade)
+  points          Int          @default(0)
+  emojis          RoomEmoji[]
   leadingAuctions Auction[]    @relation("AuctionLeader")
   bids            AuctionBid[]
 }
@@ -64,22 +64,25 @@ enum AuctionStatus {
 }
 
 model Auction {
-  id           String        @id @default(uuid())
-  roomId       String
-  item         String?
-  startingBid  Int
-  minIncrement Int           @default(1)
-  status       AuctionStatus @default(RUNNING)
-  endsAt       DateTime
+  id              String        @id @default(uuid())
+  roomId          String
+  item            String?
+  startingBid     Int
+  minIncrement    Int           @default(1)
+  // duração inicial e tempo mínimo restante após um lance (segundos)
+  durationSeconds Int           @default(30)
+  bidResetSeconds Int           @default(10)
+  status          AuctionStatus @default(RUNNING)
+  endsAt          DateTime
   // lance vencedor no momento; os pontos dele ficam reservados (já descontados do jogador)
-  currentBid   Int?
-  leaderId     String?
-  leaderName   String?
-  createdAt    DateTime      @default(now())
-  finishedAt   DateTime?
-  room         Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  leader       Player?       @relation("AuctionLeader", fields: [leaderId], references: [id], onDelete: SetNull)
-  bids         AuctionBid[]
+  currentBid      Int?
+  leaderId        String?
+  leaderName      String?
+  createdAt       DateTime      @default(now())
+  finishedAt      DateTime?
+  room            Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  leader          Player?       @relation("AuctionLeader", fields: [leaderId], references: [id], onDelete: SetNull)
+  bids            AuctionBid[]
 
   @@index([roomId, createdAt])
 }

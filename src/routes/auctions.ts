@@ -5,8 +5,8 @@ import { PrismaClient, Prisma } from "../generated/prisma/default.js";
 const prisma = new PrismaClient();
 
 // duração inicial do leilão e tempo mínimo restante após um lance (segundos)
-const AUCTION_START_SECONDS = 10;
-const AUCTION_BID_RESET_SECONDS = 5;
+const AUCTION_DEFAULT_DURATION = 30;
+const AUCTION_DEFAULT_BID_RESET = 10;
 // por quanto tempo o resultado continua disponível para os jogadores (ms)
 const AUCTION_RESULT_WINDOW = 15_000;
 const MAX_POINTS = 1_000_000_000;
@@ -126,9 +126,14 @@ export async function auctionsRoutes(app: FastifyInstance) {
       item: z.string().trim().max(60).optional(),
       startingBid: z.number().int().min(1).max(MAX_POINTS),
       minIncrement: z.number().int().min(1).max(MAX_POINTS).optional(),
+      durationSeconds: z.number().int().min(5).max(3600).optional(),
+      bidResetSeconds: z.number().int().min(1).max(3600).optional(),
     });
     const { roomId } = paramsSchema.parse(request.params);
-    const { item, startingBid, minIncrement } = bodySchema.parse(request.body);
+    const { item, startingBid, minIncrement, durationSeconds, bidResetSeconds } =
+      bodySchema.parse(request.body);
+    const duration = durationSeconds ?? AUCTION_DEFAULT_DURATION;
+    const bidReset = bidResetSeconds ?? AUCTION_DEFAULT_BID_RESET;
 
     try {
       const auction = await prisma.$transaction(async (tx) => {
@@ -155,7 +160,9 @@ export async function auctionsRoutes(app: FastifyInstance) {
             item: item || null,
             startingBid,
             minIncrement: minIncrement ?? 1,
-            endsAt: new Date(Date.now() + AUCTION_START_SECONDS * 1000),
+            durationSeconds: duration,
+            bidResetSeconds: bidReset,
+            endsAt: new Date(Date.now() + duration * 1000),
           },
           include: auctionInclude,
         });
@@ -242,8 +249,8 @@ export async function auctionsRoutes(app: FastifyInstance) {
           data: { auctionId, playerId: player.id, playerName: player.name, amount },
         });
 
-        // o tempo volta para 5s apenas se estava abaixo disso
-        const resetAt = now + AUCTION_BID_RESET_SECONDS * 1000;
+        // o tempo volta para bidResetSeconds apenas se estava abaixo disso
+        const resetAt = now + current.bidResetSeconds * 1000;
         const endsAt =
           current.endsAt.getTime() < resetAt ? new Date(resetAt) : current.endsAt;
 

@@ -6034,12 +6034,16 @@ export namespace Prisma {
   export type AuctionAvgAggregateOutputType = {
     startingBid: number | null
     minIncrement: number | null
+    durationSeconds: number | null
+    bidResetSeconds: number | null
     currentBid: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
     startingBid: number | null
     minIncrement: number | null
+    durationSeconds: number | null
+    bidResetSeconds: number | null
     currentBid: number | null
   }
 
@@ -6049,6 +6053,8 @@ export namespace Prisma {
     item: string | null
     startingBid: number | null
     minIncrement: number | null
+    durationSeconds: number | null
+    bidResetSeconds: number | null
     status: $Enums.AuctionStatus | null
     endsAt: Date | null
     currentBid: number | null
@@ -6064,6 +6070,8 @@ export namespace Prisma {
     item: string | null
     startingBid: number | null
     minIncrement: number | null
+    durationSeconds: number | null
+    bidResetSeconds: number | null
     status: $Enums.AuctionStatus | null
     endsAt: Date | null
     currentBid: number | null
@@ -6079,6 +6087,8 @@ export namespace Prisma {
     item: number
     startingBid: number
     minIncrement: number
+    durationSeconds: number
+    bidResetSeconds: number
     status: number
     endsAt: number
     currentBid: number
@@ -6093,12 +6103,16 @@ export namespace Prisma {
   export type AuctionAvgAggregateInputType = {
     startingBid?: true
     minIncrement?: true
+    durationSeconds?: true
+    bidResetSeconds?: true
     currentBid?: true
   }
 
   export type AuctionSumAggregateInputType = {
     startingBid?: true
     minIncrement?: true
+    durationSeconds?: true
+    bidResetSeconds?: true
     currentBid?: true
   }
 
@@ -6108,6 +6122,8 @@ export namespace Prisma {
     item?: true
     startingBid?: true
     minIncrement?: true
+    durationSeconds?: true
+    bidResetSeconds?: true
     status?: true
     endsAt?: true
     currentBid?: true
@@ -6123,6 +6139,8 @@ export namespace Prisma {
     item?: true
     startingBid?: true
     minIncrement?: true
+    durationSeconds?: true
+    bidResetSeconds?: true
     status?: true
     endsAt?: true
     currentBid?: true
@@ -6138,6 +6156,8 @@ export namespace Prisma {
     item?: true
     startingBid?: true
     minIncrement?: true
+    durationSeconds?: true
+    bidResetSeconds?: true
     status?: true
     endsAt?: true
     currentBid?: true
@@ -6240,6 +6260,8 @@ export namespace Prisma {
     item: string | null
     startingBid: number
     minIncrement: number
+    durationSeconds: number
+    bidResetSeconds: number
     status: $Enums.AuctionStatus
     endsAt: Date
     currentBid: number | null
@@ -6274,6 +6296,8 @@ export namespace Prisma {
     item?: boolean
     startingBid?: boolean
     minIncrement?: boolean
+    durationSeconds?: boolean
+    bidResetSeconds?: boolean
     status?: boolean
     endsAt?: boolean
     currentBid?: boolean
@@ -6293,6 +6317,8 @@ export namespace Prisma {
     item?: boolean
     startingBid?: boolean
     minIncrement?: boolean
+    durationSeconds?: boolean
+    bidResetSeconds?: boolean
     status?: boolean
     endsAt?: boolean
     currentBid?: boolean
@@ -6310,6 +6336,8 @@ export namespace Prisma {
     item?: boolean
     startingBid?: boolean
     minIncrement?: boolean
+    durationSeconds?: boolean
+    bidResetSeconds?: boolean
     status?: boolean
     endsAt?: boolean
     currentBid?: boolean
@@ -6327,6 +6355,8 @@ export namespace Prisma {
     item?: boolean
     startingBid?: boolean
     minIncrement?: boolean
+    durationSeconds?: boolean
+    bidResetSeconds?: boolean
     status?: boolean
     endsAt?: boolean
     currentBid?: boolean
@@ -6336,7 +6366,7 @@ export namespace Prisma {
     finishedAt?: boolean
   }
 
-  export type AuctionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "item" | "startingBid" | "minIncrement" | "status" | "endsAt" | "currentBid" | "leaderId" | "leaderName" | "createdAt" | "finishedAt", ExtArgs["result"]["auction"]>
+  export type AuctionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "item" | "startingBid" | "minIncrement" | "durationSeconds" | "bidResetSeconds" | "status" | "endsAt" | "currentBid" | "leaderId" | "leaderName" | "createdAt" | "finishedAt", ExtArgs["result"]["auction"]>
   export type AuctionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
     leader?: boolean | Auction$leaderArgs<ExtArgs>
@@ -6365,6 +6395,8 @@ export namespace Prisma {
       item: string | null
       startingBid: number
       minIncrement: number
+      durationSeconds: number
+      bidResetSeconds: number
       status: $Enums.AuctionStatus
       endsAt: Date
       currentBid: number | null
@@ -6803,6 +6835,8 @@ export namespace Prisma {
     readonly item: FieldRef<"Auction", 'String'>
     readonly startingBid: FieldRef<"Auction", 'Int'>
     readonly minIncrement: FieldRef<"Auction", 'Int'>
+    readonly durationSeconds: FieldRef<"Auction", 'Int'>
+    readonly bidResetSeconds: FieldRef<"Auction", 'Int'>
     readonly status: FieldRef<"Auction", 'AuctionStatus'>
     readonly endsAt: FieldRef<"Auction", 'DateTime'>
     readonly currentBid: FieldRef<"Auction", 'Int'>
@@ -8465,6 +8499,8 @@ export namespace Prisma {
     item: 'item',
     startingBid: 'startingBid',
     minIncrement: 'minIncrement',
+    durationSeconds: 'durationSeconds',
+    bidResetSeconds: 'bidResetSeconds',
     status: 'status',
     endsAt: 'endsAt',
     currentBid: 'currentBid',
@@ -8862,6 +8898,8 @@ export namespace Prisma {
     item?: StringNullableFilter<"Auction"> | string | null
     startingBid?: IntFilter<"Auction"> | number
     minIncrement?: IntFilter<"Auction"> | number
+    durationSeconds?: IntFilter<"Auction"> | number
+    bidResetSeconds?: IntFilter<"Auction"> | number
     status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
     endsAt?: DateTimeFilter<"Auction"> | Date | string
     currentBid?: IntNullableFilter<"Auction"> | number | null
@@ -8880,6 +8918,8 @@ export namespace Prisma {
     item?: SortOrderInput | SortOrder
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     status?: SortOrder
     endsAt?: SortOrder
     currentBid?: SortOrderInput | SortOrder
@@ -8901,6 +8941,8 @@ export namespace Prisma {
     item?: StringNullableFilter<"Auction"> | string | null
     startingBid?: IntFilter<"Auction"> | number
     minIncrement?: IntFilter<"Auction"> | number
+    durationSeconds?: IntFilter<"Auction"> | number
+    bidResetSeconds?: IntFilter<"Auction"> | number
     status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
     endsAt?: DateTimeFilter<"Auction"> | Date | string
     currentBid?: IntNullableFilter<"Auction"> | number | null
@@ -8919,6 +8961,8 @@ export namespace Prisma {
     item?: SortOrderInput | SortOrder
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     status?: SortOrder
     endsAt?: SortOrder
     currentBid?: SortOrderInput | SortOrder
@@ -8942,6 +8986,8 @@ export namespace Prisma {
     item?: StringNullableWithAggregatesFilter<"Auction"> | string | null
     startingBid?: IntWithAggregatesFilter<"Auction"> | number
     minIncrement?: IntWithAggregatesFilter<"Auction"> | number
+    durationSeconds?: IntWithAggregatesFilter<"Auction"> | number
+    bidResetSeconds?: IntWithAggregatesFilter<"Auction"> | number
     status?: EnumAuctionStatusWithAggregatesFilter<"Auction"> | $Enums.AuctionStatus
     endsAt?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
     currentBid?: IntNullableWithAggregatesFilter<"Auction"> | number | null
@@ -9283,6 +9329,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -9300,6 +9348,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -9315,6 +9365,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9332,6 +9384,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9348,6 +9402,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -9362,6 +9418,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9376,6 +9434,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9809,6 +9869,8 @@ export namespace Prisma {
     item?: SortOrder
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     status?: SortOrder
     endsAt?: SortOrder
     currentBid?: SortOrder
@@ -9821,6 +9883,8 @@ export namespace Prisma {
   export type AuctionAvgOrderByAggregateInput = {
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     currentBid?: SortOrder
   }
 
@@ -9830,6 +9894,8 @@ export namespace Prisma {
     item?: SortOrder
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     status?: SortOrder
     endsAt?: SortOrder
     currentBid?: SortOrder
@@ -9845,6 +9911,8 @@ export namespace Prisma {
     item?: SortOrder
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     status?: SortOrder
     endsAt?: SortOrder
     currentBid?: SortOrder
@@ -9857,6 +9925,8 @@ export namespace Prisma {
   export type AuctionSumOrderByAggregateInput = {
     startingBid?: SortOrder
     minIncrement?: SortOrder
+    durationSeconds?: SortOrder
+    bidResetSeconds?: SortOrder
     currentBid?: SortOrder
   }
 
@@ -10795,6 +10865,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -10810,6 +10882,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -10932,6 +11006,8 @@ export namespace Prisma {
     item?: StringNullableFilter<"Auction"> | string | null
     startingBid?: IntFilter<"Auction"> | number
     minIncrement?: IntFilter<"Auction"> | number
+    durationSeconds?: IntFilter<"Auction"> | number
+    bidResetSeconds?: IntFilter<"Auction"> | number
     status?: EnumAuctionStatusFilter<"Auction"> | $Enums.AuctionStatus
     endsAt?: DateTimeFilter<"Auction"> | Date | string
     currentBid?: IntNullableFilter<"Auction"> | number | null
@@ -11003,6 +11079,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11019,6 +11097,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11466,6 +11546,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11482,6 +11564,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11537,6 +11621,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11553,6 +11639,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11662,6 +11750,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11724,6 +11814,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11739,6 +11831,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11754,6 +11848,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11776,6 +11872,8 @@ export namespace Prisma {
     item?: string | null
     startingBid: number
     minIncrement?: number
+    durationSeconds?: number
+    bidResetSeconds?: number
     status?: $Enums.AuctionStatus
     endsAt: Date | string
     currentBid?: number | null
@@ -11818,6 +11916,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11834,6 +11934,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11849,6 +11951,8 @@ export namespace Prisma {
     item?: NullableStringFieldUpdateOperationsInput | string | null
     startingBid?: IntFieldUpdateOperationsInput | number
     minIncrement?: IntFieldUpdateOperationsInput | number
+    durationSeconds?: IntFieldUpdateOperationsInput | number
+    bidResetSeconds?: IntFieldUpdateOperationsInput | number
     status?: EnumAuctionStatusFieldUpdateOperationsInput | $Enums.AuctionStatus
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     currentBid?: NullableIntFieldUpdateOperationsInput | number | null
