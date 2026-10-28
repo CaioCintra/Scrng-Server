@@ -73,6 +73,8 @@ model Auction {
   durationSeconds Int           @default(30)
   bidResetSeconds Int           @default(10)
   status          AuctionStatus @default(RUNNING)
+  // contagem antes de liberar os lances, para a interface chegar aos jogadores
+  startsAt        DateTime      @default(now())
   endsAt          DateTime
   // lance vencedor no momento; os pontos dele ficam reservados (já descontados do jogador)
   currentBid      Int?

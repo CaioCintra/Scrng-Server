@@ -164,6 +164,7 @@ exports.Prisma.AuctionScalarFieldEnum = {
   durationSeconds: 'durationSeconds',
   bidResetSeconds: 'bidResetSeconds',
   status: 'status',
+  startsAt: 'startsAt',
   endsAt: 'endsAt',
   currentBid: 'currentBid',
   leaderId: 'leaderId',

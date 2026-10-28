@@ -7,6 +7,8 @@ const prisma = new PrismaClient();
 // duração inicial do leilão e tempo mínimo restante após um lance (segundos)
 const AUCTION_DEFAULT_DURATION = 30;
 const AUCTION_DEFAULT_BID_RESET = 10;
+// contagem regressiva antes dos lances serem liberados (segundos)
+const AUCTION_COUNTDOWN_SECONDS = 5;
 // por quanto tempo o resultado continua disponível para os jogadores (ms)
 const AUCTION_RESULT_WINDOW = 15_000;
 const MAX_POINTS = 1_000_000_000;
@@ -84,6 +86,53 @@ function sendAuctionError(reply: any, err: unknown) {
 }
 
 export async function auctionsRoutes(app: FastifyInstance) {
+  // histórico de leilões encerrados da sala, do mais recente para o mais antigo
+  app.get("/rooms/:roomId/auctions", async (request, reply) => {
+    const paramsSchema = z.object({
+      roomId: z.string().uuid(),
+    });
+    const querySchema = z.object({
+      limit: z.coerce.number().int().min(1).max(100).default(50),
+    });
+    const { roomId } = paramsSchema.parse(request.params);
+    const { limit } = querySchema.parse(request.query);
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+      select: { id: true },
+    });
+    if (!room) {
+      return reply.status(404).send({ message: "Room not found" });
+    }
+
+    await settleExpired(prisma, roomId);
+
+    const auctions = await prisma.auction.findMany({
+      where: { roomId, status: { in: ["FINISHED", "CANCELLED"] } },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        item: true,
+        status: true,
+        startingBid: true,
+        currentBid: true,
+        leaderId: true,
+        leaderName: true,
+        createdAt: true,
+        finishedAt: true,
+        leader: { select: { avatar: true } },
+        _count: { select: { bids: true } },
+      },
+    });
+
+    return auctions.map(({ leader, _count, ...auction }) => ({
+      ...auction,
+      leaderAvatar: leader?.avatar ?? null,
+      bidCount: _count.bids,
+    }));
+  });
+
   // leilão atual da sala (em andamento ou encerrado há pouco)
   app.get("/rooms/:roomId/auctions/current", async (request, reply) => {
     const paramsSchema = z.object({
@@ -154,6 +203,7 @@ export async function auctionsRoutes(app: FastifyInstance) {
           throw new AuctionError(409, "There is already an auction running in this room");
         }
 
+        const startsAt = Date.now() + AUCTION_COUNTDOWN_SECONDS * 1000;
         return tx.auction.create({
           data: {
             roomId,
@@ -162,7 +212,8 @@ export async function auctionsRoutes(app: FastifyInstance) {
             minIncrement: minIncrement ?? 1,
             durationSeconds: duration,
             bidResetSeconds: bidReset,
-            endsAt: new Date(Date.now() + duration * 1000),
+            startsAt: new Date(startsAt),
+            endsAt: new Date(startsAt + duration * 1000),
           },
           include: auctionInclude,
         });
@@ -206,6 +257,9 @@ export async function auctionsRoutes(app: FastifyInstance) {
         const now = Date.now();
         if (current.status !== "RUNNING" || current.endsAt.getTime() <= now) {
           throw new AuctionError(409, "This auction has already ended");
+        }
+        if (current.startsAt.getTime() > now) {
+          throw new AuctionError(409, "This auction has not started yet");
         }
 
         const player = await tx.player.findFirst({
