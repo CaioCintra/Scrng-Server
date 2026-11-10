@@ -28,6 +28,7 @@ const pollInclude = {
       playerId: true,
       playerName: true,
       text: true,
+      ready: true,
       player: { select: { avatar: true } },
     },
   },
@@ -45,7 +46,9 @@ function serializePoll(poll: PollWithAnswers | null, playerId?: string) {
     ...rest,
     answerCount: answers.length,
     answeredPlayerIds: answers.map((a) => a.playerId),
+    readyPlayerIds: answers.filter((a) => a.ready).map((a) => a.playerId),
     myAnswer: mine?.text ?? null,
+    myReady: mine?.ready ?? false,
     answers: revealed
       ? answers.map(({ player, ...answer }) => ({
           ...answer,
@@ -117,10 +120,11 @@ export async function pollsRoutes(app: FastifyInstance) {
     const { roomId, pollId } = z
       .object({ roomId: z.string().uuid(), pollId: z.string().uuid() })
       .parse(request.params);
-    const { playerId, text } = z
+    const { playerId, text, ready } = z
       .object({
         playerId: z.string().uuid(),
         text: z.string().trim().min(1).max(300),
+        ready: z.boolean().default(false),
       })
       .parse(request.body);
 
@@ -145,11 +149,11 @@ export async function pollsRoutes(app: FastifyInstance) {
 
         await tx.pollAnswer.upsert({
           where: { pollId_playerId: { pollId, playerId } },
-          create: { pollId, playerId, playerName: player.name, text },
-          update: { text, playerName: player.name },
+          create: { pollId, playerId, playerName: player.name, text, ready },
+          update: { text, ready, playerName: player.name },
         });
       });
-      return reply.status(201).send({ ok: true, text });
+      return reply.status(201).send({ ok: true, text, ready });
     } catch (err) {
       return sendPollError(reply, err);
     }
