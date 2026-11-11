@@ -29,6 +29,7 @@ model Room {
   EmojiCooldown        Int         @default(5)
   emojis               RoomEmoji[]
   auctions             Auction[]
+  polls                Poll[]
 }
 
 model Player {
@@ -41,6 +42,7 @@ model Player {
   emojis          RoomEmoji[]
   leadingAuctions Auction[]    @relation("AuctionLeader")
   bids            AuctionBid[]
+  pollAnswers     PollAnswer[]
 }
 
 model RoomEmoji {
@@ -100,4 +102,40 @@ model AuctionBid {
   player     Player?  @relation(fields: [playerId], references: [id], onDelete: SetNull)
 
   @@index([auctionId, createdAt])
+}
+
+enum PollStatus {
+  OPEN
+  CLOSED
+  DONE
+}
+
+// bolão: cada jogador escreve uma resposta livre; as respostas só são reveladas quando o dono encerra
+model Poll {
+  id        String       @id @default(uuid())
+  roomId    String
+  question  String?
+  status    PollStatus   @default(OPEN)
+  createdAt DateTime     @default(now())
+  closedAt  DateTime?
+  room      Room         @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  answers   PollAnswer[]
+
+  @@index([roomId, createdAt])
+}
+
+model PollAnswer {
+  id         String   @id @default(uuid())
+  pollId     String
+  playerId   String
+  playerName String
+  text       String
+  // o jogador marca quando terminou de escrever
+  ready      Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  poll       Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  player     Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, playerId])
 }

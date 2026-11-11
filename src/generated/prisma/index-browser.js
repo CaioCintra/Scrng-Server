@@ -182,6 +182,26 @@ exports.Prisma.AuctionBidScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PollScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  question: 'question',
+  status: 'status',
+  createdAt: 'createdAt',
+  closedAt: 'closedAt'
+};
+
+exports.Prisma.PollAnswerScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  playerId: 'playerId',
+  playerName: 'playerName',
+  text: 'text',
+  ready: 'ready',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -202,13 +222,21 @@ exports.AuctionStatus = exports.$Enums.AuctionStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.PollStatus = exports.$Enums.PollStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  DONE: 'DONE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Room: 'Room',
   Player: 'Player',
   RoomEmoji: 'RoomEmoji',
   Auction: 'Auction',
-  AuctionBid: 'AuctionBid'
+  AuctionBid: 'AuctionBid',
+  Poll: 'Poll',
+  PollAnswer: 'PollAnswer'
 };
 
 /**
